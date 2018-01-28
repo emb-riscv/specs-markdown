@@ -84,17 +84,17 @@ start_hart(int hid)
   addr = (word_size * 8) * hid;
   
   // Clear all hart registers.
-  hart[i].x0 = 0;
-  hart[i].x1 = 0;
+  hart[hid].x0 = 0;
+  hart[hid].x1 = 0;
   // ...
   // Store the exception pointer in the hart specific register.
-  hart[i].excptr = *(addr + word_size * 3);
+  hart[hid].excptr = *(addr + word_size * 3);
   
   // Load global pointer.
-  hart[i].gp = *(addr + word_size * 2);
+  hart[hid].gp = *(addr + word_size * 2);
   // Load main stack pointer.
-  hart[i].sp = *(addr + word_size * 1);
-  // Load program counter; this will immediately pass control to the startup.
-  hart[i].pc = *(addr + word_size * 0);
+  hart[hid].sp = *(addr + word_size * 1);
+  // Load program counter; this will immediately pass control to the startup code.
+  hart[hid].pc = *(addr + word_size * 0);
 }
 ```
