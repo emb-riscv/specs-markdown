@@ -1,17 +1,17 @@
 # Device startup
 
-After reset, all harts in a RISC-V microcontroller start executing code, identified by a startup block space.
+After reset, all harts in a RISC-V microcontroller start executing code, identified by a per-hart startup block.
 
-For multi-hart devices, each hart has a separate startup block.
+The startup blocks are organised as an array located at the begining of the memory space (address 0x00000000).
 
-The startup block array is located at the begining of the memory.
-
-The minimum content of such a startup block is:
+For a RISC-V hart, the minimum content of a startup block is:
 
 - a pointer to the startup routine
 - a pointer to the main stack (SP)
 - a pointer to the RISC-V global pointer (GP)
 - a pointer to the exception table
+
+The pointer to the execption table must be known to the hart before entering the startup code, to catch execution faults in the startup code.
 
 ## Usage
 
