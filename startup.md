@@ -11,7 +11,7 @@ For a RISC-V hart, the minimum content of a startup block is:
 - a pointer to the RISC-V global pointer (GP)
 - a pointer to the exception table
 
-The pointer to the execption table must be known to the hart before entering the startup code, to catch execution faults in the startup code.
+The pointer to the execption table must be known by the hart before entering the startup code, to catch possible execution faults in the startup code.
 
 ## Usage
 
