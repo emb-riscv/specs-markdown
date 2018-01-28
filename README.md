@@ -15,4 +15,4 @@ Table of Contents
 * TBD
 * History
 
-This document is released under a [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode).
+This document is released under a [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license.
