@@ -8,7 +8,7 @@ Define a set of specifications for RISC-V microcontrolers used in bare metal emb
 
 ## Limitations
 
-These specifications intentionaly **do not** include application class devices which use virtual memory and/or have supervisor/hypervisor modes and run an operating system (like GNU/Linux). These devices are covered by the "RISC-V Privileged Architecture" specifications.
+These specifications intentionaly **do not** include application class devices which use virtual memory and/or have supervisor/hypervisor modes and are intended to run operating systems (like GNU/Linux). These devices are covered by the "RISC-V Privileged Architecture" specifications.
 
 ## Mission Statement
 
