@@ -2,14 +2,17 @@
 
 A proposal for a new microcontroller architecture using the RISC-V instruction set.
 
+Version: 0.1
+
 Editors:
 * Liviu Ionescu
 
-Warning: This draft is in an early preliminary phase.
+Warning: This draft specification is in a preliminary phase and may change at any time.
 
-## Chapter 1: Introduction
+Table of Contents
 
-## TBD
+* [Introduction](Introduction.md)
+* TBD
+* History
 
-## History
-
+This document is released under a Creative Commons Attribution 4.0 International License.
