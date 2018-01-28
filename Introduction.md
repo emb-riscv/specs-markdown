@@ -4,11 +4,11 @@ This is a draft of the microcontroller architecture description document for RIS
 
 ## Mission Statement
 
-Define a modern C/C++ friendly microcontroller architecture, that makes writing multi-threaded embedded software easier and more productive. And... enjoy the process!
+Define a modern C/C++ friendly microcontroller architecture, that makes writing embedded software easier and more productive. And... enjoy the process!
 
 ## Goal
 
-Define a set of specifications for RISC-V microcontrolers intended for real-time, low power, bare metal embedded systems.
+Define a set of specifications for RISC-V microcontrolers intended for real-time, low power, bare metal embedded systems. Favour C/C++ multi-threaded RTOS systems.
 
 ## Limitations
 
