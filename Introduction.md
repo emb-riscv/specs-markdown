@@ -19,7 +19,7 @@ These specifications intentionaly **do not** include application class devices w
 Since there are many microcontroller configurations, 3 classes were identified
 
 - S (small): single core, 32-bits, low end (intended to support PIC & AVR applications; comparable with Cortex-M0)
-- M (medium): single core, 32/64-bits, regular (intended to support common multi-threaded applications; comparable with Cortex-M[34])
+- M (medium): single core, 32/64-bits, regular (intended to support common multi-threaded applications; comparable with Cortex-M3/M4)
 - L (large): multi core, 32/64-bits, high end (intended to support hard real-time, high performance applications)
 
 
