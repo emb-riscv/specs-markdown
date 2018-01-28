@@ -26,7 +26,7 @@ Since there are many microcontroller configurations, 3 classes were identified
 
 ### Hart
 
-Hart is a contraction of "hardware thread" and represents a hardware resource. 
+Hart is a contraction of _hardware thread_ and represents a hardware resource. 
 
 Technically, a hart is a resource abstraction representing an independently advancing RISC-V execution context within a RISC-V execution environment. 
 
