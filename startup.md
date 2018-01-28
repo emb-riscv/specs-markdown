@@ -35,6 +35,7 @@ typedef struct
 } riscv_startup_block_t
 
 riscv_startup_block_t
+__attribute__((section(".startup_blocks")))
 harts_startup_blocks[] = {
   {
     hart0_startup,
@@ -66,6 +67,8 @@ hart1_startup(void)
 }
 #endif
 ```
+
+The linker script must allocate the `.startup_blocks` section at address 0x00000000.
 
 ### Implementation
 
