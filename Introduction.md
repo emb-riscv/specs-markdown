@@ -4,7 +4,7 @@ This is a draft of the microcontroller architecture description document for RIS
 
 ## Mission Statement
 
-Define a modern C/C++ friendly microcontroller architecture, that makes writing embedded software easier and more productive. And enjoy the process!
+Define a modern C/C++ friendly microcontroller architecture, that makes writing multi-threaded embedded software easier and more productive. And... enjoy the process!
 
 ## Goal
 
