@@ -15,6 +15,8 @@ The pointer to the execption table must be known to the hart before entering the
 
 ## Usage
 
+With the above definition of a startup block, there is no need for any assembly instructions, the entire startup code can be written in C/C++.
+
 ```cpp
 #if defined __cplusplus
 extern "C"
@@ -79,13 +81,13 @@ start_hart(int i)
   x1 = 0;
   // ...
   // Store the exception pointer in the hart specific register
-  sys.excptr = *(addr + word_size * 3);
+  sys.hart[i].excptr = *(addr + word_size * 3);
   
   // Load global pointer.
   gp = *(addr + word_size * 2);
   // Load main stack pointer.
   sp = *(addr + word_size * 1);
-  // Load program counter; this will pass control to the startup.
+  // Load program counter; this will immediately pass control to the startup.
   pc = *(addr + word_size * 0);
 }
 ```
