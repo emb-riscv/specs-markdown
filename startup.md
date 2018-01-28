@@ -32,9 +32,9 @@ typedef struct
   void* global_pointer;
   riscv_exception_handler_t* exception_handlers;
   void* reserved[4];
-} riscv_arch_startup_block_t
+} riscv_startup_block_t
 
-riscv_arch_startup_block_t
+riscv_startup_block_t
 harts_startup_blocks[] = {
   {
     hart0_startup,
