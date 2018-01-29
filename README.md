@@ -11,7 +11,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 
 ## Table of Contents
 
-* [Introduction](Introduction.md)
+* [Introduction](introduction.md)
 * [Startup](startup.md)
 * TBD
 * History
