@@ -88,10 +88,10 @@ The address of the array must be written by each hart to its `hcb.irqtab` regist
 
 The first 8 entries are reserved for system interrupts:
 
-* sysclock_tick
-* rtclock_tick
-* rtclock_wakeup
-* context_switch
+* `sysclock_tick`
+* `rtclock_tick`
+* `rtclock_wakeup`
+* `context_switch`
 
 TODO: define the order, which gives the priorities.
 
@@ -109,19 +109,19 @@ To store and control these attributes, each interrupt has a 32-bits register wit
 
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
-| [7-0] | prio | rw | If non zero, the interrupt priority; if 0, the interrupt is disabled. |
-| [8] | pending | r | Pending status bit; 1 if the interupt is pending. |
-| [9] | active | r | Active status bit; 1 if the interupt is active. | |
+| [7-0] | `prio` | rw | If non zero, the interrupt priority; if 0, the interrupt is disabled. |
+| [8] | `pending` | r | Pending status bit; 1 if the interupt is pending. |
+| [9] | `active` | r | Active status bit; 1 if the interupt is active. | |
 | [15-10] ||| Reserved |
-| [16] | set_pend | 1s | When 1 is written, set the pending bit. |
+| [16] | `set_pend` | 1s | When 1 is written, set the pending bit. |
 | [23-17] ||| Reserved |
-| [24] | clear_pend | 1c | When 1 is written, clear the pending bit. |
+| [24] | `clear_pend` | 1c | When 1 is written, clear the pending bit. |
 | [31-25] ||| Reserved |
 
 
 ### Usage
 
-Interrupts are enabled by writing a non-zero value to the `prio` field and disabled by writing zero.
+Individual interrupts are enabled by writing a non-zero value to the `prio` field and are disabled by writing zero.
 
 ```c
 hcb.interrupts[7].prio = 0xC0; // A byte write cycle.
