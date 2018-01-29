@@ -13,6 +13,8 @@ Warning: This draft specification is in a preliminary phase and may change at an
 
 * [Introduction](introduction.md)
 * [Startup](startup.md)
+* [Exceptions and Interrupts](exceptions-and-interrupts.md)
+* [RTOS Support Features](rtos-support-features.md)
 * TBD
 * History
 
