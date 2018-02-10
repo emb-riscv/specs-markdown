@@ -66,7 +66,7 @@ RV32/RV64 devices:
 - `dcb.sysclock.reload`: system clock auto reload register (32-bits)
 
 - `dcb.rtclock.alarm`: RTC clock alarm comparator (xlen)
-- `dcb.harts[]` hart status visible/accessible by all harts, like bits for pending interruts.
+- `dcb.harts[]` hart status visible/accessible by all harts, like bits for pending interrupts.
 
 RV32 devices also have:
 
