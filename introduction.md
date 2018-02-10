@@ -1,10 +1,10 @@
 # Chapter 1: Introduction
 
-This is a draft of the microcontroller architecture description document for RISC-V. Feedback welcome.
+This is a draft of the RISC-V microcontroller architecture description document. Feedback welcome. For the moment it is more like a wish list than a real specs.
 
 ## Mission Statement
 
-Define a modern C/C++ friendly microcontroller architecture, that makes writing embedded software easier and more productive. And... enjoy the process!
+Define a modern C/C++ friendly microcontroller architecture based on RISC-V instruction set, that makes writing embedded software easier and more productive. And... enjoy the process!
 
 ## Goal
 
@@ -12,7 +12,7 @@ Define a set of specifications for RISC-V microcontrolers intended for real-time
 
 ## Limitations
 
-These specifications intentionaly **do not** include application class devices which use virtual memory and/or have supervisor/hypervisor modes which are intended to run operating systems (like GNU/Linux). For this class of devices, see the "RISC-V Privileged Architecture" specifications.
+These specifications intentionaly **do not** include application class devices which use virtual memory and/or have supervisor/hypervisor modes which are intended to run operating systems kernels. For this class of devices, see the "RISC-V Privileged Architecture" specifications.
 
 ## Sub-profiles
 
