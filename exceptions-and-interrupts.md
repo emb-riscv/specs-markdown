@@ -37,6 +37,8 @@ Interrupts are generaly triggered by peripherals to notify the application of a 
 
 Interrupts trigger the transfer of control to an interrupt handler associated with a hart.
 
+A hart can have up to 1024 interrupts, including the system interrupts.
+
 ### Interrupt priorities
 
 Interrupts have programable priorities, defined as small unsigned numbers, usually bytes.
@@ -64,7 +66,7 @@ be sent to the hart.
 
 ### Priority bits
 
-The actual number of bits used to store the interrupt priority is device specific, but should be in the range [3-8].
+The actual number of bits used to store the interrupt priority is implementation specific, but should be in the range [3-8].
 
 If lower than 8 bits are implemented, the existing bits should always store the most significant bits (MSB), 
 with the least significant bits (LSB) ignored on write and reading 0.
@@ -84,7 +86,7 @@ TBD
 
 ### Interrupt table
 
-The interrupt table is an array of pointers to interrupt handlers, implemented as C/C++ functions.
+The interrupt table is an array of pointers to interrupt handlers, implemented as C/C++ functions. The number of interrupts per hart is implementation specific but cannot exceed 1024 elements
 
 Each hart has its own table, with handlers for the interrupts it is processing.
 
