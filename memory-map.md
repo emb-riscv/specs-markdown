@@ -4,7 +4,16 @@ The memory map is device specific, the only reserved area is a slice of 256 MiB 
 
 For 32-bits devices, the system space is 0xF0000000-0xFFFFFFFF.
 
-For 64-bits devices, the system space is 0xFFFFFFFFF0000000-0xFFFFFFFFFFFFFFFF.
+For 64-bits devices, the system space is 0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF.
+
+Typical devices have:
+
+- a flash area, usually at 0x00000000, but the actual address may be device-specific
+- a RAM area 
+- a device-specific peripheral area.
+
+Multi-hart devices may share certain memory area, but can also have hart-specific flash or RAM, or both common and specific areas
+
 
 ## The Hart Control Block (HCB)
 
@@ -14,8 +23,8 @@ Each hart maps its own status registers to the same address in the memory space.
 
 RV32/RV64 devices:
 
-- `cyclecnt`: cycle count for `rdcycle`
-- `instcnt`: instructions count for `rdinstret`
+- `cyclecnt`: cycle count for `rdcycle` (xlen)
+- `instcnt`: instructions count for `rdinstret` (xlen)
 
 RV32 devices also have:
 
@@ -39,23 +48,32 @@ The DCB includes system peripherals and other registers non specific to any hart
 
 RV32/RV64 devices:
 
-- `rtclock`: timer count for `rdtime`
+- `rtclock.counter`: RTC timer count for `rdtime`
 
 RV32 devices also have:
 
-- `rtclockh`: high word of timer count for `rdtimeh` (32-bits)
+- `rtclock.counterh`: high word of RTC timer count for `rdtimeh` (32-bits)
 
 ### Embedded specific registers
 
 RV32/RV64 devices:
 
-- `sysclock`: system clock counter (xlen)
-- 
+- `sysclock.counter`: system clock counter (xlen)
+- `sysclock.ctrl`: system clock control register
+- `sysclock.current`: system clock current value register (32-bits)
+- `sysclock.reload`: system clock auto reload register (32-bits)
+
+- `rtclock.alarm`: RTC clock alarm comparator (xlen)
 
 RV32 devices also have:
 
-- `sysclockh`: high word of system clock counter (32-bits)
+- `sysclock.counterh`: high word of system clock counter (32-bits)
 
+- `rtclock.alarmh`: high word of RTC clock alarm comparator (32-bits)
+
+TODO:
+
+- add watchdog registers
 
 
 
