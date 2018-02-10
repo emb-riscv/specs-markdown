@@ -1,6 +1,6 @@
 # Chapter 1: Introduction
 
-This is a draft of the RISC-V microcontroller architecture description document. Feedback welcome. For the moment it is more like a wish list than a real specs.
+This is a draft of the RISC-V microcontroller architecture description document. Feedback welcome. 
 
 ## Mission Statement
 
