@@ -1,6 +1,6 @@
 # Memory map
 
-The memory map is device specific, the only reserved area is a slice of 256 MiB at the end of the memory space.
+The memory map is implementation specific, the only reserved area is a slice of 256 MiB at the end of the memory space.
 
 For 32-bits devices, the reserved system area is 0xF0000000-0xFFFFFFFF.
 
@@ -8,9 +8,9 @@ For 64-bits devices, the reserved system area is 0xFFFFFFFF'F0000000-0xFFFFFFFF'
 
 Typical embedded RISC-V devices have:
 
-- a flash area, usually at 0x00000000, but the actual address may be device-specific
+- a flash area, usually at 0x00000000, but the actual address may be implementation specific
 - a RAM area 
-- a device-specific peripheral area.
+- an implementation specific peripheral area.
 
 Multi-hart devices may share certain memory area, but can also have hart-specific flash or RAM, or both common and specific areas
 
