@@ -58,7 +58,7 @@ RV32 devices also have:
 RV32/RV64 devices:
 
 - `dcb.sysclock.counter`: system clock counter (xlen)
-- `dcb.sysclock.ctrl`: system clock control register
+- `dcb.sysclock.ctrl`: system clock control register (32-bits)
 - `dcb.sysclock.current`: system clock current value register (32-bits)
 - `dcb.sysclock.reload`: system clock auto reload register (32-bits)
 
