@@ -39,13 +39,19 @@ Interrupts trigger the transfer of control to an interrupt handler associated wi
 
 ### Interrupt priorities
 
-Interrupts have programable priorities, small unsigned numbers, usually bytes.
+Interrupts have programable priorities, defined as small unsigned numbers, usually bytes.
 The priority value 0 is reserved to mean 
 'never interrupt' or 'disabled', and interrupt priority increases with increasing integer value.
 
-For multi-hart devices, all interrupts are wired to all harts, and it is the responsibility 
-of each hart to enable the relevant priorities. For redundant systems, it is also
+Interrupts with the same priority are processed in the order of their index in the interrupt 
+table, with a higher index meaning a higher priority.
+
+For multi-hart devices, the interrupt wiring to harts is device dependent, each interrupts 
+may be wired to one or several harts; it is the responsibility 
+of each hart to enable the interrupts it desires to process. For redundant systems, it is also
 possible for multiple harts to process the same interrupt.
+
+### Interrupt priority threshold
 
 Each hart has an associated priority threshold, held in a hart-specific memory mapped register. The 
 threashold register should always be able to hold the value of zero, in which case no interrupts are 
@@ -55,8 +61,6 @@ are masked (functionally equivalent to disabling interrupts).
 Only interrupts that have a priority strictly greater than the threshold will cause an interrupt to 
 be sent to the hart.
 
-Interrupts with the same priority are processed in the order of their index in the interrupt 
-table, with a higher index meaning a higher priority.
 
 ### Priority bits
 
@@ -88,44 +92,64 @@ The address of the array must be written by each hart to its `hcb.irqtab` regist
 
 The first 8 entries are reserved for system interrupts:
 
-* `sysclock_tick`
-* `rtclock_tick`
+* `context_switch` (must have the lowest priority)
 * `rtclock_wakeup`
-* `context_switch`
-
-TODO: define the order, which gives the priorities.
+* `rtclock_tick`
+* `sysclock_tick`
 
 ### Interrupt control registers
 
-Each interrupt has some status attributes:
+Each interrupt has the following status attributes:
 
-* Each interrupt can either be disabled (default) or enabled with a given priority
-* Each interrupt can either be pending (a request is waiting to be served) or not
+* interrupts can either be disabled (default) or enabled 
+* interrupts can either be pending (a request is waiting to be served) or not
 pending
-* Each interrupt can either be in an active (being served) or inactive state.
+* interrupts can either be in an active (being served) or inactive state
+* interrupt priority
 
 To store and control these attributes, each interrupt has a 32-bits register with the following fields:
 
 
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
-| [7-0] | `prio` | rw | If non zero, the interrupt priority; if 0, the interrupt is disabled. |
-| [8] | `pending` | r | Pending status bit; 1 if the interupt is pending. |
-| [9] | `active` | r | Active status bit; 1 if the interupt is active. | |
-| [15-10] ||| Reserved |
-| [16] | `set_pend` | 1s | When 1 is written, set the pending bit. |
-| [23-17] ||| Reserved |
-| [24] | `clear_pend` | 1c | When 1 is written, clear the pending bit. |
-| [31-25] ||| Reserved |
+| [7-0] | `prio` | rw | If non zero, the interrupt priority. |
+| [15-8] | `status`| r | Status bits |
+| [23-16] | `set` | 1s | Set bits. |
+| [31-24] | `clear` | 1c | Clear bits. |
+
+The `status` bits:
+
+| Bits | Name | Type | Description |
+|:-----|:-----|:-----|-------------|
+| [0] | `enbled` | r | Enabled status bit; 1 if the interupt is enabled. |
+| [1] | `pending` | r | Pending status bit; 1 if the interupt is pending. |
+| [2] | `active` | r | Active status bit; 1 if the interupt is active. | 
+| [7-3] ||| Reserved |
+
+The `set` bits:
+
+| Bits | Name | Type | Description |
+|:-----|:-----|:-----|-------------|
+| [0] | `enabled` | 1s | When 1 is written, the `enabled` bit is set. |
+| [1] | `pending` | 1s | When 1 is written, the `pending` bit is set. |
+
+The `clear` bits:
+
+| Bits | Name | Type | Description |
+|:-----|:-----|:-----|-------------|
+| [0] | `enabled` | 1s | When 1 is written, the `enabled` bit is cleared. |
+| [1] | `pending` | 1s | When 1 is written, the `pending` bit is cleared. |
 
 
 ### Usage
 
-Individual interrupts are enabled by writing a non-zero value to the `prio` field and are disabled by writing zero.
+Individual interrupts are enabled by setting the `status.enabled` bit and writing a non-zero value to the `prio` field, and are disabled by clearing the `enabled` bit.
 
 ```c
 hcb.interrupts[7].prio = 0xC0; // A byte write cycle.
-hcb.interrupts[7].prio = 0;
+hcb.interrupts[7].set = INTERRUPTS_SET_ENABLED; // A byte write cycle.
+
+hcb.interrupts[7].clear = INTERRUPTS_CLEAR_ENABLED; // A byte write cycle.
 ```
 
 Interrupts can be programatically set to pending by writing 1 in the `set_pend` field; the pending status can be cleared by writing 1 to the `clear_pend` field.
