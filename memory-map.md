@@ -37,7 +37,10 @@ RV32 devices also have:
 - `hcb.exctab`: address of the exception table (xlen)
 - `hcb.irqtab`: address of the interrupt table (xlen)
 - `hcb.irqprio`: interrupt priority threshold (32-bits)
-- `hcb.stklimit`: the lowest address the stack can descend (xlen)
+- `hcb.msp`: main stack poiner (xlen)
+- `hcb.msplimit`: the lowest address the main stack can descend (xlen)
+- `hcb.tsp`: thread stack poiner (xlen)
+- `hcb.tsplimit`: the lowest address the thread stack can descend (xlen)
 
 ## The Device Control Bloc (DCB)
 
@@ -47,7 +50,7 @@ The DCB includes system peripherals and other registers non specific to any hart
 
 RV32/RV64 devices:
 
-- `dcb.rtclock.counter`: RTC timer count for `rdtime`
+- `dcb.rtclock.counter`: RTC timer count for `rdtime` (xlen)
 
 RV32 devices also have:
 
@@ -63,6 +66,7 @@ RV32/RV64 devices:
 - `dcb.sysclock.reload`: system clock auto reload register (32-bits)
 
 - `dcb.rtclock.alarm`: RTC clock alarm comparator (xlen)
+- `dcb.harts[]` global hart 
 
 RV32 devices also have:
 
