@@ -2,7 +2,9 @@
 
 After reset, all harts in a RISC-V microcontroller start executing code, identified by a per-hart startup block.
 
-The startup blocks are organised as an array located at the begining of the memory space (address 0x00000000).
+The location of the hart startup block is implementation specific. The typical configuration is with a single hart, and the hart startup block located at the begining of the memory space (address 0x00000000).
+
+If multiple harts share a memory area, the startup blocks are organised as an array located at the begining of the shared memory area.
 
 For a RISC-V hart, the minimum information required to start a hart is:
 
@@ -11,13 +13,15 @@ For a RISC-V hart, the minimum information required to start a hart is:
 - a pointer to the RISC-V global pointer (GP)
 - a pointer to the exception table
 
+All pointers are XLEN bits.
+
 The pointer to the exception table must be known by the hart before entering the startup code, to catch possible execution faults in the startup code.
 
 ## Usage
 
 With the above definition of a startup block, there is no need for any assembly instructions, the entire startup code can be written in C/C++.
 
-```cpp
+```c++
 #if defined __cplusplus
 extern "C"
 {
@@ -77,6 +81,7 @@ The linker script must allocate the `.startup_blocks` section at address 0x00000
 TODO: define a format to express the pseudocode. Possibly Scala?
 
 After reset, each hart will execute the following code, with 
+
 ```
 start_hart(int hid) 
 {
