@@ -132,6 +132,7 @@ The `set` bits:
 |:-----|:-----|:-----|-------------|
 | [0] | `enabled` | 1s | When 1 is written, the `enabled` bit is set. |
 | [1] | `pending` | 1s | When 1 is written, the `pending` bit is set. |
+| [7-2] ||| Reserved |
 
 The `clear` bits:
 
@@ -139,7 +140,7 @@ The `clear` bits:
 |:-----|:-----|:-----|-------------|
 | [0] | `enabled` | 1s | When 1 is written, the `enabled` bit is cleared. |
 | [1] | `pending` | 1s | When 1 is written, the `pending` bit is cleared. |
-
+| [7-2] ||| Reserved |
 
 ### Usage
 
