@@ -2,11 +2,11 @@
 
 The memory map is device specific, the only reserved area is a slice of 256 MiB at the end of the memory space.
 
-For 32-bits devices, the system space is 0xF0000000-0xFFFFFFFF.
+For 32-bits devices, the reserved system area is 0xF0000000-0xFFFFFFFF.
 
-For 64-bits devices, the system space is 0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF.
+For 64-bits devices, the reserved system area is 0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF.
 
-Typical devices have:
+Typical embedded RISC-V devices have:
 
 - a flash area, usually at 0x00000000, but the actual address may be device-specific
 - a RAM area 
