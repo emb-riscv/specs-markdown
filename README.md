@@ -7,7 +7,8 @@ Version: 0.1
 Editors:
 * Liviu Ionescu
 
-Warning: This draft specification is in a preliminary phase and may change at any time.
+Warning: This draft specification is in a preliminary phase and may change at any time. For the moment it is more like a wish list than a real specs document.
+
 
 ## Table of Contents
 
