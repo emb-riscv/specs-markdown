@@ -1,14 +1,16 @@
 # Memory map
 
-The memory map is implementation specific, the only reserved area is a slice of 256 MiB at the end of the memory space.
+Generally the RISC-V microcontroller memory map is implementation specific; the only reserved area 
+is a slice of 256 MiB at the end of the memory space.
 
 For 32-bits devices, the reserved system area is **0xF0000000-0xFFFFFFFF**.
 
 For 64-bits devices, the reserved system area is **0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF**.
 
-Typical embedded RISC-V devices have:
+Typical RISC-V microcontroller devices have:
 
-- a **read-only code** area, usually at 0x00000000, but the actual address may be implementation specific (typically flash)
+- a **read-only code** area, usually at 0x00000000, but the actual address may be implementation 
+specific (typically flash)
 - a **read-write data** area (typically RAM)
 - an implementation specific **peripheral** area.
 
@@ -36,7 +38,11 @@ RV32 devices:
 - `hcb.instcntl`: low word of instructions count for `rdinstret` (32-bits)
 - `hcb.instcnth`: high word of instructions count for `rdinstreth` (32-bits)
 
-### Embedded specific registers
+RV32/RV64 devices:
+
+- `hcb.hartid`: the current hart ID (32-bits)
+
+### RISC-V microcontroller specific registers
 
 - `hcb.interrupts[]`: array of words with status for each interrupt (32-bits)
 - `hcb.exctab`: address of the exception table (xlen)
@@ -64,8 +70,7 @@ RV32 devices:
 - `dcb.rtclock.counterl`: low word of RTC timer count for `rdtime` (32-bits)
 - `dcb.rtclock.counterh`: high word of RTC timer count for `rdtimeh` (32-bits)
 
-### Embedded specific registers
-
+### RISC-V microcontroller specific registers
 
 RV64 devices:
 
@@ -86,6 +91,7 @@ RV32/RV64 devices:
 - `dcb.sysclock.current`: system clock current value register (32-bits)
 - `dcb.sysclock.reload`: system clock auto reload register (32-bits)
 
+- `dcb.hartidlast`: the ID of the last hart in the device (32-bits)
 - `dcb.harts[]` hart status visible/accessible by all harts, like bits for pending interrupts.
 
 TODO:
