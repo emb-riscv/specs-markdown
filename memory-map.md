@@ -12,7 +12,8 @@ Typical embedded RISC-V devices have:
 - a RAM area 
 - an implementation specific peripheral area.
 
-Multi-hart devices may share certain memory area, but can also have hart-specific flash or RAM, or both common and specific areas.
+Multi-hart devices can share certain memory areas (code or data), but can also have hart-specific 
+memory areas, or both shared and specific areas.
 
 
 ## The Hart Control Block (HCB)
