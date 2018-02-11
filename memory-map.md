@@ -53,6 +53,10 @@ RV32/RV64 devices:
 - `hcb.tsp`: thread stack poiner (xlen)
 - `hcb.tsplimit`: the lowest address the thread stack can descend (xlen)
 
+TODO: 
+
+- add MPU registers
+
 ## The Device Control Bloc (DCB)
 
 The DCB includes system peripherals and other registers non specific to any hart.
