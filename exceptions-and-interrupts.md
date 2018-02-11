@@ -71,7 +71,7 @@ The actual number of bits used to store the interrupt priority is implementation
 If lower than 8 bits are implemented, the existing bits should always store the most significant bits (MSB), 
 with the least significant bits (LSB) ignored on write and reading 0.
 
-<sup>The reason for removing the LSB instead of MSB is to make it easier to port software between RISC-V devices
+> <sup>The reason for removing the LSB instead of MSB is to make it easier to port software between RISC-V devices
 with different priority bits. In this way, a program written for devices with 4-bit priority bits is likely to 
 be able to run on devices with 3-bit priority bits. If the MSB 
 is removed instead of the LSB, it might be possible to get a priority inversion,  
