@@ -22,7 +22,7 @@ For uniform access by software, each hart maps its own status registers to the s
 
 ### RISC-V compatibility registers
 
-These are registers mandated by the RISC-V Volume I, Chapter 2.8, for the `rdcycle` and `rdinstret` instructions.
+These registers are mandated by the RISC-V Volume I, Chapter 2.8, for the `rdcycle` and `rdinstret` instructions.
 
 RV64 devices:
 
@@ -53,7 +53,7 @@ The DCB includes system peripherals and other registers non specific to any hart
 
 ### RISC-V compatibility registers:
 
-These are registers mandated by the RISC-V Volume I, Chapter 2.8, for the `rdtime` instruction.
+These registers are mandated by the RISC-V Volume I, Chapter 2.8, for the `rdtime` instruction.
 
 RV64 devices:
 
