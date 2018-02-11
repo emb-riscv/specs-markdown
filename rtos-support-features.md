@@ -21,6 +21,15 @@ possible large stack usages in ISRs;
 * if a thread corrupts it's stack, it is still likely that the stacks used by the interrupts and 
 other threads are intact, thus improving system reliability.
 
+## Stack pointer limit
+
+One of the most common failure cases that occurs while developing multi-threaded applications is 
+for one thread to exceed its stack and damage the surrounding memory content.
+
+The solution is to add a system register with a memory address used as lower limit for the stack.
+While pushing words on stack, the address is compared and if the limit is reached, an exception is 
+raised.
+
 ## System clock timer
 
 The system clock timer is intended to drive the RTOS scheduler, and allow to measure durations 
