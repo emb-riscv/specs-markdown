@@ -37,7 +37,7 @@ eventually fetch and execute its next instruction in program order regardless of
 
 Harts are identified by a Hart ID, a small unsigned integer. Hart IDs are unique. The rule used to assign hart IDs is implementation dependent, but it is recommended to keep it simple, preferably within a continuous small range. There should always be a hart with ID=0, which will have slightly more duties, for example processing the NMIs. 
 
-To help applications auto-configuration, the largest hart ID is stored in a register in the Device Control Bloc (DCB).
+To help applications auto-configure themselves, the largest hart ID is stored in a register in the Device Control Bloc (DCB).
 
 ### Core
 
