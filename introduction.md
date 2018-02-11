@@ -8,7 +8,7 @@ Define a modern C/C++ friendly microcontroller architecture based on RISC-V inst
 
 ## Goal
 
-Define a set of specifications for RISC-V microcontrolers intended for real-time, low power, bare metal embedded systems. Favour C/C++ multi-threaded RTOS systems.
+In technical terms, the mission statement can be writen as: define a set of specifications for RISC-V microcontrolers intended for **real-time**, **low power**, **bare metal** embedded systems. Favour **C/C++** multi-threaded **RTOS** systems.
 
 ## Limitations
 
