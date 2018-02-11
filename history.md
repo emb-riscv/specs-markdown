@@ -1,4 +1,4 @@
-# History
+# Appendix B: History
 
 The open source project was created on GitHub in October 2017 (the [The Embedded RISC-V Project](https://github.com/emb-riscv)), 
 but initially there was no content available.
