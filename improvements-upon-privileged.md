@@ -16,7 +16,7 @@ This strategy does not work very well for real-time systems; for example, in the
 
 The RISC-V Volume II, v1.10, mentions: "... the entire privileged-level design described in this document could be replaced with an entirely different privileged-level design without changing the user-level ISA, and possibly without even changing the ABI. In particular, this privileged specification was designed to run existing popular operating systems, and so embodies the conventional level-based protection model. Alternate privileged specifications could embody other more flexible protection-domain models."
 
-How exactly this can be done is not clear. Ideally, the Volume I should not explicitly refer to Volume II, or should refer to it as optional, leaving room for a complementary specification better suited for devices that do not need to run Unix-like operating systems, also known as microcontrollers.
+It is not clear how exactly this can be done. Ideally, the Volume I should not explicitly refer to Volume II, or should refer to it as optional, leaving room for a complementary specification better suited for devices that do not need to run Unix-like operating systems, also known as microcontrollers.
 
 ### No need for virtual memory features
 
