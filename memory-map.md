@@ -42,6 +42,17 @@ RV32/RV64 devices:
 
 - `hcb.hartid`: the current hart ID (32-bits)
 
+Other RISC-V registers from RISC-V Volume II, but not actively used:
+
+- mstatus 
+- mie 
+- mtvec 
+- mscratch 
+- mepc 
+- mcause 
+- mtval 
+- mip 
+
 ### RISC-V microcontroller specific registers
 
 - `hcb.interrupts[]`: array of words with status for each interrupt (32-bits)
@@ -74,6 +85,13 @@ RV32 devices:
 - `dcb.rtclock.counterl`: low word of RTC timer count for `rdtime` (32-bits)
 - `dcb.rtclock.counterh`: high word of RTC timer count for `rdtimeh` (32-bits)
 
+Other RISC-V registers from RISC-V Volume II:
+
+- mvendorid 
+- marchid 
+- mimpid 
+- misa 
+
 ### RISC-V microcontroller specific registers
 
 RV64 devices:
@@ -102,6 +120,13 @@ TODO:
 
 - add watchdog registers `dcb.wdog.*`.
 
+Other registers that migh need attention:
 
+-required for the debug module: 
+  - dcsr 
+  - dpc 
+- optional for the debug module: 
+  - dscratch0 
+  - dscratch1 
 
 
