@@ -31,9 +31,9 @@ RV64 devices:
 
 RV32 devices:
 
-- `hcb.cyclecntl`: cycle count for `rdcycle` (32-bits)
+- `hcb.cyclecntl`: low word of cycle count for `rdcycle` (32-bits)
 - `hcb.cyclecnth`: high word of cycle count for `rdcycleh` (32-bits)
-- `hcb.instcntl`: instructions count for `rdinstret` (32-bits)
+- `hcb.instcntl`: low word of instructions count for `rdinstret` (32-bits)
 - `hcb.instcnth`: high word of instructions count for `rdinstreth` (32-bits)
 
 ### Embedded specific registers
