@@ -12,7 +12,7 @@ Typical embedded RISC-V devices have:
 - a RAM area 
 - an implementation specific peripheral area.
 
-Multi-hart devices may share certain memory area, but can also have hart-specific flash or RAM, or both common and specific areas
+Multi-hart devices may share certain memory area, but can also have hart-specific flash or RAM, or both common and specific areas.
 
 
 ## The Hart Control Block (HCB)
@@ -21,14 +21,18 @@ Each hart maps its own status registers to the same address in the memory space.
 
 ### RISC-V compatibility registers
 
-RV32/RV64 devices:
+These are registers mandated by the RISC-V Volume I, Chapter 2.8, for the `rdcycle` and `rdinstret` instructions.
 
-- `hcb.cyclecnt`: cycle count for `rdcycle` (xlen)
-- `hcb.instcnt`: instructions count for `rdinstret` (xlen)
+RV64 devices:
 
-RV32 devices also have:
+- `hcb.cyclecnt`: cycle count for `rdcycle` (64-bits)
+- `hcb.instcnt`: instructions count for `rdinstret` (64-bits)
 
+RV32 devices:
+
+- `hcb.cyclecntl`: cycle count for `rdcycle` (32-bits)
 - `hcb.cyclecnth`: high word of cycle count for `rdcycleh` (32-bits)
+- `hcb.instcntl`: instructions count for `rdinstret` (32-bits)
 - `hcb.instcnth`: high word of instructions count for `rdinstreth` (32-bits)
 
 ### Embedded specific registers
@@ -48,31 +52,40 @@ The DCB includes system peripherals and other registers non specific to any hart
 
 ### RISC-V compatibility registers:
 
-RV32/RV64 devices:
+These are registers mandated by the RISC-V Volume I, Chapter 2.8, for the `rdtime` instruction.
 
-- `dcb.rtclock.counter`: RTC timer count for `rdtime` (xlen)
+RV64 devices:
 
-RV32 devices also have:
+- `dcb.rtclock.counter`: RTC timer count for `rdtime` (64-bits)
 
+RV32 devices:
+
+- `dcb.rtclock.counterl`: low word of RTC timer count for `rdtime` (32-bits)
 - `dcb.rtclock.counterh`: high word of RTC timer count for `rdtimeh` (32-bits)
 
 ### Embedded specific registers
 
+
+RV64 devices:
+
+- `dcb.sysclock.counter`: system clock counter (64-bits)
+- `dcb.rtclock.alarm`: RTC clock alarm comparator (64-bits)
+
+RV32 devices:
+
+- `dcb.sysclock.counterl`: low word of system clock counter (32-bits)
+- `dcb.sysclock.counterh`: high word of system clock counter (32-bits)
+
+- `dcb.rtclock.alarmh`: high word of RTC clock alarm comparator (32-bits)
+- `dcb.rtclock.alarmh`: high word of RTC clock alarm comparator (32-bits)
+
 RV32/RV64 devices:
 
-- `dcb.sysclock.counter`: system clock counter (xlen)
 - `dcb.sysclock.ctrl`: system clock control register (32-bits)
 - `dcb.sysclock.current`: system clock current value register (32-bits)
 - `dcb.sysclock.reload`: system clock auto reload register (32-bits)
 
-- `dcb.rtclock.alarm`: RTC clock alarm comparator (xlen)
 - `dcb.harts[]` hart status visible/accessible by all harts, like bits for pending interrupts.
-
-RV32 devices also have:
-
-- `dcb.sysclock.counterh`: high word of system clock counter (32-bits)
-
-- `dcb.rtclock.alarmh`: high word of RTC clock alarm comparator (32-bits)
 
 TODO:
 
