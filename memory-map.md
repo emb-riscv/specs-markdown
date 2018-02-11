@@ -2,15 +2,15 @@
 
 The memory map is implementation specific, the only reserved area is a slice of 256 MiB at the end of the memory space.
 
-For 32-bits devices, the reserved system area is 0xF0000000-0xFFFFFFFF.
+For 32-bits devices, the reserved system area is **0xF0000000-0xFFFFFFFF**.
 
-For 64-bits devices, the reserved system area is 0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF.
+For 64-bits devices, the reserved system area is **0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF**.
 
 Typical embedded RISC-V devices have:
 
-- a flash area, usually at 0x00000000, but the actual address may be implementation specific
-- a RAM area 
-- an implementation specific peripheral area.
+- a **read-only code** area, usually at 0x00000000, but the actual address may be implementation specific (typically flash)
+- a **read-write data** area (typically RAM)
+- an implementation specific **peripheral** area.
 
 Multi-hart devices can share certain memory areas (code or data), but can also have hart-specific 
 memory areas, or both shared and specific areas.
@@ -18,7 +18,7 @@ memory areas, or both shared and specific areas.
 
 ## The Hart Control Block (HCB)
 
-Each hart maps its own status registers to the same address in the memory space.
+For uniform access by software, each hart maps its own status registers to the same address in the memory space.
 
 ### RISC-V compatibility registers
 
