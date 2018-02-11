@@ -6,9 +6,7 @@ This is a draft of the RISC-V microcontroller architecture description document.
 
 Define a modern C/C++ friendly microcontroller architecture based on RISC-V instruction set, that makes writing embedded software easier and more productive. And... enjoy the process!
 
-## Goal
-
-In technical terms, the mission statement can be writen as: define a set of specifications for RISC-V microcontrolers intended for **real-time**, **low power**, **bare metal** embedded systems. Favour **C/C++** multi-threaded **RTOS** systems.
+In technical terms, the mission statement can be rephrased as: define a set of specifications for RISC-V microcontrolers intended for **real-time**, **low power**, **bare metal** embedded systems. Favour **C/C++** multi-threaded **RTOS** systems.
 
 ## Limitations
 
