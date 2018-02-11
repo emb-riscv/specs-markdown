@@ -17,7 +17,7 @@ All pointers are XLEN bits.
 
 For further extensions, a few words at the end of the startup area are reserved.
 
-<sup>The pointer to the exception table must be known by the hart before entering the startup code, to catch possible execution faults in the startup code.</sup>
+> <sup>The pointer to the exception table must be known by the hart before entering the startup code, to catch possible execution faults in the startup code.</sup>
 
 ## Usage
 
