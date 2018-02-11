@@ -1,16 +1,16 @@
 # Exceptions and Interrupts
 
-Exceptions are generally unusual conditions occuring at run time, associated with an instruction in the current RISC-V hart.
+Exceptions are unusual conditions occuring at run time, associated with an instruction in the current RISC-V hart.
 
-Interrupts are external events that occur asynchronously outside any of the RISC-V harts.
+Interrupts are events that occur asynchronously outside any of the RISC-V harts.
 
 ## Exceptions
 
-Exceptions trigger a synchronous transfer of control to an exception handler within the current hart.
+Exceptions trigger **a synchronous transfer of contro**l to an exception handler within the current hart.
 
 Exceptions cannot be disabled, and handlers to process them should always be installed.
 
-Some exceptions are resumable, i.e. execution can continue to the next instruction (for example the illegal instruction handler can implement a custom instruction and resume).
+Some exceptions are **resumable**, i.e. execution can continue to the next instruction (for example the illegal instruction handler can implement a custom instruction and resume).
 
 Exceptions, in decreasing priority order:
 
@@ -33,17 +33,17 @@ TODO: NMI? routed only to hart 0?
 
 ## Interrupts
 
-Interrupts are generaly triggered by peripherals to notify the application of a given condition or event. 
+Interrupts are generaly **triggered by peripherals** to notify the application of a given condition or event. 
 
 Interrupts trigger the transfer of control to an interrupt handler associated with a hart.
 
-A hart can have up to 1024 interrupts, including the system interrupts.
+A hart can have up to **1024** interrupts, including the system interrupts.
 
 ### Interrupt priorities
 
-Interrupts have programable priorities, defined as small unsigned numbers, usually bytes.
-The priority value 0 is reserved to mean 
-'never interrupt' or 'disabled', and interrupt priority increases with increasing integer value.
+Interrupts have **programable priorities**, defined as small unsigned numbers, usually bytes.
+The **priority value 0** is reserved to mean 
+_'never interrupt'_ or _'disabled'_, and interrupt priorities increase with an increasing integer value.
 
 Interrupts with the same priority are processed in the order of their index in the interrupt 
 table, with a higher index meaning a higher priority.
@@ -55,14 +55,14 @@ possible for multiple harts to process the same interrupt.
 
 ### Interrupt priority threshold
 
-Each hart has an associated priority threshold, held in a hart-specific memory mapped register. The 
-threashold register should always be able to hold the value of zero, in which case no interrupts are 
-masked. The threshold register should be able to hold the 'all-1' value, in wich case all interrupts 
-are masked (functionally equivalent to disabling interrupts).
+Each hart has an associated priority threshold, held in a hart-specific register. 
 
 Only interrupts that have a priority strictly greater than the threshold will cause an interrupt to 
 be sent to the hart.
 
+The threashold register should always be able to hold the value of zero, in which case no interrupts are 
+masked. The threshold register should always be able to hold the 'all-1' value, in which case all interrupts 
+are masked (functionally equivalent to disabling interrupts).
 
 ### Priority bits
 
@@ -86,11 +86,11 @@ TBD
 
 ### Interrupts table
 
-The interrupt table is an array of pointers to interrupt handlers, implemented as C/C++ functions. The number of interrupts per hart is implementation specific but cannot exceed 1024 elements
+The interrupts table is an **array of pointers** to interrupt handlers, implemented as **C/C++ functions**. The number of interrupts per hart is implementation specific but cannot exceed 1024 elements.
 
-Each hart has its own table, with handlers for the interrupts it is processing.
+Each hart has its own table, with handlers for the interrupts it can process.
 
-The address of the array must be written by each hart to its `hcb.irqtab` register before enabling interrupts, usually during startup.
+The address of the array must be programatically written by each hart to its `hcb.irqtab` register before enabling interrupts, usually during startup.
 
 The first 8 entries are reserved for system interrupts:
 
@@ -101,15 +101,15 @@ The first 8 entries are reserved for system interrupts:
 
 ### Interrupt control registers
 
-Each interrupt has the following status attributes:
+Each interrupt has a small per-hart set of status and configuration attributes:
 
-* interrupts can either be disabled (default) or enabled 
-* interrupts can either be pending (a request is waiting to be served) or not
+* enabled: interrupts can either be disabled (default) or enabled 
+* pending: interrupts can either be pending (a request is waiting to be served) or not
 pending
-* interrupts can either be in an active (being served) or inactive state
-* interrupt priority
+* active: interrupts can either be in an active (being served) or inactive state
+* prio: interrupt priority
 
-To store and control these attributes, each interrupt has a 32-bits register with the following fields:
+To store and control these attributes, each interrupt has a per-hart 32-bits register with the following fields:
 
 
 | Bits | Name | Type | Description |
@@ -132,21 +132,21 @@ The `set` bits:
 
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
-| [0] | `enabled` | 1s | When 1 is written, the `enabled` bit is set. |
-| [1] | `pending` | 1s | When 1 is written, the `pending` bit is set. |
+| [0] | `enabled` | 1s | When 1 is written, the `enabled` status bit is set. |
+| [1] | `pending` | 1s | When 1 is written, the `pending` status bit is set. |
 | [7-2] ||| Reserved |
 
 The `clear` bits:
 
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
-| [0] | `enabled` | 1s | When 1 is written, the `enabled` bit is cleared. |
-| [1] | `pending` | 1s | When 1 is written, the `pending` bit is cleared. |
+| [0] | `enabled` | 1s | When 1 is written, the `enabled` status bit is cleared. |
+| [1] | `pending` | 1s | When 1 is written, the `pending` status bit is cleared. |
 | [7-2] ||| Reserved |
 
 ### Usage
 
-Individual interrupts are enabled by setting the `status.enabled` bit and writing a non-zero value to the `prio` field, and are disabled by clearing the `enabled` bit.
+Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by clearing the `enabled` bit. To be effective, interrupts must also have non-zero priorities.
 
 ```c
 hcb.interrupts[7].prio = 0xC0; // A byte write cycle.
@@ -155,7 +155,7 @@ hcb.interrupts[7].set = INTERRUPTS_SET_ENABLED; // A byte write cycle.
 hcb.interrupts[7].clear = INTERRUPTS_CLEAR_ENABLED; // A byte write cycle.
 ```
 
-Interrupts can be programatically set to pending by writing 1 in the `set_pend` field; the pending status can be cleared by writing 1 to the `clear_pend` field.
+Interrupts can be programatically set to be pending by writing 1 in the `status.pending` field; the pending status can be cleared by writing 1 to the `clear_pend` field.
 
 ```c
 hcb.interrupts[7].set = INTERRUPTS_SET_PENDING; // A byte write cycle.
