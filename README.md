@@ -1,6 +1,6 @@
 # The RISC-V Microcontroller Profile
 
-A proposal for a new microcontroller architecture using the RISC-V instruction set.
+A proposal for a new microcontroller architecture using the beautiful RISC-V instruction set.
 
 Version: 0.1
 
