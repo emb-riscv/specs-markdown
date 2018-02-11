@@ -72,7 +72,7 @@ If lower than 8 bits are implemented, the existing bits should always store the 
 with the least significant bits (LSB) ignored on write and reading 0.
 
 > <sup>The reason for removing the LSB instead of MSB is to make it easier to port software between RISC-V devices
-with different priority bits. In this way, a program written for devices with 4-bit priority bits is likely to 
+with different priority bits schemes. In this way, a program written for devices with 4-bit priority bits is likely to 
 be able to run on devices with 3-bit priority bits. If the MSB 
 is removed instead of the LSB, it might be possible to get a priority inversion,  
 for example, if an application uses priority level 0x05 for IRQ0 and level 0x03 for IRQ1, IRQ0 should have higher 
