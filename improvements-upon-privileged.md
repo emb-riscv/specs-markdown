@@ -22,7 +22,7 @@ This is kind of silly, since the RISC-V ISA specs provide a very high degree of 
 
 ### The virtual memory dividing line
 
-Although some projects try to challenge this, **Unix-like operating systems do need virtual memory to operate properly**.
+Although some projects try to challenge this, **Unix-like operating systems DO need virtual memory to operate properly**.
 
 After long considerations, the conclusion was that the common and logical dividing line between the RISC-V privileged profile and a possible RISC-V microcontroller profile is the use of virtual memory, not needeed for microcontrollers.
 
