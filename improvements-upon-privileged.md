@@ -20,15 +20,24 @@ So, at least in theory, there should be possible to extend the specs, but in pra
 
 This is kind of silly, since the RISC-V ISA specs provide a very high degree of flexibility allowing for custom extensions for the instruction set, but they are still very rigid by insisting that all these devices should be able to run Unix-like operating systems.
 
-### No need for virtual memory features
+### The virtual memory dividing line
 
 Although some projects try to challenge this, **Unix-like operating systems do need virtual memory to operate properly**.
 
-After long considerations, the conclusion was that the main distinguishing feature between the RISC-V privileged profile and a possible RISC-V microcontroller profile is the use of virtual memory. 
+After long considerations, the conclusion was that the common and logical dividing line between the RISC-V privileged profile and a possible RISC-V microcontroller profile is the use of virtual memory, not needeed for microcontrollers.
 
 ## Criticism
 
-... TBD
+### Fragmentation would break upward compatibility
+
+While discussing the opportunity for a new RISC-V embedded profile, the most common concern raised was that migrating an applications written for a microcontroller to a larger application class core would be more difficult.
+
+Well, yes, in theory it might be possible to swap in a bigger core, and, even without running a Unix-like operating system, so ignoring the MMU and the supervisor mode, it might be possible for the application to run faster due to the improved pipelines and core clock rates, there are several practical issues:
+
+- in industrial embedded applications the processor selection is not based on the architecture (which in the majority of cases is Cortex-M only), but on the available on-chip peripherals; it is very unlikely to find an application class core with the desired peripherals available on a microcontroller;
+- application class cores generally do not have internal flash/ram, requiring external chips; external memory chips require lots of address and data pins, which mean large BGA chips, larger & more complex PCBs, and generally higher costs. 
+
+So this concern is not realistic, and not accepting a distinct microcontroller profile, optimised for real-time applications simply for maintaining compatibility with the privileged specs is not a beneficial approach.
 
 ## Examples
 
