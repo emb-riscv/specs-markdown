@@ -6,7 +6,7 @@ As mentioned in RISC-V Volume I, v2.2, the _"RISC-V is a new instruction set arc
 
 The RISC-V Volume II, v1.10, mentions: _"... This document describes the RISC-V privileged architecture, which covers all aspects of RISC-V systems beyond the user-level ISA, including privileged instructions as well as additional functionality required for running operating systems and attaching external devices."_
 
-That's great news for the GNU/Linux world and for the academia, but attempts to identify in the RISC-V specs how the new design meets the requirements of bare-metal embedded devices, were not very successful; they revealed only some references to Tensilica and ARC, and the RV32E subset, which halves the number of general registers, do not support hardware floating point and makes some counter instructions optional.
+That's great news for the GNU/Linux world and for the academia, but attempts to identify in the RISC-V specs how the new design meets the requirements of bare-metal embedded devices, were not very successful; they revealed only some references to Tensilica and ARC (probably not the most successful architectures), and some incomplete specs for **the RV32E subset**, which halves the number of general registers, do not support hardware floating point and makes some counter instructions optional.
 
 According to the privileged specs, **RISC-V embedded systems share the exact same definitions as systems running Unix-like operating systems, but they do not include the "S" (Supervisor) mode features**.
 
