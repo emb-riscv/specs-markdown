@@ -61,3 +61,26 @@ For the current ABI this still means 20 registers, which is a lot. The real prob
 
 The solution is **a separate Embedded ABI (EABI)**, optimised for embedded real-time applications, with a smaller caller register set.
 
+### CSRs cannot be memory-mapped
+
+Another almost 'religious' issue is related to accessing the system registers. With the exception of a very limited set of special cases, most industry standard architectures map the system peripherals and registers to a memory area. The RISC-V ISA has several special instructions allowing to address 4096 per-hart registers.
+
+It is generally agreed that for privileged mode devices, this mechanism has several advantages (like security). Unfortunately, the RISC-V privileged specs abused this mechanism, and now there are several hundreds registers defined in this proprietary space, some of them even read-only, and obviously posing no security threads (like `mvendorid`, `marchid`, etc).
+
+This mechanism of accessing the system registers has two main disadvantages:
+
+- requires assembly code to access each individual register 
+- is not supported by current development tools, debuggers have no ways of accessing these registers, IDEs have no special viewes for them, etc.
+
+Mapping system registers in the memory space is perfectly possible, and the RISC-V privileged specs even mandates for some registers like the `mtime` and `mtimecmp`, to be memory mapped.
+
+However, from a technical point of view, for virtual memory systems, accesing system registers from code running in user mode requires 'punching' some holes into the virtual memory space to reach the special memory mapped registers, which adds some complexity.
+
+Fortunately, microcontrollers running without a MMU do not have this problem, accessing any memory mapped registers is usual, and the cost of doing so is perfectly acceptable.
+
+Plus that in the microcontroller profile there are _no_ hardware security boundaries, so the risk of attacks somehow exploiting the CSR-as-MMIO is a non-issue. 
+
+
+
+
+
