@@ -26,6 +26,10 @@ Although some projects try to challenge this, **Unix-like operating systems do n
 
 After long considerations, the conclusion was that the common and logical dividing line between the RISC-V privileged profile and a possible RISC-V microcontroller profile is the use of virtual memory, not needeed for microcontrollers.
 
+## Improvements
+
+TBD
+
 ## Criticism
 
 ### Fragmentation would break upward compatibility
@@ -57,6 +61,3 @@ For the current ABI this still means 20 registers, which is a lot. The real prob
 
 The solution is **a separate Embedded ABI (EABI)**, optimised for embedded real-time applications, with a smaller caller register set.
 
-## Examples
-
-... TBD
