@@ -32,7 +32,7 @@ After long considerations, the conclusion was that the common and logical dividi
 
 While discussing the opportunity for a new RISC-V embedded profile, the most common concern raised was that migrating an applications written for a microcontroller to a larger application class core would be more difficult.
 
-Well, yes, in theory it might be possible to swap in a bigger core, and, even without running a Unix-like operating system, so ignoring the MMU and the supervisor mode, it might be possible for the application to run faster due to the improved pipelines and core clock rates, there are several practical issues:
+Well, yes, in theory it might be possible to design a board in such a way to allow to swap in a bigger core, and to design the application in such a way to ignore the MMU and the supervisor mode and continue to use a RTOS; the application will probably run faster due to the improved pipelines and core clock rates, but there are several practical issues:
 
 - in industrial embedded applications the processor selection is not based on the architecture (which in the majority of cases is Cortex-M only), but on the available on-chip peripherals; it is very unlikely to find an application class core with the desired peripherals available on a microcontroller;
 - application class cores generally do not have internal flash/ram, requiring external chips; external memory chips require lots of address and data pins, which mean large BGA chips, larger & more complex PCBs, and generally higher costs. 
