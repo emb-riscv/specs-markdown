@@ -15,7 +15,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Introduction](introduction.md)
 * [Startup Process](startup.md)
 * [Exceptions and Interrupts](exceptions-and-interrupts.md)
-* [Hart Status Block (HSB)]()
+* [Hart Control Block (HCB)]()
 * [Hart Interrupt Controller (HIC)]()
 * [Device System Clock (DSC)]()
 * [Device Real-Time Clock (DRTC)]()
