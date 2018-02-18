@@ -18,7 +18,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Hart Interrupt Controller]()
 * [Device System Clock]()
 * [Device Real-Time Clock]()
-* [Hart Watchdog]()
+* [Hart Watchdog Timer]()
 * [Memory Map](memory-map.md)
 * [RTOS Support Features](rtos-support-features.md)
 * TBD
