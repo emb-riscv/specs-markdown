@@ -8,25 +8,53 @@ The RISC-V Volume II, v1.10, mentions: _"... This document describes the RISC-V 
 
 This is great news for the GNU/Linux community and for the academia, but attempts to identify in the RISC-V specs how the new design meets the requirements of bare-metal embedded devices, were not very successful; browsing the two docs revealed only some references to Tensilica and ARC (probably not the most successful architectures), and some incomplete specs for **the RV32E subset** (which halves the number of general registers, do not support hardware floating point and makes some counter instructions optional).
 
-According to the privileged specs, **RISC-V embedded systems share the exact same definitions as systems running Unix-like operating systems, but they do not include the "S" (Supervisor) mode features**.
+According to the privileged specs in Volume II, **RISC-V embedded systems share the exact same definitions as systems running Unix-like operating systems, but they do not include the "S" (Supervisor) mode features**.
 
-This strategy does not work very well for real-time systems; for example, **in the RISC-V interrupt model**, without special measures, **interrupts remain disabled while executing interrupt handlers**. This may be acceptable for Linux kernels, but for hard real-time systems this is generally a no-go, since **interrupt latency** may end up well above tolerable limits.
-
-### Relax the requirement for the privileged specs
-
-The RISC-V Volume II, v1.10, mentions: _"... the entire privileged-level design described in this document could be replaced with an entirely different privileged-level design without changing the user-level ISA, and possibly without even changing the ABI. In particular, this privileged specification was designed to run existing popular operating systems, and so embodies the conventional level-based protection model. Alternate privileged specifications could embody other more flexible protection-domain models."_
-
-So, at least in theory, there should be possible to extend the specs, but in practice it is not clear how exactly this can be done. Ideally, the Volume I should not explicitly refer to Volume II, or should refer to it as optional, leaving room for a complementary specification better suited for devices that do not need to run Unix-like operating systems.
-
-This is kind of silly, since the RISC-V ISA specs provide a very high degree of flexibility allowing for custom extensions for the instruction set, but they are still very rigid by insisting that all these devices should be able to run Unix-like operating systems.
+This strategy does not work very well for real-time systems; for example, **in the RISC-V interrupt model**, without special measures, **interrupts remain disabled while executing interrupt handlers**. This may be acceptable for general purpose Linux kernels, but for hard real-time systems this is generally a no-go, since **interrupt latency** may end up well above tolerable limits.
 
 ### The virtual memory dividing line
 
-Although some projects try to challenge this, **Unix-like operating systems DO need virtual memory to operate properly**.
+Currently there is no clear understanding where the dividing line between RISC-V general purpose and microcontroller devices should be. 
 
-After long considerations, the conclusion was that the common and logical dividing line between the RISC-V privileged profile and a possible RISC-V microcontroller profile is the use of virtual memory, not needeed for microcontrollers.
+One possible approach is to start by defining what microcontroller devices are not: they definitely are not expected to run Unix-like operating systems. Although some projects try to challenge this, it is generally agreed that **Unix-like operating systems DO need virtual memory to operate properly**.
 
-## Improvements
+After long considerations, the conclusion was that the common and logical dividing line between the RISC-V privileged profile and a possible RISC-V microcontroller profile is the use of virtual memory; as such, **RISC-V microcontrollers are devices that do not implement a virtual memory system**.
+
+## Steps to changes the current RISC-V specs
+
+It is not realistic to expect a new set of RISC-V microcontroller specs to be released overnight. However, given the expected ratification of the current specs by the RISC-V Foundation, it is quite urgent to ensure that this process will not block further developments.
+
+This will probably require many steps, but the main one are:
+
+- acknowledge the need for the changes
+- relax the requirements for the privileged specs
+- create new specs for the microcontroller profile
+
+### Acknowledge the need for the changes
+
+Given the current structure of the RISC-V Foundation, with most of the members interested in GNU/Linux systems, acknowledging that the specifications for a general purpose device do not work very well for real-time systems will be a challenge.
+
+### De-entangle the privileged specs
+
+The RISC-V Volume II, v1.10, mentions: _"... the entire privileged-level design described in this document could be replaced with an entirely different privileged-level design without changing the user-level ISA, and possibly without even changing the ABI. In particular, this privileged specification was designed to run existing popular operating systems, and so embodies the conventional level-based protection model. Alternate privileged specifications could embody other more flexible protection-domain models."_
+
+So, at least in theory, there should be possible to extend the specs, but in practice it is not clear how exactly this can be done. Ideally, **the Volume I should not explicitly refer to Volume II**, or should refer to it as optional, leaving room for a complementary specification for microcontroller devices.
+
+As a parenthesis, the RISC-V ISA specs provide a very high degree of flexibility allowing for custom extensions for the instruction set, but they are still very rigid by insisting that all these devices should be able to run Unix-like operating systems.
+
+### Move all mandatory CSRs to the privileged specs
+
+Apart from relaxing the need for the privileged specs, the instruction set defined by Volume I is generally acceptable by microcontroller devices.
+
+The only notable exception is the list of mandatory CSRs, which should be moved to Volume II, allowing for microcontrollers to define a more efficient set of mandatory registers.
+
+### Remove the POSIX ABI from Volume I
+
+Another important issue with the current specs is the mandatory use of the POSIX ABI, which is too expensive for real-time devices.
+
+The solution is to move it to Volume II, and allow a micorcontroller profile to define an EABI, (Embedded ABI), as a lighter version of the POSIX ABI.
+
+## Improvements upon RISC-V privileged
 
 TBD
 
