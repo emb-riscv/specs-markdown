@@ -28,7 +28,8 @@ source is implementation dependent.
 
 > <sup>Common implementations use a 32.678 Hz quartz or oscillator.
 Low frequency internal RC oscillators (for example 40 kHz) can also be used, but the application 
-must calibrate the frequency using a higher accuracy source.</sup>
+must calibrate the frequency using a higher accuracy source. With a typical 32 kHz input, the clock resolution 
+is about 30 µS and it takes about 17 million years to overflow.</sup>
 
 ## The clock counter register
 
