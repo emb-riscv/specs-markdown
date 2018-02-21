@@ -11,6 +11,8 @@ relative to real time. That is, the clock may not be adjusted.
 
 All harts in a RISC-V device share the same Device Real-Time Clock instance.
 
+The Device Real-Time Clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V privileged specs.
+
 ## Always on domain
 
 To support full functionality, the real-time clock should run even when the 
@@ -87,8 +89,8 @@ RV32 devices:
 
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
-| [31-0] | `counterl` | ro | Low word of RTC timer comparator (32-bits). |
-| [63-32] | `counterh` | ro | High word of RTC timer comparator (32-bits). |
+| [31-0] | `cmpl` | ro | Low word of RTC timer comparator (32-bits). |
+| [63-32] | `cmph` | ro | High word of RTC timer comparator (32-bits). |
 
 ## The clock status and control register
 
@@ -97,15 +99,3 @@ RV32 devices:
 TODO: define bits to
 - tell is clock is enabled
 - enable clock
-
-
-
-
-
-
-
-
-
-
-
-
