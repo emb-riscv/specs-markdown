@@ -17,7 +17,7 @@ The Device Real-Time Clock is inspired by the `mtime`/`mtimecmp` definitions in 
 
 To support full functionality, the real-time clock should run even when the 
 rest of system is powered down, and so it should be located in a different frequency/voltage 
-domain from the processors.
+domain from the cores.
 
 ## Clock input
 
