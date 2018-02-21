@@ -94,7 +94,10 @@ RV32 devices:
 
 - `dcb.rtclock.ctrl`
 
-TBD...
+TODO: define bits to
+- tell is clock is enabled
+- enable clock
+
 
 
 
