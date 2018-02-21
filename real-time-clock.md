@@ -24,7 +24,7 @@ The real-time clock input frequency is fixed, and application or device specific
 To support low-power devices, the real-time clock input should be a low freqency oscilator; the actual 
 source is implementation dependent. 
 
-> <sup>Usual implementations use a 32.678 Hz quartz or oscillator.
+> <sup>Common implementations use a 32.678 Hz quartz or oscillator.
 Low frequency internal RC oscillators (for example 40 kHz) can also be used, but the application 
 must calibrate the frequency using a higher accuracy source.</sup>
 
