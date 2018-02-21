@@ -13,7 +13,7 @@ All harts in a RISC-V device share the same Device Real-Time Clock instance.
 
 The Device Real-Time Clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V privileged specs.
 
-## Always on domain
+## Power domain
 
 To support full functionality, the real-time clock should run even when the 
 rest of system is powered down, and so it should be located in a different frequency/voltage 
