@@ -14,7 +14,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 
 * [Introduction](introduction.md)
 * [Memory Map](memory-map.md)
-* [Startup Process](startup.md)
+* [The Startup Process](startup.md)
 * [Exceptions and Interrupts](exceptions-and-interrupts.md)
 * [Hart Control Block (HCB)](hart-control-block.md)
 * [Hart Interrupt Controller (HIC)](interrupt-controller.md)
@@ -23,9 +23,11 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Device Real-Time Clock (DRTC)](real-time-clock.md)
 * [Device Watchdog Timer (DWT)]()
 * [RTOS Support Features](rtos-support-features.md)
-* TBD
 * [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md)
 * [Appendix B: History](history.md)
+
+TODO: Add MPU definitions
+TODO: Add user mode.
 
 ## License
 
