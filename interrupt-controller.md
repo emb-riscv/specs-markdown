@@ -134,7 +134,7 @@ hic.interrupts[7].set = INTERRUPTS_SET_ENABLED; // A byte write cycle.
 hcb.interrupts[7].clear = INTERRUPTS_CLEAR_ENABLED; // A byte write cycle.
 ```
 
-Interrupts can be programatically set to be pending by writing 1 in the `status.pending` field; the pending status can be cleared by writing 1 to the `clear_pend` field.
+Interrupts can be programatically set to be pending by writing 1 in the `status.pending` field; the pending status can be cleared by writing 1 to the `clear.pending` field.
 
 ```c
 hcb.interrupts[7].set = INTERRUPTS_SET_PENDING; // A byte write cycle.
