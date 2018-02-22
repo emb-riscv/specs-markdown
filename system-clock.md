@@ -27,7 +27,7 @@ The system clock source is a reference clock. Software can select whether the re
 > <sup>Common implementations use the same source as the core input, which is the default. 
 For example, with a 100 MHz core clock, the system clock resolution 
 is 10 nS and it takes about 5800 years to overflow. A common RTOS tick frequency is 1000 Hz; in order to accurately achieve this, an input frequency multiple of the tick frequency is required.<br>
-Low-power devices might need to vary the core frequency by changing implementation specific clock registers. In this case the system clock software must be notified to use the same input frequency. Alternately, the system clock may be configured to use the fixed high frequency clock reference (like the quarz oscillator), assumed to have a fixed frequency. </sup>
+Low-power devices might need to vary the core frequency by changing implementation specific clock registers (like PLL registers). In this case the system clock software must be notified to use the same input frequency. Alternately, the system clock may be configured to use the fixed high frequency clock reference (like the quarz oscillator), assumed to have a fixed frequency. </sup>
 
 ## Memory map
 
