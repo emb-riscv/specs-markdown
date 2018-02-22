@@ -26,3 +26,4 @@ There are two control blocks, one providing control and status registers common 
 | 0xF000'0000 | 0xF000'XXXX | the Device Control Block (DCB) |
 | 0xF100'0000 | 0xF100'XXXX | the Hart Control Block (DCB) |
 
+(preliminary, may be moved to higher addresses)
