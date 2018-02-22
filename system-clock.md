@@ -34,7 +34,7 @@ RV64 devices
 
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
-| 0x0000 | `ctrl` | 32b | rw | 0x0000000 | Control and status register. |
+| 0x0000 | `ctrl` | 32b | rw | 0x0000003 | Control and status register. |
 | 0x0008 | `cnt` | 64b | ro | Undefined | System clock timer counter. |
 | 0x0010 | `cmp` | 64b | rw | Undefined | System clock timer comparator. |
 
