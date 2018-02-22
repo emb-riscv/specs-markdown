@@ -6,12 +6,14 @@ The **Device System Clock** is intended to support the implementation of the ISO
 `high_resolution_clock` (§ 20.11.7.3). Objects of class `high_resolution_clock` represent clocks 
 with the shortest tick period.
 
-The **Device System Clock** is also intended to generate the scheduler interrupts.
+The **Device System Clock** is also intended as an RTOS tick timer, to handle timeouts, alarms and pre-emptive context switches.
 
 All harts in a RISC-V device share the same Device System Clock instance.
 
 The Device System Clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V 
 privileged specs, but it counts a higher frequency input.
+
+When the processor is halted in Debug state, the counter is not incremented.
 
 ## Power domain
 
@@ -20,11 +22,39 @@ located in the same frequency/voltage domain as the cores.
 
 ## Clock input
 
-The system clock source is application or device specific.
+The system clock source is a reference clock. Whether the reference clock is the core clock or an external clock source is implementation specific. If an implementation uses an external clock, it must document the relationship between the processor clock and the external reference. 
 
-> <sup>Common implementations use the same source as the core input, before possible PLLs. 
-With a typical 10 MHz input, the clock resolution 
-is 0.1 µS and it takes about 58000 years to overflow.</sup>
+> <sup>Common implementations use the same source as the core input, before or after possible PLLs. 
+For example, with a 10 MHz input, the clock resolution 
+is 0.1 µS and it takes about 58000 years to overflow. A common RTOS tick frequency is 1000 Hz; in order to accurately achieve this, an input frequency multiple of the tick frequency is required. </sup>
+
+## Memory map
+
+RV64 devices
+
+| Offset | Name | Width | Type | Reset | Description | 
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `ctrl` | 32b | rw | 0x0000000 | Control and status register. |
+| 0x0008 | `cnt` | 64b | ro | Undefined | System clock timer counter. |
+| 0x0010 | `cmp` | 64b | rw | Undefined | System clock timer comparator. |
+
+RV32 devices
+
+| Offset | Name | Width | Type | Reset | Description | 
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `ctrl` | 32b | rw | 0x0000000 | Control and status register. |
+| 0x0008 | `cntl` | 32b | ro | Undefined | Low word of system clock timer counter. |
+| 0x000C | `cnth` | 32b | ro | Undefined | High word of system clock timer counter. |
+| 0x0010 | `cmpl` | 32b | rw | Undefined | Low word of system clock timer comparator. |
+| 0x0014 | `cmph` | 32b | rw | Undefined | High word of system clock timer comparator. |
+
+## The clock control and status register
+
+| Bits | Name | Type | Description |
+|:-----|:-----|:-----|-------------|
+| [0] | `enable` | rw | Indicates the enabled status of the system clock counter. |
+| [2-1] | `source` | rw | Indicates the clock source. |
+| [31-3] ||| Reserved. |
 
 ## The clock counter register
 
@@ -36,29 +66,11 @@ To guarantee the steadiness characteristic of the clock, the register is read-on
 RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
 RV32 devices exposes separate high/low 32-bits registers.
 
-RV64 devices:
-
-- `dcb.sysclock.cnt` 
-
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [63-0] | `cnt` | ro | System clock timer counter (64-bits). |
-
-
-RV32 devices:
-
-- `dcb.sysclock.cntl`
-- `dcb.sysclock.cnth`
-
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [31-0] | `cntl` | ro | Low word of system clock timer counter (32-bits). |
-| [63-32] | `cnth` | ro | High word of system clock timer counter (32-bits). |
-
 ## The clock comparator register
 
-The system clock can also be used to trigger periodic interrupts, for example 
-to drive pre-emption in a scheduler. 
+In addition to keeping track of time, the system clock can also be used to trigger 
+interrupts at specific time points, either for periodic events (like driving 
+pre-emption in a RTOS scheduler) or to trigger timeout events.
 
 The comparator register causes a system clock interrupt to be posted when the 
 counter register 
@@ -68,27 +80,18 @@ The interrupt remains posted until it is cleared by writing to the comparator re
 RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
 RV32 devices exposes separate high/low 32-bits registers.
 
+## Usage
+
 RV64 devices:
 
+- `dcb.sysclock.ctrl`
+- `dcb.sysclock.cnt` 
 - `dcb.sysclock.cmp` 
-
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [63-0] | `cmp` | rw | System clock timer comparator (64-bits). |
-
 
 RV32 devices:
 
+- `dcb.sysclock.ctrl`
+- `dcb.sysclock.cntl`
+- `dcb.sysclock.cnth`
 - `dcb.sysclock.cmpl`
 - `dcb.sysclock.cmph`
-
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [31-0] | `cmpl` | ro | Low word of system clock timer comparator (32-bits). |
-| [63-32] | `cmph` | ro | High word of cycem clock timer comparator (32-bits). |
-
-## The clock status and control register
-
-- `dcb.sysclock.ctrl`
-
-TODO: define status and control bits.
