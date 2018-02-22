@@ -13,14 +13,15 @@ Warning: This draft specification is in a preliminary phase and may change at an
 ## Table of Contents
 
 * [Introduction](introduction.md)
+* [Memory Map](memory-map.md)
 * [Startup Process](startup.md)
 * [Exceptions and Interrupts](exceptions-and-interrupts.md)
-* [Hart Control Block (HCB)]()
-* [Hart Interrupt Controller (HIC)]()
+* [Hart Control Block (HCB)](hart-control-block.md)
+* [Hart Interrupt Controller (HIC)](interrupt-controller.md)
+* [Device Control Block (DCB)](device-control-block.md)
 * [Device System Clock (DSC)](system-clock.md)
 * [Device Real-Time Clock (DRTC)](real-time-clock.md)
 * [Device Watchdog Timer (DWT)]()
-* [Memory Map](memory-map.md)
 * [RTOS Support Features](rtos-support-features.md)
 * TBD
 * [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md)
