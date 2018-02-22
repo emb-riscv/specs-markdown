@@ -7,7 +7,7 @@ Each hart may be able to process its own set of interrupts, independent from the
 Only hart 0 is required to implement a HIC; additional interrupt controllers in all other 
 harts are optional and implementation specific.
 
-> <sup>Hart real-time devices may dedicate separate harts to process fast interrupts. At the limit,
+> <sup>Hard real-time devices may dedicate separate harts to process fast interrupts. At the limit,
   it is possible to wire all interrupts to all harts, and decide in software which interrupts
   are processed by each hart.</sup>
 
