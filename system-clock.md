@@ -150,7 +150,7 @@ riscv_sysclock_write_cmp(uint64_t value)
 #if __riscv_xlen == 32
   // Write low as max; no smaller than old value.
   dcb.sysclock.cmpl = (uint32_t) UINT_MAX;
-  // Write high; no smaller than new value.
+  // Write high; no smaller than old value.
   dcb.sysclock.cmph = ((uint32_t) (value >> 32));
   // Write low as new value.
   dcb.sysclock.cmpl = ((uint32_t) value);
