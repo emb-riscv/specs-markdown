@@ -24,6 +24,8 @@ These registers allow one hart to pend interrupts to any other hart, and possibl
 
 Total size: 256 bytes.
 
+TODO: Possibly protect writes using a key register.
+
 ## RISC-V compatibility CSRs
 
 TODO: decide what to do with these registers; probably some of them should be added to `dcb`.
