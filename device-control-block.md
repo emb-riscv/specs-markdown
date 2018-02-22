@@ -24,7 +24,9 @@ These registers allow one hart to pend interrupts to any other hart, and possibl
 
 Total size: 256 bytes.
 
-## RISC-V compatibility CSRs:
+## RISC-V compatibility CSRs
+
+TODO: decide what to do with these registers; probably some of them should be added to `dcb`.
 
 The RISC-V Volume I, Chapter 2.8, mandates for the `rdtime` instruction. This can be retrieved from `dcb.rtclock.counter`.
 
@@ -42,5 +44,3 @@ Other registers that migh need attention:
 - optional for the debug module: 
   - dscratch0 
   - dscratch1 
-
-TODO: decide what to do with these registers; probably some of them should be added to `dcb`.
