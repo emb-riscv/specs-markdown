@@ -32,6 +32,7 @@ Other RISC-V registers from RISC-V Volume II, but not actively used:
 - mcause 
 - mtval 
 - mip 
+- misa 
 
 ## RISC-V microcontroller specific registers
 
