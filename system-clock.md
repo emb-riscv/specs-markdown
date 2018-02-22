@@ -34,9 +34,11 @@ document the relationship between the processor clock and the external reference
 > <sup>By default, the system clock uses the same source as the core clock, which is 
   a common configuration. 
   For example, with a 100 MHz core clock, the system clock resolution 
-  is 10 nS and it takes about 5800 years to overflow. <br> 
+  is 10 nS and it takes about 5800 years to overflow. <br>
+  <br>
   A common RTOS tick frequency is 1000 Hz; in order to accurately achieve this, 
   an input frequency multiple of the tick frequency is required.<br>
+  <br>
   Low-power devices might need to vary the core frequency by changing implementation 
   specific clock registers (like PLL registers). In this case the system clock software 
   must be notified to use the same input frequency. Alternately, the system clock may 
