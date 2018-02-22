@@ -8,7 +8,8 @@ with the shortest tick period.
 
 The **Device System Clock** is also intended as:
 
-- the RTOS tick timer that fires periodically at a programable rate, for example 1000 Hz, to drive pre-emptive context switches
+- the RTOS tick timer that fires periodically at a programable rate, for example 1000 Hz, to 
+measure time and to drive pre-emptive context switches
 - a variable rate alarm or signal timer to handle timeouts and alarms
 
 All harts in a RISC-V device share the same Device System Clock instance.
@@ -25,13 +26,22 @@ located in the same frequency/voltage domain as the cores.
 
 ## Clock input
 
-The system clock source is a reference clock. Software can select whether the reference clock is the core clock, the device high frequency reference clock or an implementation specific external clock source. If an implementation uses an external clock, it must document the relationship between the processor clock and the external reference. 
+The system clock source is a reference clock. Software can select whether the reference 
+clock is the core clock, the device high frequency reference clock or an implementation 
+specific external clock source. If an implementation uses an external clock, it must 
+document the relationship between the processor clock and the external reference. 
 
-> <sup>By default, the system clock uses the same source as the core clock, which is a common configuration. 
-For example, with a 100 MHz core clock, the system clock resolution 
-is 10 nS and it takes about 5800 years to overflow. <br> 
-A common RTOS tick frequency is 1000 Hz; in order to accurately achieve this, an input frequency multiple of the tick frequency is required.<br>
-Low-power devices might need to vary the core frequency by changing implementation specific clock registers (like PLL registers). In this case the system clock software must be notified to use the same input frequency. Alternately, the system clock may be configured to use the fixed high frequency clock reference (like the quarz oscillator), assumed to have a fixed frequency. </sup>
+> <sup>By default, the system clock uses the same source as the core clock, which is 
+  a common configuration. 
+  For example, with a 100 MHz core clock, the system clock resolution 
+  is 10 nS and it takes about 5800 years to overflow. <br> 
+  A common RTOS tick frequency is 1000 Hz; in order to accurately achieve this, 
+  an input frequency multiple of the tick frequency is required.<br>
+  Low-power devices might need to vary the core frequency by changing implementation 
+  specific clock registers (like PLL registers). In this case the system clock software 
+  must be notified to use the same input frequency. Alternately, the system clock may 
+  be configured to use the fixed high frequency clock reference (like the quarz 
+  oscillator), assumed to have a fixed frequency. </sup>
 
 ## Memory map
 
