@@ -6,7 +6,10 @@ The **Device System Clock** is intended to support the implementation of the ISO
 `high_resolution_clock` (§ 20.11.7.3). Objects of class `high_resolution_clock` represent clocks 
 with the shortest tick period.
 
-The **Device System Clock** is also intended as an RTOS tick timer, to handle timeouts, alarms and pre-emptive context switches.
+The **Device System Clock** is also intended as:
+
+- the RTOS tick timer that fires periodically at a programable rate, for example 1000 Hz, to drive pre-emptive context switches
+- a variable rate alarm or signal timer to handle timeouts and alarms
 
 All harts in a RISC-V device share the same Device System Clock instance.
 
