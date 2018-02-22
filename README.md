@@ -27,6 +27,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Appendix B: History](history.md)
 
 TODO: Add MPU definitions
+
 TODO: Add user mode.
 
 ## License
