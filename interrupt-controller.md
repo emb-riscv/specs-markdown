@@ -43,9 +43,9 @@ prioritization scheme
 
 | Offset | Name | Width | Type | Description |
 |:-------|:-----|:------|:-----|-------------|
-| 0x0000 | irqtab | xlen | rw | Address of the interrupts table. |
-| 0x0010 | prio | 32b | rw | Interrupt priority threshold. |
-| 0x1000 | interrupts[] | 32b * N | rw | Array of interrupt control registers. |
+| 0x0000 | `irqtab` | xlen | rw | Address of the interrupts table. |
+| 0x0010 | `prio` | 32b | rw | Interrupt priority threshold. |
+| 0x1000 | `interrupts[]` | 32b * N | rw | Array of interrupt control registers. |
 
 The number of interrupts (N) is implementation specific, but no higher than 1024, including the system interrupts.
 
