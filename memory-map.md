@@ -25,7 +25,8 @@ device, and one providing control and status registers for the current hart:
 | Base | Top | Description |
 |:-----|:----|-------------|
 | 0xF000'0000 | 0xF000'XXXX | the Device Control Block (DCB) |
-| 0xF100'0000 | 0xF100'XXXX | the Hart Control Block (DCB) |
+| 0xF100'0000 | 0xF100'0FFF | the Hart Control Block (HCB) |
+| 0xF100'2000 | 0xF100'3FFF | the Hart Interupt Controller (HIC) |
 
 Each hart has its own separate control block; all HCBs map to the same address, the internal 
 logic being able to distinguish between them based on the ID of the hart requesting access;
