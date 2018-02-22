@@ -104,17 +104,17 @@ The memory mapped registers are available via a set of structures, directly avai
 
 RV64 devices:
 
-- `dcb.rtclock.ctrl`
-- `dcb.rtclock.cnt` 
-- `dcb.rtclock.cmp` 
+- `rtclock.ctrl`
+- `rtclock.cnt` 
+- `rtclock.cmp` 
 
 RV32 devices:
 
-- `dcb.rtclock.ctrl`
-- `dcb.rtclock.cntl`
-- `dcb.rtclock.cnth`
-- `dcb.rtclock.cmpl`
-- `dcb.rtclock.cmph`
+- `rtclock.ctrl`
+- `rtclock.cntl`
+- `rtclock.cnth`
+- `rtclock.cmpl`
+- `rtclock.cmph`
 
 ```c
 uint64_t 
@@ -125,15 +125,15 @@ riscv_rtclock_read_cnt(void)
   // value carries to the high word, two loops are performed.
   while (true)
     {
-      uint32_t hi = dcb.rtclock.cnth;
-      uint32_t lo = dcb.rtclock.cntl;
-      if (hi == dcb.rtclock.cnth)
+      uint32_t hi = rtclock.cnth;
+      uint32_t lo = rtclock.cntl;
+      if (hi == rtclock.cnth)
         {
           return ((uint64_t) hi << 32) | lo;
         }
     }
 #else
-  return dcb.rtclock.cnt;
+  return rtclock.cnt;
 #endif
 }
 
@@ -141,7 +141,7 @@ uint64_t
 riscv_rtclock_read_cmp(void)
 {
 #if __riscv_xlen == 32
-  return ((uint64_t) dcb.rtclock.cmph << 32) | dcb.rtclock.cmpl;
+  return ((uint64_t) rtclock.cmph << 32) | rtclock.cmpl;
 #else
   return dcb.rtclock.cmp;
 #endif
@@ -152,13 +152,13 @@ riscv_rtclock_write_cmp(uint64_t value)
 {
 #if __riscv_xlen == 32
   // Write low as max; no smaller than old value.
-  dcb.rtclock.cmpl = (uint32_t) UINT_MAX;
+  rtclock.cmpl = (uint32_t) UINT_MAX;
   // Write high; no smaller than old value.
-  dcb.rtclock.cmph = ((uint32_t) (value >> 32));
+  rtclock.cmph = ((uint32_t) (value >> 32));
   // Write low as new value.
-  dcb.rtclock.cmpl = ((uint32_t) value);
+  rtclock.cmpl = ((uint32_t) value);
 #else
-  dcb.rtclock.cmp = value;
+  rtclock.cmp = value;
 #endif
 }
 ```
