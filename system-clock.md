@@ -58,7 +58,7 @@ RV32 devices
 
 ## The clock counter register
 
-The system clock time point register is a 64-bit counter, common on all RV32 and RV64 devices.
+The system clock time point register is a 64-bits counter, common on all RV32 and RV64 devices.
 
 To guarantee the steadiness characteristic of the clock, the register is read-only. 
 (TODO: define the bit/mechanism that starts it)
