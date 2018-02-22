@@ -11,12 +11,12 @@ The HIC supports the following features:
 - HIC interrupts can be enabled and disabled by writing to their corresponding `set.enabled` or 
 `clear.enabled` bit fields, using a write-1-to-enable and write-1-to-clear policy.
 
-When an interrupt is disabled, interrupt assertion causes the interrupt to become pending, but the interrupt 
+  When an interrupt is disabled, interrupt assertion causes the interrupt to become pending, but the interrupt 
 cannot become active. If an interrupt is active when it is disabled, it remains in the active state until 
 this is cleared by a reset or an exception return. Clearing the enable bit prevents any new activation of 
 the associated interrupt.
 
-An implementation can hard-wire interrupt enable bits to zero if the associated interrupt line does not 
+  An implementation can hard-wire interrupt enable bits to zero if the associated interrupt line does not 
 exist, or hard-wired them to one if the associated interrupt line cannot be disabled.
 
 - the pending state of HIC interrupts can set or removed by software using 
@@ -24,13 +24,14 @@ the `set.pending` and `clear.pending` bit fields. The registers use a write-1-to
 write-1-to-clear policy. Writing 1 to a bit in the `clear.pending` bit field has no effect on the 
 execution status of an active interrupt.
 
-It is implementation specific for each interrupt line supported, whether an interrupt supports either or both 
+  It is implementation specific for each interrupt line supported, whether an interrupt supports either or both 
 setting and clearing of the associated pending state under software control.
 
 - status bits are provided to allow software to determine whether an interrupt is active, pending, or enabled.
 - HIC interrupts are prioritized by updating an 8-bit field. Priorities are maintained according to the RISC-V 
 prioritization scheme
 
+## Memory map
 
 | Name | Offset | Width | Type | Description |
 |:-----|:-------|:------|:-----|-------------|
@@ -41,9 +42,9 @@ prioritization scheme
 
 ## Interrupts table address (irqtab)
 
-The address of the interrupts dispatch table. The table is an array of addresses (xlen size elements) pointing to interrupt handlers.
+The address of the interrupts dispatch table. The table is an array of addresses (xlen size elements) pointing to interrupt handlers (C/C++ functions).
 
-If not set and an interrupt occurs, an exception will be triggered.
+If not set and an interrupt occurs, an exception is triggered (TODO: what exception?).
 
 ## Interrupts priority threshold register (prio)
 
@@ -62,7 +63,8 @@ pending
 * active: interrupts can either be in an active (being served) or inactive state
 * prio: interrupt priority
 
-To store and control these attributes, each interrupt has a per-hart 32-bits register with the following fields:
+To store and control these attributes, each interrupt has a per-hart 32-bits status and 
+control register with the following fields:
 
 
 | Bits | Name | Type | Description |
