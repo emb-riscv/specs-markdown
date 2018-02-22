@@ -17,9 +17,9 @@ specific (typically flash)
 Multi-hart devices can share certain memory areas (code or data), but can also have hart-specific 
 memory areas, or both shared and specific areas.
 
-## The system control area
+## The system control areas
 
-The system control area is a pair of memory-mapped address spaces, one providing control and status registers common for the entire 
+The system control areas are implemented as a pair of memory-mapped address spaces, one providing control and status registers common for the entire 
 device, and one providing control and status registers for the current hart:
 
 | Base | Top | Name | Description |
