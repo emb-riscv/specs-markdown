@@ -99,6 +99,8 @@ RV32 devices exposes separate high/low 32-bits registers.
 
 ## Usage
 
+The memory mapped registers are available via a set of structures, directly available in C/C++.
+
 RV64 devices:
 
 - `dcb.sysclock.ctrl`
