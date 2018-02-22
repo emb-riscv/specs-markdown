@@ -18,7 +18,7 @@ When the processor is halted in Debug state, the counter is not incremented.
 
 The Device System Clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V 
 privileged specs, but it differs by counting a higher frequency input, running only when 
-the device is powered and halting during debug.
+the device is powered and not counting during debug.
 
 ## Power domain
 
@@ -70,7 +70,7 @@ RV32 devices
 
 Controls the system clock timer and provides status data.
 
-By default, the system clock starts disabled; software must enable it duirn startup.
+By default, the system clock starts disabled; software must enable it during startup.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
