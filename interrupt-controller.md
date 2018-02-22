@@ -81,7 +81,7 @@ control register with the following fields:
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
 | [7-0] | `prio` | rw | If non zero, the interrupt priority. |
-| [15-8] | `status`| r | Status bits |
+| [15-8] | `status`| r | Status bits. |
 | [23-16] | `set` | 1s | Set bits. |
 | [31-24] | `clear` | 1c | Clear bits. |
 
@@ -94,6 +94,8 @@ The `status` bits:
 | [2] | `active` | r | Active status bit; 1 if the interupt is active. | 
 | [7-3] ||| Reserved |
 
+Writing the status bits is ineffective.
+
 The `set` bits:
 
 | Bits | Name | Type | Description |
@@ -102,6 +104,8 @@ The `set` bits:
 | [1] | `pending` | 1s | When 1 is written, the `pending` status bit is set. |
 | [7-2] ||| Reserved |
 
+Reading the `set` bits always returns 0.
+
 The `clear` bits:
 
 | Bits | Name | Type | Description |
@@ -109,6 +113,10 @@ The `clear` bits:
 | [0] | `enabled` | 1s | When 1 is written, the `enabled` status bit is cleared. |
 | [1] | `pending` | 1s | When 1 is written, the `pending` status bit is cleared. |
 | [7-2] ||| Reserved |
+
+Reading the `clear` bits always returns 0.
+
+The Interrupt control registers must be accessible at byte level.
 
 > <sup>The alternative to packing all status and control bits related to an interrupt 
   in a word would be to have separate multi-word fields with status, enable, disable,
