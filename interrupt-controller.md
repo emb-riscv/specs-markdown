@@ -47,6 +47,8 @@ prioritization scheme
 | prio | 0x0010 | 32b | rw | Interrupt priority threshold. |
 | interrupts[] | 0x1000 | 32b * N | rw | Array of interrupt control registers. |
 
+The number of interrupts (N) is implementation specific, but no higher than 1024, including the system interrupts.
+
 Total size: 0x2000.
 
 ## Interrupts table address (irqtab)
