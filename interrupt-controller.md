@@ -68,11 +68,11 @@ If not set and an interrupt occurs, an exception is triggered (TODO: what except
 
 Each interrupt has a small per-hart set of status and configuration attributes:
 
-* enabled: interrupts can either be disabled (default) or enabled 
-* pending: interrupts can either be pending (a request is waiting to be served) or not
+* `enabled`: interrupts can either be disabled (default) or enabled 
+* `pending`: interrupts can either be pending (a request is waiting to be served) or not
 pending
-* active: interrupts can either be in an active (being served) or inactive state
-* prio: interrupt priority
+* `active`: interrupts can either be in an active (being served) or inactive state
+* `prio`: interrupt priority
 
 To store and control these attributes, each interrupt has a per-hart 32-bits status and 
 control register with the following fields:
