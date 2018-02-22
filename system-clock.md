@@ -68,6 +68,10 @@ RV32 devices
 
 ## The clock control and status register
 
+Controls the system clock timer and provides status data.
+
+By default, the system clock starts disabled; software must enable it duirn startup.
+
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | `enable` | rw | 0b0 | Indicates the enabled status of the system clock counter: <br> 0 - Counter is disabled (default). <br> 1 - Counter is enabled. |
@@ -89,7 +93,7 @@ In addition to keeping track of time, the system clock can also be used to trigg
 interrupts at specific time points, either for periodic events (like driving 
 pre-emption in a RTOS scheduler) or to trigger timeout events.
 
-The comparator register causes a system clock interrupt to be posted when the 
+The comparator register causes a `sysclock_cmp` interrupt to be posted when the 
 counter register 
 contains a value greater than or equal to the value in the comparator register.
 The interrupt remains posted until it is cleared by writing to the comparator register.
