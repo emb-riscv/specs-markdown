@@ -22,14 +22,14 @@ memory areas, or both shared and specific areas.
 There are two control blocks, one providing control and status registers common for the entire 
 device, and one providing control and status registers for the current hart:
 
-| Base | Top | Description |
-|:-----|:----|-------------|
-| 0xF000'0000 | 0xF000'XXXX | The Device Control Block (`dcb`). |
-| 0xF0XX'XXXX | 0xF0XX'XXXX | The Device System Clock (`sysclock`). |
-| 0xF0XX'XXXX | 0xF0XX'XXXX | The Device Real-Time Clock (`rtclock`). |
-| 0xF0XX'XXXX | 0xF0XX'XXXX | The Device Watchdog Timer (`wdog`). |
-| 0xF100'0000 | 0xF100'0FFF | The Hart Control Block (`hcb`). |
-| 0xF100'2000 | 0xF100'3FFF | The Hart Interrupt Controller (`hic`). |
+| Base | Top | Name | Description |
+|:-----|:----|:-----|-------------|
+| 0xF000'0000 | 0xF000'XXXX | `dcb` | The Device Control Block. |
+| 0xF0XX'XXXX | 0xF0XX'XXXX | `sysclock` | The Device System Clock. |
+| 0xF0XX'XXXX | 0xF0XX'XXXX | `rtclock` | The Device Real-Time Clock. |
+| 0xF0XX'XXXX | 0xF0XX'XXXX | `wdog` | The Device Watchdog Timer. |
+| 0xF100'0000 | 0xF100'0FFF | `hcb` | The Hart Control Block. |
+| 0xF100'2000 | 0xF100'3FFF | `hic` | The Hart Interrupt Controller. |
 
 Each hart has its own separate control block; all HCBs map to the same address, the internal 
 logic being able to distinguish between them based on the ID of the hart requesting access;
