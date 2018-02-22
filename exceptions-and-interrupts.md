@@ -95,8 +95,8 @@ The address of the array must be programatically written by each hart to its `hi
 The first 8 entries are reserved for system interrupts:
 
 * `context_switch` (must have the lowest priority)
-* `rtclock_tick`
-* `sysclock_tick`
+* `rtclock_cmp`
+* `sysclock_cmp`
 
 
 
