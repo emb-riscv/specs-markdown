@@ -12,7 +12,9 @@ The DCB includes system registers that are common to the entire device and are n
 
 ## Hart status and control
 
-These registers allow one hart to pend interrupts to any other hart, and possibly to handle the priority thresholds, to handle synchronization issues ike priority inversion.
+These registers allow one hart to pend interrupts to any other hart, and possibly to handle the priority thresholds, to handle synchronization issues like priority inversion.
+
+> <sup>Use case must be further investigated.</sup>
 
 | Offset | Name | Width | Type | Description | 
 |:-------|:-----|:------|:-----|-------------|
