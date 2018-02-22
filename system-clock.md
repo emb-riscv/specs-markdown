@@ -112,3 +112,50 @@ RV32 devices:
 - `dcb.sysclock.cnth`
 - `dcb.sysclock.cmpl`
 - `dcb.sysclock.cmph`
+
+```c
+uint64_t 
+riscv_sysclock_read_cnt(void)
+{
+#if __riscv_xlen == 32
+  // Atomic read. The loop is taken once in most cases. Only when the
+  // value carries to the high word, two loops are performed.
+  while (true)
+    {
+      uint32_t hi = dcb.sysclock.cnth;
+      uint32_t lo = dcb.sysclock.cntl;
+      if (hi == dcb.sysclock.cnth)
+        {
+          return ((uint64_t) hi << 32) | lo;
+        }
+    }
+#else
+  return dcb.sysclock.cnt;
+#endif
+}
+
+uint64_t 
+riscv_sysclock_read_cmp(void)
+{
+#if __riscv_xlen == 32
+  return ((uint64_t) dcb.sysclock.cmph << 32) | dcb.sysclock.cmpl;
+#else
+  return dcb.sysclock.cmp;
+#endif
+}
+
+void 
+riscv_sysclock_write_cmp(uint64_t value)
+{
+#if __riscv_xlen == 32
+  // Write low as max; no smaller than old value.
+  dcb.sysclock.cmpl = (uint32_t) UINT_MAX;
+  // Write high; no smaller than new value.
+  dcb.sysclock.cmph = ((uint32_t) (value >> 32));
+  // Write low as new value.
+  dcb.sysclock.cmpl = ((uint32_t) value);
+#else
+  dcb.sysclock.cmp = value;
+#endif
+}
+```
