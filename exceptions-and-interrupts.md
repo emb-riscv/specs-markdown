@@ -48,7 +48,7 @@ _'never interrupt'_ or _'disabled'_, and interrupt priorities increase with an i
 Interrupts with the same priority are processed in the order of their index in the interrupt 
 table, with a higher index meaning a higher priority.
 
-For multi-hart devices, the interrupt wiring to harts is device dependent, each interrupts 
+For multi-hart devices, the interrupt wiring to harts is implementation specific; each interrupt 
 may be wired to one or several harts; it is the responsibility 
 of each hart to enable the interrupts it desires to process. For redundant systems, it is also
 possible for multiple harts to process the same interrupt.
@@ -90,16 +90,14 @@ The interrupts table is an **array of pointers** to interrupt handlers, implemen
 
 Each hart has its own table, with handlers for the interrupts it can process.
 
-The address of the array must be programatically written by each hart to its `hcb.irqtab` register before enabling interrupts, usually during startup.
+The address of the array must be programatically written by each hart to its `hic.irqtab` register before enabling interrupts, usually during startup.
 
 The first 8 entries are reserved for system interrupts:
 
 * `context_switch` (must have the lowest priority)
-* `rtclock_wakeup`
 * `rtclock_tick`
 * `sysclock_tick`
 
-### Interrupt control registers
 
 
 
