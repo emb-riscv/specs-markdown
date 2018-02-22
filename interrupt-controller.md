@@ -82,8 +82,8 @@ control register with the following fields:
 |:-----|:-----|:-----|-------------|
 | [7-0] | `prio` | rw | If non zero, the interrupt priority. |
 | [15-8] | `status`| r | Status bits. |
-| [23-16] | `set` | 1s | Set bits. |
-| [31-24] | `clear` | 1c | Clear bits. |
+| [23-16] | `set` | w1s | Set bits. |
+| [31-24] | `clear` | w1c | Clear bits. |
 
 The `status` bits:
 
@@ -100,8 +100,8 @@ The `set` bits:
 
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
-| [0] | `enabled` | 1s | When 1 is written, the `enabled` status bit is set. |
-| [1] | `pending` | 1s | When 1 is written, the `pending` status bit is set. |
+| [0] | `enabled` | w1s | When 1 is written, the `enabled` status bit is set. |
+| [1] | `pending` | w1s | When 1 is written, the `pending` status bit is set. |
 | [7-2] ||| Reserved |
 
 Reading the `set` bits always returns 0.
@@ -110,8 +110,8 @@ The `clear` bits:
 
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
-| [0] | `enabled` | 1s | When 1 is written, the `enabled` status bit is cleared. |
-| [1] | `pending` | 1s | When 1 is written, the `pending` status bit is cleared. |
+| [0] | `enabled` | w1c | When 1 is written, the `enabled` status bit is cleared. |
+| [1] | `pending` | w1c | When 1 is written, the `pending` status bit is cleared. |
 | [7-2] ||| Reserved |
 
 Reading the `clear` bits always returns 0.
