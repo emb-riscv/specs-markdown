@@ -33,6 +33,7 @@ device, and one providing control and status registers for the current hart:
 
 Each hart has its own separate control block; all HCBs map to the same address, the internal 
 logic being able to distinguish between them based on the ID of the hart requesting access;
-thus each hart can access only its own hart control block.
+thus each hart can access only its own hart control block. Same for the Hart Interrupt 
+Controller.
 
 (the addresses are preliminary, need more work to find a solution easy to decode)
