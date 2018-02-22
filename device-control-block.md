@@ -19,8 +19,8 @@ in the device. Single-hart devices return 0.
 ## Hart status and control
 
 For multi-hart devices, these registers allow one hart to pend interrupts to any other 
-hart, and possibly to handle the priority thresholds, to handle synchronization issues 
-like priority inversion.
+hart, and possibly to temporarily adjust the priority thresholds, to handle synchronization 
+issues like priority inversion.
 
 > <sup>Use case must be further investigated.</sup>
 
