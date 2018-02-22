@@ -1,6 +1,7 @@
 # The Device Control Bloc (`dcb`)
 
-The DCB includes system registers that are common to the entire device and are not specific to any given hart.
+The DCB includes system registers that are common to the entire device and are not 
+specific to any given hart.
 
 ## Memory map
 
@@ -12,11 +13,14 @@ The DCB includes system registers that are common to the entire device and are n
 
 ## ID of the last hart
 
-For multi-hart devices, reading this register returns the ID of the last hart. Single-hart devices return 0.
+For multi-hart devices, reading this register returns the ID of the last hart available 
+in the device. Single-hart devices return 0.
 
 ## Hart status and control
 
-For multi-hart devices, these registers allow one hart to pend interrupts to any other hart, and possibly to handle the priority thresholds, to handle synchronization issues like priority inversion.
+For multi-hart devices, these registers allow one hart to pend interrupts to any other 
+hart, and possibly to handle the priority thresholds, to handle synchronization issues 
+like priority inversion.
 
 > <sup>Use case must be further investigated.</sup>
 
@@ -31,15 +35,25 @@ For single-hart devices, this area is reserved.
 
 Total size: 256 bytes.
 
-The hart status and control area has one bit of state. To prevent inadvertent interrupt pendings, all writes to this area (`pendings[]` and `prio`) must be preceded by an unlock operation to the `key` register. The value (0x51F15000 + (Hart ID)) must be written to the `key` register to set the state bit before any write access to any other hart status and control register. The state bit is cleared at reset, and after any write to `pendings[]` or `prio` registers. The `prio` registers may be read without setting the `key`.
+The hart status and control area has one bit of state. To prevent inadvertent interrupt 
+pendings, all writes to this area (`pendings[]` and `prio`) must be preceded by an 
+unlock operation to the `key` register. The value (0x51F15000 + (Hart ID)) must be 
+written to the `key` register to set the state bit before any write access to any 
+other hart status and control register. The state bit is cleared at reset, and after 
+any write to `pendings[]` or `prio` registers. The `prio` registers may be read 
+without setting the `key`.
 
-The `pendings[]` array packs `pending` bits for 32 interrupts in each element. The pending bit for interrupt N is stored in bit (N mod 32) of word (N/32). When 1 is written, the corresponding `pending` status bit is set.
+The `pendings[]` array packs `pending` bits for 32 interrupts in each element. 
+The pending bit for interrupt N is stored in bit (N mod 32) of word (N/32). 
+When 1 is written, the corresponding `pending` status bit is set.
 
 ## RISC-V compatibility CSRs
 
-TODO: decide what to do with these registers; probably some of them should be added to `dcb`.
+TODO: decide what to do with these registers; probably some of them should be 
+added to `dcb`.
 
-The RISC-V Volume I, Chapter 2.8, mandates for the `rdtime` instruction. This can be retrieved from `dcb.rtclock.counter`.
+The RISC-V Volume I, Chapter 2.8, mandates for the `rdtime` instruction. This can be 
+retrieved from `dcb.rtclock.counter`.
 
 Other RISC-V registers from RISC-V Volume II:
 
