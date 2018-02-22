@@ -12,11 +12,11 @@ The **Device System Clock** is also intended as:
 measure time and to drive pre-emptive context switches
 - a variable rate alarm or signal timer to handle timeouts and alarms
 
-All harts in a RISC-V device share the same Device System Clock instance.
+All harts in a RISC-V device share the same system clock instance.
 
-When the processor is halted in Debug state, the counter is not incremented.
+When the processor is halted in Debug state, the clock counter is not incremented.
 
-The Device System Clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V 
+The system clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V 
 privileged specs, but it differs by counting a higher frequency input, running only when 
 the device is powered and not counting during debug.
 
