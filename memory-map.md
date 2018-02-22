@@ -17,9 +17,9 @@ specific (typically flash)
 Multi-hart devices can share certain memory areas (code or data), but can also have hart-specific 
 memory areas, or both shared and specific areas.
 
-## The system control blocks
+## The system control area
 
-There are two control blocks, one providing control and status registers common for the entire 
+The system control area is a pair of memory-mapped address spaces, one providing control and status registers common for the entire 
 device, and one providing control and status registers for the current hart:
 
 | Base | Top | Name | Description |
@@ -28,12 +28,14 @@ device, and one providing control and status registers for the current hart:
 | 0xF0XX'XXXX | 0xF0XX'XXXX | `sysclock` | The Device System Clock. |
 | 0xF0XX'XXXX | 0xF0XX'XXXX | `rtclock` | The Device Real-Time Clock. |
 | 0xF0XX'XXXX | 0xF0XX'XXXX | `wdog` | The Device Watchdog Timer. |
+| | | | |
 | 0xF100'0000 | 0xF100'0FFF | `hcb` | The Hart Control Block. |
 | 0xF100'2000 | 0xF100'3FFF | `hic` | The Hart Interrupt Controller. |
 
 Each hart has its own separate control block; all HCBs map to the same address, the internal 
 logic being able to distinguish between them based on the ID of the hart requesting access;
-thus each hart can access only its own hart control block. Same for the Hart Interrupt 
-Controller.
+thus each hart can access only its own hart control block. 
+
+Same for the Hart Interrupt Controller.
 
 (the addresses are preliminary, need more work to find a solution easy to decode)
