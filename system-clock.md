@@ -51,17 +51,17 @@ RV64 devices
 
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
-| 0x0000 | `ctrl` | 32b | rw | 0x0000003 | Control and status register. |
-| 0x0008 | `cnt` | 64b | ro | 0x0000000'00000000 | System clock timer counter. |
+| 0x0000 | `ctrl` | 32b | rw | 0x00000003 | Control and status register. |
+| 0x0008 | `cnt` | 64b | ro | 0x00000000'00000000 | System clock timer counter. |
 | 0x0010 | `cmp` | 64b | rw | Undefined | System clock timer comparator. |
 
 RV32 devices
 
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
-| 0x0000 | `ctrl` | 32b | rw | 0x0000003 | Control and status register. |
-| 0x0008 | `cntl` | 32b | ro | 0x0000000 | Low word of system clock timer counter. |
-| 0x000C | `cnth` | 32b | ro | 0x0000000 | High word of system clock timer counter. |
+| 0x0000 | `ctrl` | 32b | rw | 0x00000003 | Control and status register. |
+| 0x0008 | `cntl` | 32b | ro | 0x00000000 | Low word of system clock timer counter. |
+| 0x000C | `cnth` | 32b | ro | 0x00000000 | High word of system clock timer counter. |
 | 0x0010 | `cmpl` | 32b | rw | Undefined | Low word of system clock timer comparator. |
 | 0x0014 | `cmph` | 32b | rw | Undefined | High word of system clock timer comparator. |
 
