@@ -19,11 +19,16 @@ memory areas, or both shared and specific areas.
 
 ## The system control blocks
 
-There are two control blocks, one providing control and status registers common for the entire device, and one providing control and status registers for the current hart:
+There are two control blocks, one providing control and status registers common for the entire 
+device, and one providing control and status registers for the current hart:
 
 | Base | Top | Description |
 |:-----|:----|-------------|
 | 0xF000'0000 | 0xF000'XXXX | the Device Control Block (DCB) |
 | 0xF100'0000 | 0xF100'XXXX | the Hart Control Block (DCB) |
 
-(preliminary, may be moved to higher addresses)
+Each hart has its own separate control block; all HCBs map to the same address, the internal 
+logic being able to distinguish between them based on the ID of the hart requesting access;
+thus each hart can access only its own hart control block.
+
+(the addresses are preliminary, need more work to find a solution easy to decode)
