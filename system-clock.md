@@ -52,8 +52,8 @@ RV32 devices
 
 | Bits | Name | Type | Description |
 |:-----|:-----|:-----|-------------|
-| [0] | `enable` | rw | Indicates the enabled status of the system clock counter. |
-| [2-1] | `source` | rw | Indicates the clock source. |
+| [0] | `enable` | rw | Indicates the enabled status of the system clock counter. <br> 0 - Counter is disabled. <br> 1 - Counter is enabled. |
+| [2-1] | `source` | rw | Indicates the clock source. <br> 0b00 - Implementation specific external reference clock <br> 0b01 - Reserved <br> 0b10 - High frequency clock input <br> 0b11 - Core clock |
 | [31-3] ||| Reserved. |
 
 ## The clock counter register
