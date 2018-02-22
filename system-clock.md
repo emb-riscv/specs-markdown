@@ -14,10 +14,11 @@ measure time and to drive pre-emptive context switches
 
 All harts in a RISC-V device share the same Device System Clock instance.
 
-The Device System Clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V 
-privileged specs, but it counts a higher frequency input.
-
 When the processor is halted in Debug state, the counter is not incremented.
+
+The Device System Clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V 
+privileged specs, but it differs by counting a higher frequency input, running only when 
+the device is powered and halting during debug.
 
 ## Power domain
 
