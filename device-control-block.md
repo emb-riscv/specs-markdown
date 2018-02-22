@@ -24,13 +24,16 @@ For single-hart devices, this area is reserved.
 
 | Offset | Name | Width | Type | Description | 
 |:-------|:-----|:------|:-----|-------------|
-| 0x0000 | pendings[] | 32b x 32 | w1s | Hart interrupt pending bits. |
+| 0x0000 | `pendings[]` | 32b x 32 | w1s | Hart interrupt pending bits. |
 | 0x0080 |  |  |  | Reserved. |
-| 0x00FC | prio | 32b | rw | Hart priority threshold. |
+| 0x00F8 | `prio` | 32b | rw | Hart priority threshold. |
+| 0x00FC | `key` | 32b | w | Access key. |
 
 Total size: 256 bytes.
 
-TODO: Possibly protect writes using a key register.
+The hart status and control area has one bit of state. To prevent inadvertent interrupt pendings, all writes to this area (`pendings[]` and `prio`) must be preceded by an unlock operation to the `key` register. The value (0x51F15000 + (Hart ID)) must be written to the `key` register to set the state bit before any write access to any other hart status and control register. The state bit is cleared at reset, and after any write to `pendings[]` or `prio` registers. The `prio` registers may be read without setting the `key`.
+
+The `pendings[]` array packs `pending` bits for 32 interrupts in each element. The pending bit for interrupt N is stored in bit (N mod 32) of word (N/32). When 1 is written, the corresponding `pending` status bit is set.
 
 ## RISC-V compatibility CSRs
 
