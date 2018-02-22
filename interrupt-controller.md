@@ -1,8 +1,15 @@
 # The Hart Interrupt Controller (HIC)
 
-The RISC-V microcontroller profile provides a nested vectored interrupt controller as part of the common specifications.
+The RISC-V microcontroller profile provides a nested vectored interrupt controller as part of 
+the common specifications.
 
-Each hart may be able to process its own set of interrupts, independent from the other harts.
+Each hart may be able to process its own set of interrupts, independent from the other harts. 
+Only hart 0 is required to implement a HIC; additional interrupt controllers in all other 
+harts are optional and implementation specific.
+
+> <sup>Hart real-time devices may dedicate separate harts to process fast interrupts. At the limit,
+  it is possible to wire all interrupts to all harts, and decide in software which interrupts
+  are processed by each hart.</sup>
 
 ## Features
 
@@ -30,15 +37,17 @@ setting and clearing of the associated pending state under software control.
 - status bits are provided to allow software to determine whether an interrupt is active, pending, or enabled.
 - HIC interrupts are prioritized by updating an 8-bit field. Priorities are maintained according to the RISC-V 
 prioritization scheme
+- HIC supports a maximum 1024 interrupts.
 
 ## Memory map
 
 | Name | Offset | Width | Type | Description |
 |:-----|:-------|:------|:-----|-------------|
-| irqtab | 0xXXXX | xlen | rw | Address of the interrupts table. |
-| prio | 0xXXXX | 32b | rw | Interrupt priority threshold. |
-| interrupts[] | 0xXXXX | 32b * N | rw | Array of interrupt control registers. |
+| irqtab | 0x0000 | xlen | rw | Address of the interrupts table. |
+| prio | 0x0010 | 32b | rw | Interrupt priority threshold. |
+| interrupts[] | 0x1000 | 32b * N | rw | Array of interrupt control registers. |
 
+Total size: 0x2000.
 
 ## Interrupts table address (irqtab)
 
@@ -99,6 +108,11 @@ The `clear` bits:
 | [1] | `pending` | 1s | When 1 is written, the `pending` status bit is cleared. |
 | [7-2] ||| Reserved |
 
+> <sup>The alternative to packing all status and control bits related to an interrupt 
+  in a word would be to have separate multi-word fields with status, enable, disable,
+  set pending, clear pending, active bits. It was considered that the packed solution
+  is easier to use in software.</sup>
+  
 ### Usage
 
 Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by clearing the `enabled` bit. To be effective, interrupts must also have non-zero priorities.
