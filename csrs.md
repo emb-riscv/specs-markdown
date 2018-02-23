@@ -64,21 +64,24 @@ interrupt. Otherwise `mcause` is never written by the implementation.
 | [(xlen-2):10] | | | | Reserved. |
 | [(xlen-1)] | `interrupt` | rw | Unknown | 1 if interrupt, 0 if exception. |
 
-## Machine Trap Value (mtval) Register (`mtval`)
+## Machine Trap Value Register (`mtval`)
 
 The `mtval` register is an XLEN-bit read-write register. When an exception is taken,
 `mtval` is written with exception-specific information to assist software in handling the 
 exception. Otherwise, `mtval` is never written by the implementation, though it may be 
 explicitly written by software.
 
-## Machine Main Stack Pointer (mmsp)
+## Machine Main Stack Pointer (`mmsp`)
+
+The stack pointer used after reset. Interrupts ansd exceptions always use this stack
+to store the exception frame.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mmsp` | rw | startup | The main stack pointer. |
 
-## Machine Main Stack Pointer Limit (mmsplimit)
+## Machine Main Stack Pointer Limit (`mmsplimit`)
 
 The lowest address the main stack can descend.
 
@@ -87,14 +90,16 @@ The lowest address the main stack can descend.
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mmsplimit` | rw | startup | The main stack lower limit. |
 
-## Machine Thread Stack Pointer (mtsp)
+## Machine Thread Stack Pointer (`mtsp`)
+
+The stack pointer used by the application current thread.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mtsp` | rw | 0 | The thread stack pointer. |
 
-## Machine Thread Stack Pointer Limit (mtsplimit)
+## Machine Thread Stack Pointer Limit (`mtsplimit`)
 
 The lowest address the thread stack can descend.
 
