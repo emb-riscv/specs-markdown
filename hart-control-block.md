@@ -2,25 +2,43 @@
 
 For uniform access by software, each hart maps its own status registers to the same address in the memory space.
 
-## RISC-V compatibility registers
+## Memory Map
+
+### RV64 devices
+
+| Offset | Name | Width | Type | Reset | Description | 
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `excvta` | 64b | rw | 0x00000000'00000000 | Exceptions vector table address.  |
+| 0x0008 | | | | | Reserved.  |
+| 0x00F0 | `cyclecnt` | 64b | ro | 0x00000000'00000000 | Cycle count. |
+| 0x00F8 | `instcnt` | 64b | ro | 0x00000000'00000000 | Instructions count. |
+
+### RV32 devices
+
+| Offset | Name | Width | Type | Reset | Description | 
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `excvta` | 32b | rw | 0x00000000 | Exceptions vector table address.  |
+| 0x0008 | | | | | Reserved.  |
+| 0x00F0 | `cyclecntl` | 32b | ro | 0x00000000 | Low word of cycle count. |
+| 0x00F4 | `cyclecnth` | 32b | ro | 0x00000000 | High word of cycle count. |
+| 0x00F8 | `instcntl` | 32b | ro | 0x00000000 | Low word of instructions count. |
+| 0x00FC | `instcnth` | 32b | ro | 0x00000000 | High word of instructions count. |
+
+
+## RISC-V microcontroller specific registers
+
+- `hcb.msp`: main stack poiner (xlen)
+- `hcb.msplimit`: the lowest address the main stack can descend (xlen)
+- `hcb.tsp`: thread stack poiner (xlen)
+- `hcb.tsplimit`: the lowest address the thread stack can descend (xlen)
+
+## RISC-V compatibility CSRs
 
 These registers are mandated by the RISC-V Volume I, Chapter 2.8, for the `rdcycle` and `rdinstret` instructions.
 
-RV64 devices:
-
-- `hcb.cyclecnt`: cycle count for `rdcycle` (64-bits)
-- `hcb.instcnt`: instructions count for `rdinstret` (64-bits)
-
-RV32 devices:
-
-- `hcb.cyclecntl`: low word of cycle count for `rdcycle` (32-bits)
-- `hcb.cyclecnth`: high word of cycle count for `rdcycleh` (32-bits)
-- `hcb.instcntl`: low word of instructions count for `rdinstret` (32-bits)
-- `hcb.instcnth`: high word of instructions count for `rdinstreth` (32-bits)
-
 RV32/RV64 devices:
 
-- `hcb.hartid`: the current hart ID (32-bits)
+- `mhartid`: the current hart ID (32-bits)
 
 Other RISC-V registers from RISC-V Volume II, but not actively used:
 
@@ -34,16 +52,6 @@ Other RISC-V registers from RISC-V Volume II, but not actively used:
 - mip 
 - misa 
 
-## RISC-V microcontroller specific registers
-
-- `hcb.interrupts[]`: array of words with status for each interrupt (32-bits)
-- `hcb.exctab`: address of the exception table (xlen)
-- `hcb.irqtab`: address of the interrupt table (xlen)
-- `hcb.irqprio`: interrupt priority threshold (32-bits)
-- `hcb.msp`: main stack poiner (xlen)
-- `hcb.msplimit`: the lowest address the main stack can descend (xlen)
-- `hcb.tsp`: thread stack poiner (xlen)
-- `hcb.tsplimit`: the lowest address the thread stack can descend (xlen)
 
 TODO: 
 
