@@ -36,11 +36,11 @@ For single-hart devices, this area is reserved.
 Total size: 256 bytes.
 
 The hart status and control area has one bit of state. To prevent inadvertent interrupt 
-pendings, all writes to this area (`pendings[]` and `prio`) must be preceded by an 
+pendings, all writes to this area (`pendings[]` and `prioth`) must be preceded by an 
 unlock operation to the `key` register. The value (0x51F15000 + (Hart ID)) must be 
 written to the `key` register to set the state bit before any write access to any 
 other hart status and control register. The state bit is cleared at reset, and after 
-any write to `pendings[]` or `prio` registers. The `prio` registers may be read 
+any write to `pendings[]` or `prioth` registers. The `prioth` registers may be read 
 without setting the `key`.
 
 The `pendings[]` array packs `pending` bits for 32 interrupts in each element. 
