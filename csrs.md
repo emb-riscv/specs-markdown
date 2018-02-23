@@ -15,8 +15,8 @@ Currently in the RISC-V microcontroller profile there are no CSRs available in u
 
 The `mhartid` CSR is an XLEN-bit read-only register containing the integer ID of the 
 hardware thread running the code. This register must be readable in any implementation. 
-Hart IDs might not necessarily be numbered contiguously in a multiprocessor system, 
-but at least one hart must have a hart ID of zero.
+In a multi-hart device the hart IDs might not necessarily be numbered contiguously
+(althoug it is preferable), but at least one hart must have a hart ID of zero.
 
 The RISC-V microcontroller profile limits the thread ID to 1023.
 
