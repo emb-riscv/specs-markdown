@@ -1,18 +1,19 @@
-# The Device System Clock (DSC)
+# The Device System Clock (`sysclock`)
 
 ## Overview
 
-The **Device System Clock** is intended to support the implementation of the ISO/IEC 14882.2011 
+The **system clock** is intended to support the implementation of the ISO/IEC 14882.2011 
 `high_resolution_clock` (§ 20.11.7.3). Objects of class `high_resolution_clock` represent clocks 
 with the shortest tick period.
 
-The **Device System Clock** is also intended as:
+The system clock is also intended as:
 
 - the RTOS tick timer that fires periodically at a programable rate, for example 1000 Hz, to 
 measure time and to drive pre-emptive context switches
 - a variable rate alarm or signal timer to handle timeouts and alarms
 
-All harts in a RISC-V device share the same system clock instance.
+All harts in a RISC-V device share the same system clock counter, but each hart may have its  
+own comparator.
 
 When the processor is halted in Debug state, the clock counter is not incremented.
 
@@ -54,7 +55,12 @@ RV64 devices
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `ctrl` | 32b | rw | 0x00000003 | Control and status register. |
 | 0x0008 | `cnt` | 64b | ro | 0x00000000'00000000 | System clock timer counter. |
-| 0x0010 | `cmp` | 64b | rw | Undefined | System clock timer comparator. |
+
+Part of the Hart Control Block
+
+| Offset | Name | Width | Type | Reset | Description | 
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `cmp` | 64b | rw | Undefined | System clock timer comparator. |
 
 RV32 devices
 
@@ -63,8 +69,13 @@ RV32 devices
 | 0x0000 | `ctrl` | 32b | rw | 0x00000003 | Control and status register. |
 | 0x0008 | `cntl` | 32b | ro | 0x00000000 | Low word of system clock timer counter. |
 | 0x000C | `cnth` | 32b | ro | 0x00000000 | High word of system clock timer counter. |
-| 0x0010 | `cmpl` | 32b | rw | Undefined | Low word of system clock timer comparator. |
-| 0x0014 | `cmph` | 32b | rw | Undefined | High word of system clock timer comparator. |
+
+Part of the Hart Control Block
+
+| Offset | Name | Width | Type | Reset | Description | 
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `cmpl` | 32b | rw | Undefined | Low word of system clock timer comparator. |
+| 0x0004 | `cmph` | 32b | rw | Undefined | High word of system clock timer comparator. |
 
 ## The clock control and status register
 
@@ -98,6 +109,12 @@ counter register
 contains a value greater than or equal to the value in the comparator register.
 The interrupt remains posted until it is cleared by writing to the comparator register.
 
+The clock comparator register is part of the Hart Control Block.
+
+Only hart 0 is required to have a comparator. If any other harts also have comparators, 
+the `sysclock_cmp` interrupt is posted only to the local hart. For harts that do not have
+a comparator, this register always reads as 0 and writes are ignored.
+
 RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
 RV32 devices exposes separate high/low 32-bits registers.
 
@@ -109,15 +126,15 @@ RV64 devices:
 
 - `sysclock.ctrl`
 - `sysclock.cnt` 
-- `sysclock.cmp` 
+- `hcb.sysclock.cmp` 
 
 RV32 devices:
 
 - `sysclock.ctrl`
 - `sysclock.cntl`
 - `sysclock.cnth`
-- `sysclock.cmpl`
-- `sysclock.cmph`
+- `hcb.sysclock.cmpl`
+- `hcb.sysclock.cmph`
 
 ```c
 uint64_t 
@@ -144,9 +161,9 @@ uint64_t
 riscv_sysclock_read_cmp(void)
 {
 #if __riscv_xlen == 32
-  return ((uint64_t) sysclock.cmph << 32) | sysclock.cmpl;
+  return ((uint64_t) hcb.sysclock.cmph << 32) | hcb.sysclock.cmpl;
 #else
-  return sysclock.cmp;
+  return hcb.sysclock.cmp;
 #endif
 }
 
@@ -155,13 +172,13 @@ riscv_sysclock_write_cmp(uint64_t value)
 {
 #if __riscv_xlen == 32
   // Write low as max; no smaller than old value.
-  sysclock.cmpl = (uint32_t) UINT_MAX;
+  hcb.sysclock.cmpl = (uint32_t) UINT_MAX;
   // Write high; no smaller than old value.
-  sysclock.cmph = ((uint32_t) (value >> 32));
+  hcb.sysclock.cmph = ((uint32_t) (value >> 32));
   // Write low as new value.
-  sysclock.cmpl = ((uint32_t) value);
+  hcb.sysclock.cmpl = ((uint32_t) value);
 #else
-  sysclock.cmp = value;
+  hcb.sysclock.cmp = value;
 #endif
 }
 ```
