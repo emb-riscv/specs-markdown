@@ -30,7 +30,7 @@ For single-hart devices, this area is reserved.
 |:-------|:-----|:------|:-----|-------------|
 | 0x0000 | `pendings[]` | 32b x 32 | w1s | Hart interrupt pending bits. |
 | 0x0080 |  |  |  | Reserved. |
-| 0x00F8 | `prio` | 32b | rw | Hart priority threshold. |
+| 0x00F8 | `prioth` | 32b | rw | Hart priority threshold. |
 | 0x00FC | `key` | 32b | w | Access key. |
 
 Total size: 256 bytes.
