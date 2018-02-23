@@ -41,28 +41,28 @@ prioritization scheme
 
 ## Memory map
 
-| Offset | Name | Width | Type | Description |
-|:-------|:-----|:------|:-----|-------------|
-| 0x0000 | `irqtab` | xlen | rw | Address of the interrupts table. |
-| 0x0010 | `prio` | 32b | rw | Interrupt priority threshold. |
-| 0x1000 | `interrupts[]` | 32b * N | rw | Array of interrupt control registers. |
+| Offset | Name | Width | Type | Reset | Description |
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `intvta` | xlen | rw | 0x00000000 | Address of the interrupts vector table. |
+| 0x0010 | `prio` | 32b | rw | 0x00000000 | Interrupt priority threshold. |
+| 0x1000 | `interrupts[]` | 32b * N | rw | 0x00000000 | Array of interrupt control registers. |
 
 The number of interrupts (N) is implementation specific, but no higher than 1024, including the system interrupts.
 
 Total size: 0x2000.
 
-## Interrupts table address (irqtab)
+## Interrupts vector table address (intvta)
 
 The address of the interrupts dispatch table. The table is an array of addresses (xlen size elements) pointing to interrupt handlers (C/C++ functions).
 
-If not set and an interrupt occurs, an exception is triggered (TODO: what exception?).
+If not set (i.e. 0x0) and an interrupt occurs, an exception is triggered (TODO: what exception?).
 
 ## Interrupts priority threshold register (prio)
 
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [7-0] | `prio` | rw | The interrupt priority threshold. |
-| [31-8] ||| Reserved. |
+| Bits | Name | Type | Reset | Description |
+|:-----|:-----|:-----|:------|-------------|
+| [7-0] | `prio` | rw | 0x00 | The interrupt priority threshold. |
+| [31-8] |||| Reserved. |
 
 ## Interrupt control register
 
@@ -78,21 +78,21 @@ To store and control these attributes, each interrupt has a per-hart 32-bits sta
 control register with the following fields:
 
 
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [7-0] | `prio` | rw | If non zero, the interrupt priority. |
-| [15-8] | `status`| r | Status bits. |
-| [23-16] | `set` | w1s | Set bits. |
-| [31-24] | `clear` | w1c | Clear bits. |
+| Bits | Name | Type | Reset | Description |
+|:-----|:-----|:-----|:------|-------------|
+| [7-0] | `prio` | rw | 0x00 | If non zero, the interrupt priority. |
+| [15-8] | `status`| r | 0x00 | Status bits. |
+| [23-16] | `set` | w1s | 0x00 | Set bits. |
+| [31-24] | `clear` | w1c | 0x00 | Clear bits. |
 
 The `status` bits:
 
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [0] | `enabled` | r | Enabled status bit; 1 if the interupt is enabled. |
-| [1] | `pending` | r | Pending status bit; 1 if the interupt is pending. |
-| [2] | `active` | r | Active status bit; 1 if the interupt is active. | 
-| [7-3] ||| Reserved |
+| Bits | Name | Type | Reset | Description |
+|:-----|:-----|:-----|:------|-------------|
+| [0] | `enabled` | r | 0 | Enabled status bit; 1 if the interupt is enabled. |
+| [1] | `pending` | r | 0 | Pending status bit; 1 if the interupt is pending. |
+| [2] | `active` | r | 0 | Active status bit; 1 if the interupt is active. | 
+| [7-3] |||| Reserved |
 
 Writing the status bits is ineffective.
 
