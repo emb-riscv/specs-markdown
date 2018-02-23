@@ -61,8 +61,8 @@ If not set (i.e. 0x0) and an interrupt occurs, an exception is triggered (TODO: 
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [7-0] | `prioth` | rw | 0x00 | The interrupt priority threshold. |
-| [31-8] |||| Reserved. |
+| [7:0] | `prioth` | rw | 0x00 | The interrupt priority threshold. |
+| [31:8] |||| Reserved. |
 
 ## Interrupt control register
 
@@ -80,10 +80,10 @@ control register with the following fields:
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [7-0] | `prio` | rw | 0x00 | If non zero, the interrupt priority. |
-| [15-8] | `status`| r | 0x00 | Status bits. |
-| [23-16] | `set` | w1s | 0x00 | Set bits. |
-| [31-24] | `clear` | w1c | 0x00 | Clear bits. |
+| [7:0] | `prio` | rw | 0x00 | If non zero, the interrupt priority. |
+| [15:8] | `status`| r | 0x00 | Status bits. |
+| [23:16] | `set` | w1s | 0x00 | Set bits. |
+| [31:24] | `clear` | w1c | 0x00 | Clear bits. |
 
 TODO: check if a cheaper method of encoding the bits is possible, possibly avoiding byte cycles.
 
@@ -95,7 +95,7 @@ The `status` bits:
 | [0] | `enabled` | r | 0 | Enabled status bit; 1 if the interupt is enabled. |
 | [1] | `pending` | r | 0 | Pending status bit; 1 if the interupt is pending. |
 | [2] | `active` | r | 0 | Active status bit; 1 if the interupt is active. | 
-| [7-3] |||| Reserved |
+| [7:3] |||| Reserved |
 
 Writing the status bits is ineffective.
 
@@ -105,7 +105,7 @@ The `set` bits:
 |:-----|:-----|:-----|-------------|
 | [0] | `enabled` | w1s | When 1 is written, the `enabled` status bit is set. |
 | [1] | `pending` | w1s | When 1 is written, the `pending` status bit is set. |
-| [7-2] ||| Reserved |
+| [7:2] ||| Reserved |
 
 Reading the `set` bits always returns 0.
 
@@ -115,7 +115,7 @@ The `clear` bits:
 |:-----|:-----|:-----|-------------|
 | [0] | `enabled` | w1c | When 1 is written, the `enabled` status bit is cleared. |
 | [1] | `pending` | w1c | When 1 is written, the `pending` status bit is cleared. |
-| [7-2] ||| Reserved |
+| [7:2] ||| Reserved |
 
 Reading the `clear` bits always returns 0.
 
