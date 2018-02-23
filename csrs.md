@@ -81,6 +81,10 @@ to store the exception frame.
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mmsp` | rw | startup | The main stack pointer. |
 
+This register is specific to the RISC-V microcontroller profile.
+
+TODO: allocate a number for it.
+
 ## Machine Main Stack Pointer Limit (`mmsplimit`)
 
 The lowest address the main stack can descend.
@@ -89,6 +93,10 @@ The lowest address the main stack can descend.
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mmsplimit` | rw | startup | The main stack lower limit. |
+
+This register is specific to the RISC-V microcontroller profile.
+
+TODO: allocate a number for it.
 
 ## Machine Thread Stack Pointer (`mtsp`)
 
@@ -99,6 +107,10 @@ The stack pointer used by the application current thread.
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mtsp` | rw | 0 | The thread stack pointer. |
 
+This register is specific to the RISC-V microcontroller profile.
+
+TODO: allocate a number for it.
+
 ## Machine Thread Stack Pointer Limit (`mtsplimit`)
 
 The lowest address the thread stack can descend.
@@ -107,6 +119,10 @@ The lowest address the thread stack can descend.
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mtsplimit` | rw | 0 | The thread stack lower limit. |
+
+This register is specific to the RISC-V microcontroller profile.
+
+TODO: allocate a number for it.
 
 ## RISC-V compatibility CSRs
 
