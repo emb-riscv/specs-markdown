@@ -13,7 +13,7 @@ hardware thread running the code. This register must be readable in any implemen
 Hart IDs might not necessarily be numbered contiguously in a multiprocessor system, 
 but at least one hart must have a hart ID of zero.
 
-The microcontroller profile limits the thread ID to 1023.
+The RISC-V microcontroller profile limits the thread ID to 1023.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
