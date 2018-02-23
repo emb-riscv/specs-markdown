@@ -25,35 +25,4 @@ For uniform access by software, each hart maps its own status registers to the s
 | 0x00F8 | `instcntl` | 32b | ro | 0x00000000 | Low word of instructions count. |
 | 0x00FC | `instcnth` | 32b | ro | 0x00000000 | High word of instructions count. |
 
-
-## RISC-V microcontroller specific registers
-
-- `hcb.msp`: main stack poiner (xlen)
-- `hcb.msplimit`: the lowest address the main stack can descend (xlen)
-- `hcb.tsp`: thread stack poiner (xlen)
-- `hcb.tsplimit`: the lowest address the thread stack can descend (xlen)
-
-## RISC-V compatibility CSRs
-
-These registers are mandated by the RISC-V Volume I, Chapter 2.8, for the `rdcycle` and `rdinstret` instructions.
-
-RV32/RV64 devices:
-
-- `mhartid`: the current hart ID (32-bits)
-
-Other RISC-V registers from RISC-V Volume II, but not actively used:
-
-- mstatus 
-- mie 
-- mtvec 
-- mscratch 
-- mepc 
-- mcause 
-- mtval 
-- mip 
-- misa 
-
-
-TODO: 
-
-- add MPU registers
+TODO: add the `sysclock.cmp` here.
