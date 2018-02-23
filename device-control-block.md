@@ -47,6 +47,9 @@ The `pendings[]` array packs `pending` bits for 32 interrupts in each element.
 The pending bit for interrupt N is stored in bit (N mod 32) of word (N/32). 
 When 1 is written, the corresponding `pending` status bit is set.
 
+TODO: The key mechanism has sychronization problems in case multiple harts access it 
+simultaneously. Search for alternate solutions.
+
 TODO: check if it is cheaper to use a single register with a value representing the 
 number of the interrupt to pend, same as ARM STIR (Software Triggered Interrupt Register).
 
