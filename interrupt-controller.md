@@ -44,7 +44,7 @@ prioritization scheme
 | Offset | Name | Width | Type | Reset | Description |
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `intvta` | xlen | rw | 0x00000000 | Address of the interrupts vector table. |
-| 0x0010 | `prio` | 32b | rw | 0x00000000 | Interrupt priority threshold. |
+| 0x0010 | `prioth` | 32b | rw | 0x00000000 | Interrupt priority threshold. |
 | 0x1000 | `interrupts[]` | 32b * N | rw | 0x00000000 | Array of interrupt control registers. |
 
 The number of interrupts (N) is implementation specific, but no higher than 1024, including the system interrupts.
@@ -57,11 +57,11 @@ The address of the interrupts dispatch table. The table is an array of addresses
 
 If not set (i.e. 0x0) and an interrupt occurs, an exception is triggered (TODO: what exception?).
 
-## Interrupts priority threshold register (prio)
+## Interrupts priority threshold register (prioth)
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [7-0] | `prio` | rw | 0x00 | The interrupt priority threshold. |
+| [7-0] | `prioth` | rw | 0x00 | The interrupt priority threshold. |
 | [31-8] |||| Reserved. |
 
 ## Interrupt control register
@@ -84,6 +84,9 @@ control register with the following fields:
 | [15-8] | `status`| r | 0x00 | Status bits. |
 | [23-16] | `set` | w1s | 0x00 | Set bits. |
 | [31-24] | `clear` | w1c | 0x00 | Clear bits. |
+
+TODO: check if a cheaper method of encoding the bits is possible, possibly avoiding byte cycles.
+
 
 The `status` bits:
 
@@ -128,7 +131,7 @@ The Interrupt control registers must be accessible at byte level.
 Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by clearing the `enabled` bit. To be effective, interrupts must also have non-zero priorities.
 
 ```c
-hic.interrupts[7].prio = 0xC0; // A byte write cycle.
+hic.interrupts[7].prioth = 0xC0; // A byte write cycle.
 hic.interrupts[7].set = INTERRUPTS_SET_ENABLED; // A byte write cycle.
 
 hcb.interrupts[7].clear = INTERRUPTS_CLEAR_ENABLED; // A byte write cycle.
