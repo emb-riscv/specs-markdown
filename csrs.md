@@ -7,6 +7,10 @@ In the RISC-V microcontroller profile only a small number of core system registe
 are available via the `csr` instructions, the rest being available in the memory 
 mapped system area.
 
+Access to the `m` CSRs is limited to machine mode.
+
+Currently in the RISC-V microcontroller profile there are no CSRs available in user mode.
+
 ## Hart ID Register (`mhartid`)
 
 The `mhartid` CSR is an XLEN-bit read-only register containing the integer ID of the 
