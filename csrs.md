@@ -23,6 +23,9 @@ The RISC-V microcontroller profile limits the thread ID to 1023.
 
 ## Machine Status Register (`mstatus`)
 
+The `mstatus` CSR is an XLEN-bit read/write register that keeps 
+track of and controls the hart's current operating state
+
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [2:0] | | | | Reserved. |
@@ -31,7 +34,7 @@ The RISC-V microcontroller profile limits the thread ID to 1023.
 
 ## Machine Exception Program Counter (`mepc`)
 
-`mepc` is an XLEN-bit read/write register that holds the trap address. The low bit of 
+The `mepc` CSR is an XLEN-bit read/write register that holds the trap address. The low bit of 
 `mepc` (`mepc[0]`) is always zero. 
 
 | Bits | Name | Type | Reset | Description |
@@ -55,7 +58,7 @@ it is not needed, execution will resume to the address pushed onto the main stac
 
 ## Machine Cause Register (`mcause`)
 
-The `mcause` register is an XLEN-bit read-write register. When an exception or interrupt is
+The `mcause` CSR is an XLEN-bit read-write register. When an exception or interrupt is
 taken `mcause` is written with a code indicating the event that caused the exception or the
 interrupt. Otherwise `mcause` is never written by the implementation.
 
@@ -67,67 +70,71 @@ interrupt. Otherwise `mcause` is never written by the implementation.
 
 ## Machine Trap Value Register (`mtval`)
 
-The `mtval` register is an XLEN-bit read-write register. When an exception is taken,
+The `mtval` CSR is an XLEN-bit read-write register. When an exception is taken,
 `mtval` is written with exception-specific information to assist software in handling the 
 exception. Otherwise, `mtval` is never written by the implementation, though it may be 
 explicitly written by software.
 
 ## Machine Main Stack Pointer (`mmsp`)
 
-The stack pointer used after reset. Interrupts ansd exceptions always use this stack
-to store the exception frame.
+The `mmsp` CSR is an XLEN-bit read-write register that holds the main stack pointer. 
+It is always the default stack pointer after reset. Interrupts ansd exceptions always 
+use this stack to store the exception frame.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mmsp` | rw | startup | The main stack pointer. |
 
-This register is specific to the RISC-V microcontroller profile.
+This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
 ## Machine Main Stack Pointer Limit (`mmsplimit`)
 
-The lowest address the main stack can descend.
+The `mmsplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
+the main stack can descend.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mmsplimit` | rw | startup | The main stack lower limit. |
 
-This register is specific to the RISC-V microcontroller profile.
+This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
 ## Machine Thread Stack Pointer (`mtsp`)
 
-The stack pointer used by the application current thread.
+The `mtsp` CSR is an XLEN-bit read-write register that holds the stack pointer used 
+by the application current thread.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mtsp` | rw | 0 | The thread stack pointer. |
 
-This register is specific to the RISC-V microcontroller profile.
+This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
 ## Machine Thread Stack Pointer Limit (`mtsplimit`)
 
-The lowest address the thread stack can descend.
+The `mtsplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
+the thread stack can descend.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mtsplimit` | rw | 0 | The thread stack lower limit. |
 
-This register is specific to the RISC-V microcontroller profile.
+This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
 ## RISC-V compatibility CSRs
 
-These registers are mandated by the RISC-V Volume I, Chapter 2.8, for the `rdcycle` and `rdinstret` instructions.
+These CSRs are mandated by the RISC-V Volume I, Chapter 2.8, for the `rdcycle` and `rdinstret` instructions.
 
 - cycle: available as `hcb.cyclecnt`
 - instret: available as `hcb.instcnt`
