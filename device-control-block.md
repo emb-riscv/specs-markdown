@@ -47,6 +47,9 @@ The `pendings[]` array packs `pending` bits for 32 interrupts in each element.
 The pending bit for interrupt N is stored in bit (N mod 32) of word (N/32). 
 When 1 is written, the corresponding `pending` status bit is set.
 
+TODO: check if it is cheaper to use a single register with a value representing the 
+number of the interrupt to pend, same as ARM STIR (Software Triggered Interrupt Register).
+
 ## RISC-V compatibility CSRs
 
 TODO: decide what to do with these registers; probably some of them should be 
