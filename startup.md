@@ -95,7 +95,7 @@ start_hart(int hid)
   hart[hid].x1 = 0;
   // ...
   // Store the exception pointer in the hart specific register.
-  hart[hid].excptr = *(addr + word_size * 3);
+  hart[hid].excvta = *(addr + word_size * 3);
   
   // Load global pointer.
   hart[hid].gp = *(addr + word_size * 2);
