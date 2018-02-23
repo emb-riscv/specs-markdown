@@ -44,7 +44,7 @@ document the relationship between the processor clock and the external reference
 > <sup>Low-power devices might need to vary the core frequency by changing implementation 
   specific clock registers (like PLL registers). In this case the system clock software 
   must be notified to use the same input frequency. Alternately, the system clock may 
-  be configured to use the fixed high frequency clock reference (like the quarz 
+  be configured to use the high frequency clock reference (like the quarz 
   oscillator), assumed to have a fixed frequency. </sup>
 
 ## Memory map
