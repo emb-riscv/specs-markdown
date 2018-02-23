@@ -4,7 +4,8 @@ The RISC-V ISA defines a set of 4096 Control and Status Registers that can be ac
 via special `csr` instructions with immediate operands identifying the register.
 
 In the RISC-V microcontroller profile only a small number of core system registers 
-are accessible via the `csr` instructions, the rest being memory mapped.
+are available via the `csr` instructions, the rest being available in the memory 
+mapped system area.
 
 ## Hart ID Register (`mhartid`)
 
