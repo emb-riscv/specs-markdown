@@ -16,6 +16,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Memory Map](memory-map.md)
 * [The Startup Process](startup.md)
 * [Exceptions and Interrupts](exceptions-and-interrupts.md)
+* [Control and Status Registers (CSRs)](csrs.md)
 * [Hart Control Block (`hcb`)](hart-control-block.md)
 * [Hart Interrupt Controller (`hic`)](interrupt-controller.md)
 * [Device Control Block (`dcb`)](device-control-block.md)
