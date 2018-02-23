@@ -49,7 +49,7 @@ document the relationship between the processor clock and the external reference
 
 ## Memory map
 
-RV64 devices
+### RV64 devices
 
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
@@ -62,7 +62,7 @@ Part of the Hart Control Block
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `cmp` | 64b | rw | Undefined | System clock timer comparator. |
 
-RV32 devices
+### RV32 devices
 
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
