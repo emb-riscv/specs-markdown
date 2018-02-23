@@ -5,11 +5,11 @@ specific to any given hart.
 
 ## Memory map
 
-| Offset | Name | Width | Type | Description | 
-|:-------|:-----|:------|:-----|-------------|
-| 0x0000 | hartidlast | 32b | ro | The ID of the last hart in the device. |
-| 0x0004 | | | | Reserved. |
-| 0x0100 | harts[] | 256B x N | | Array of hart status and control. |
+| Offset | Name | Width | Type | Reset | Description | 
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | hartidlast | 32b | ro | 0x00000NNN | The ID of the last hart in the device. |
+| 0x0004 | | | | | Reserved. |
+| 0x0100 | harts[] | 256B x N | | | Array of hart status and control. |
 
 ## ID of the last hart
 
@@ -26,12 +26,12 @@ issues like priority inversion.
 
 For single-hart devices, this area is reserved.
 
-| Offset | Name | Width | Type | Description | 
-|:-------|:-----|:------|:-----|-------------|
-| 0x0000 | `pendings[]` | 32b x 32 | w1s | Hart interrupt pending bits. |
-| 0x0080 |  |  |  | Reserved. |
-| 0x00F8 | `prioth` | 32b | rw | Hart priority threshold. |
-| 0x00FC | `key` | 32b | w | Access key. |
+| Offset | Name | Width | Type | Reset | Description | 
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `pendings[]` | 32b x 32 | w1s | 0x00000000 | Hart interrupt pending bits. |
+| 0x0080 | | | | | Reserved. |
+| 0x00F8 | `prioth` | 32b | rw | 0x00000000 | Hart priority threshold. |
+| 0x00FC | `key` | 32b | w | 0x00000000 | Access key. |
 
 Total size: 256 bytes.
 
