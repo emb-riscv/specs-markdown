@@ -91,7 +91,7 @@ TODO: allocate a number for it.
 ## Main Stack Pointer (`msp`)
 
 The `msp` CSR is an XLEN-bit read-write register that holds the main stack pointer. 
-It is always the default stack pointer after reset. Interrupts ansd exceptions always 
+It is always the default stack pointer after reset. Interrupts and exceptions always 
 use this stack to store the exception frame.
 
 | Bits | Name | Type | Reset | Description |
@@ -124,7 +124,8 @@ TODO: allocate a number for it.
 The `tsp` CSR is an XLEN-bit read-write register that holds the stack pointer used 
 by the application current thread.
 
-It is a CSR because access to the stack pointer may occur in context switching routines.
+It is a CSR because access to the stack pointer may occur in context switching 
+routines and needs to be fast.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
@@ -140,7 +141,8 @@ TODO: allocate a number for it.
 The `tsplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
 the thread stack can descend.
 
-It is a CSR because access to the stack pointer limit may occur in context switching routines.
+It is a CSR because access to the stack pointer limit may occur in context switching 
+routines and needs to be fast.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
