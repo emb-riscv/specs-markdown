@@ -9,7 +9,7 @@ For uniform access by software, each hart maps its own status registers to the s
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `excvta` | 64b | rw | 0x00000000'00000000 | Exceptions vector table address.  |
-| 0x0008 | `hartid` | 64b | ro | | The current hart ID.  |
+| 0x0008 | `intvta` | 64b | rw | 0x00000000'00000000 | Interrupts vector table address.  |
 | 0x0010 | | | | | Reserved.  |
 | 0x00F0 | `cyclecnt` | 64b | ro | 0x00000000'00000000 | Cycle count. |
 | 0x00F8 | `instcnt` | 64b | ro | 0x00000000'00000000 | Instructions count. |
@@ -20,7 +20,7 @@ For uniform access by software, each hart maps its own status registers to the s
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `excvta` | 32b | rw | 0x00000000 | Exceptions vector table address.  |
 | 0x0004 | | | | | Reserved.  |
-| 0x0008 | `hartid` | 32b | ro | | The current hart ID.  |
+| 0x0008 | `excvta` | 32b | rw | 0x00000000 | Exceptions vector table address.  |
 | 0x000C | | | | | Reserved.  |
 | 0x0010 | | | | | Reserved.  |
 | 0x00F0 | `cyclecntl` | 32b | ro | 0x00000000 | Low word of cycle count. |
