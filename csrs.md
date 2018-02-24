@@ -69,7 +69,7 @@ TODO: allocate a number for it.
 ## Interrupt Priority Threshold Increase (`ipriothinc`)
 
 The `ipriothinc` CSR behaves like an XLEN-bit read/write register, but in fact uses the
-same register as `iprioth`. The difference is that writes in this CSR are effective only 
+same register as `iprioth`. The difference is that writes to this CSR are effective only 
 if the new value is higher than the current value, in other words it guarantees that the
 interrupt threshold is not decreased.
 
