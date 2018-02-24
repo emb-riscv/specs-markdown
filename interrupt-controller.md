@@ -43,18 +43,11 @@ prioritization scheme.
 
 | Offset | Name | Width | Type | Reset | Description |
 |:-------|:-----|:------|:-----|:------|-------------|
-| 0x0000 | `intvta` | xlen | rw | 0x00000000 | Address of the interrupts vector table. |
-| 0x1000 | `interrupts[]` | 32b * N | rw | 0x00000000 | Array of interrupt control registers. |
+| 0x0000 | `interrupts[]` | 32b * 2 * N | rw | 0x00000000 | Array of interrupt control registers. |
 
 The number of interrupts (N) is implementation specific, but no higher than 1024, including the system interrupts.
 
 Total size: 0x2000.
-
-## Interrupts vector table address (intvta)
-
-The address of the interrupts dispatch table. The table is an array of addresses (xlen size elements) pointing to interrupt handlers (C/C++ functions).
-
-If not set (i.e. 0x0) and an interrupt occurs, an exception is triggered (TODO: what exception?).
 
 ## Per interrupt registers
 
