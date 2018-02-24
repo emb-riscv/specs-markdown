@@ -3,8 +3,8 @@
 The RISC-V ISA defines a set of 4096 Control and Status Registers that can be accessed 
 via special `csr` instructions with immediate operands identifying the register.
 
-In the RISC-V microcontroller profile only a small number of core system registers 
-are available via the `csr` instructions, the rest being available in the memory 
+For performance reasons, in the RISC-V microcontroller profile only a small number 
+of core system registers are required to be CSRs; the rest are available in the memory 
 mapped system area.
 
 Unless otherwise mentioned, access to these CSRs is limited to machine mode.
