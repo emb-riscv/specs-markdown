@@ -120,6 +120,9 @@ the main stack can descend.
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `msplimit` | rw | startup | The main stack lower limit. |
 
+If an operation using the main stack pointer attempts to write to an address below 
+the limit, an exception is triggered and the operation is not performed.
+
 This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
@@ -153,6 +156,9 @@ routines and needs to be fast.
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `mtsplimit` | rw | 0 | The thread stack lower limit. |
+
+If an operation using the thread stack pointer attempts to write to an address below 
+the limit, an exception is triggered and the operation is not performed.
 
 This CSR is specific to the RISC-V microcontroller profile.
 
