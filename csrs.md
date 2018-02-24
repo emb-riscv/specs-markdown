@@ -63,6 +63,9 @@ N is the number of bits required to store the maximum priority level, and is imp
 specific. It must match the number of bits used by the `prio` register in the interrupt 
 controller.
 
+All reserved bits read back as 0. To find out N at runtime, an application can write an 
+all-1 pattern and read back the register.
+
 This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
