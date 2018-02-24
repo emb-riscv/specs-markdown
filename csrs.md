@@ -258,7 +258,7 @@ f1(void)
 }
 ```
 
-Otherwise, if the application uses some fast interrupts, it can raise the interrupt threashold to a limit below the fast interrupts priority.
+Otherwise, if the application uses some fast interrupts, it can raise the interrupt threashold to a limit below the fast interrupts priority. Please note how entering the critical sections guarantees that the threashold is not lowered.
 
 ```c
 void 
