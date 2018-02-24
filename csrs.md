@@ -83,14 +83,15 @@ TODO: allocate a number for it.
 
 ## Main Stack Pointer (`msp`)
 
-The `mmsp` CSR is an XLEN-bit read-write register that holds the main stack pointer. 
+The `msp` CSR is an XLEN-bit read-write register that holds the main stack pointer. 
 It is always the default stack pointer after reset. Interrupts ansd exceptions always 
 use this stack to store the exception frame.
+
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `mmsp` | rw | startup | The main stack pointer. |
+| [(xlen-1):1] | `msp` | rw | startup | The main stack pointer. |
 
 This CSR is specific to the RISC-V microcontroller profile.
 
@@ -115,6 +116,8 @@ TODO: allocate a number for it.
 The `tsp` CSR is an XLEN-bit read-write register that holds the stack pointer used 
 by the application current thread.
 
+It is a CSR because access to the stack pointer may occur in context switching routines.
+
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
@@ -129,6 +132,8 @@ TODO: allocate a number for it.
 The `tsplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
 the thread stack can descend.
 
+It is a CSR because access to the stack pointer limit may occur in context switching routines.
+
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
@@ -138,41 +143,46 @@ This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
-## Machine Exception Program Counter (`mepc`)
+## Exception Program Counter (`epc`)
 
-The `mepc` CSR is an XLEN-bit read/write register that holds the trap address. The low bit of 
-`mepc` (`mepc[0]`) is always zero. 
+The `epc` CSR is an XLEN-bit read/write register that holds the trap address. The low bit of 
+`epc` (`epc[0]`) is always zero. 
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `mepc` | rw | Unknown | Exception PC address. |
+| [(xlen-1):1] | `epc` | rw | Unknown | Exception PC address. |
 
 On implementations that do not support instruction-set 
-extensions with 16-bit instruction alignment, the two low bits (`mepc[1:0]`) are always zero.
+extensions with 16-bit instruction alignment, the two low bits (`epc[1:0]`) are always zero.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [1:0] | | | 0 | Reserved. |
-| [(xlen-1):2] | `mepc` | rw | Unknown | Exception PC address. |
+| [(xlen-1):2] | `epc` | rw | Unknown | Exception PC address. |
 
-When an exception is taken, `mepc` is written with the address of the instruction that 
+When an exception is taken, `epc` is written with the address of the instruction that 
 encountered the exception. Otherwise `mepc` is never written by the implementation.
+
+This CSR is similar to `mepc` from the RISC-V privileged profile.
 
 > <sup>In the privileged specs, `mepc` may be explicitly written by software. Here this
 it is not needed, execution will resume to the address pushed onto the main stack.</sup>
 
-## Machine Cause Register (`mcause`)
+## Exception Cause Register (`ecause`)
 
-The `mcause` CSR is an XLEN-bit read-write register. When an exception or interrupt is
-taken `mcause` is written with a code indicating the event that caused the exception or the
-interrupt. Otherwise `mcause` is never written by the implementation.
+The `ecause` CSR is an XLEN-bit read-write register. When an exception or interrupt is
+taken `ecause` is written with a code indicating the event that caused the exception or the
+interrupt. Otherwise `ecause` is never written by the implementation.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [9:0] | `cause` | rw | Unknown | The cause code. |
-| [(xlen-2):10] | | | | Reserved. |
-| [(xlen-1)] | `interrupt` | rw | Unknown | 1 if interrupt, 0 if exception. |
+| [9:0] | `cause` | rw | Unknown | The exception or interrupt cause code. |
+| [(xlen-1):10] | | | | Reserved. |
+
+This CSR is inspired from the RISC-V privileged profile, but does not use the high bit
+to differentiate between exceptions and interrupts, because this is not needed
+when separate vectors are called.
 
 ## Machine Trap Value Register (`mtval`)
 
@@ -181,15 +191,18 @@ The `mtval` CSR is an XLEN-bit read-write register. When an exception is taken,
 exception. Otherwise, `mtval` is never written by the implementation, though it may be 
 explicitly written by software.
 
+This CSR is identical with `mtval` from the RISC-V privileged profile.
 
 ## RISC-V compatibility CSRs
 
-These CSRs are mandated by the RISC-V Volume I, Chapter 2.8, for the `rdcycle` and `rdinstret` instructions.
+The RISC-V Volume I, Chapter 2.8, mentions two mandatory instructions, `rdcycle` and 
+`rdinstret`; to implement them, two CSRs are required:
 
 - cycle: available as `hcb.cyclecnt`
 - instret: available as `hcb.instcnt`
 
-Other RISC-V registers from RISC-V Volume II, but not actively used:
+The RISC-V Volume II, mentions other CSRs, but it is not clear which one are mandatory, 
+if any:
 
 - mstatus: not needed, there is only one bit needed, mie, which is now n the `iena` CSR.
 - mie: not needed, interrupts are enabled in the HIC registers
