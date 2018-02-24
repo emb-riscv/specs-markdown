@@ -27,9 +27,11 @@ This CSR is identical to `mhartid` in the RISC-V privileged profile.
 
 ## Interrupt Enable (`iena`)
 
-The `iena` CSR is an XLEN-bit read/write register that controls whether the interrupt are enabled or not. 
+The `iena` CSR is an XLEN-bit read/write register that controls whether the interrupt 
+are enabled or not. 
 
-Access to the interrupt enable bit must be quite fast since handling the interrupts is used to implement critical sections.
+This register has a single bit on purpose. Access to the interrupt enable bit must be quite 
+fast since masking all interrupts is one of the methods used to implement critical sections.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
