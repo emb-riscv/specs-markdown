@@ -35,9 +35,9 @@ execution status of an active interrupt.
 setting and clearing of the associated pending state under software control.
 
 - status bits are provided to allow software to determine whether an interrupt is active, pending, or enabled.
-- HIC interrupts are prioritized by updating an 8-bit field. Priorities are maintained according to the RISC-V 
-prioritization scheme
-- HIC supports a maximum 1024 interrupts.
+- HIC interrupts are prioritized by updating a priority field. Priorities are maintained according to the RISC-V 
+prioritization scheme.
+- HIC supports a maximum of 1024 interrupts.
 
 ## Memory map
 
@@ -56,7 +56,7 @@ The address of the interrupts dispatch table. The table is an array of addresses
 
 If not set (i.e. 0x0) and an interrupt occurs, an exception is triggered (TODO: what exception?).
 
-## Interrupt control register
+## Per interrupt registers
 
 Each interrupt has a small per-hart set of status and configuration attributes:
 
@@ -66,7 +66,7 @@ pending
 * `active`: interrupts can either be in an active (being served) or inactive state
 * `prio`: interrupt priority
 
-To store and control these attributes, each interrupt has a per-hart two 32-bits registers:
+To store and control these attributes, each interrupt has two 32-bits registers:
 
 | Offset | Name | Width | Type | Reset | Description |
 |:-------|:-----|:------|:-----|:------|-------------|
@@ -81,7 +81,7 @@ The `prio` register has the the following content:
 | [(xlen-1):(N+1)] | | | | Reserved. |
 
 N is the number of bits required to store the maximum priority level, and is implementation 
-specific.
+specific. It must match the number of bits used by the `iprioth` CSR.
 
 The `status` register has the following content: 
 
