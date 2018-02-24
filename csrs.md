@@ -244,7 +244,8 @@ TODO:
 In a single hart device, the simple ways to implement critical section is to fully disable interrupts, assuming the application does not need to keep any fast interrupts enabled. 
 
 ```c
-function f()
+void
+f1(void)
 {
   // ...
   {
@@ -260,7 +261,8 @@ function f()
 Otherwise, if the application uses some fast interrupts, it can raise the interrupt threashold to a limit below the fast interrupts priority.
 
 ```c
-function f()
+void 
+f2(void)
 {
   // ...
   {
