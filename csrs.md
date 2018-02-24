@@ -56,7 +56,7 @@ handling the interrupts threshold is one of the methods used to implement critic
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [N:0] | `iprioth` | rw | 0 | The interrupt priority threshold. |
+| [N:0] | `iprioth` | rw | 0x00 | The interrupt priority threshold. |
 | [(xlen-1):(N+1)] | | | | Reserved. |
 
 N is the number of bits required to store the maximum priority level, and is implementation 
@@ -82,7 +82,7 @@ handling the interrupts threshold is one of the methods used to implement critic
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [N:0] | `ipriothinc` | rw | 0 | The interrupt priority threshold. |
+| [N:0] | `ipriothinc` | rw | 0x00 | The interrupt priority threshold. |
 | [(xlen-1):(N+1)] | | | | Reserved. |
 
 N is the number of bits required to store the maximum priority level, and is implementation 
@@ -138,7 +138,7 @@ routines and needs to be fast.
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `tsp` | rw | 0 | The thread stack pointer. |
+| [(xlen-1):1] | `tsp` | rw | Unknown | The thread stack pointer. |
 
 This CSR is specific to the RISC-V microcontroller profile.
 
@@ -155,7 +155,7 @@ routines and needs to be fast.
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `mtsplimit` | rw | 0 | The thread stack lower limit. |
+| [(xlen-1):1] | `mtsplimit` | rw | Unknown | The thread stack lower limit. |
 
 If an operation using the thread stack pointer attempts to write to an address below 
 the limit, an exception is triggered and the operation is not performed.
