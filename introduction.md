@@ -24,15 +24,15 @@ Architecture" specifications.
 
 Since there are many microcontroller configurations, 3 classes were identified:
 
-- **S** (small) **ES-RV32**: RV32I[M][C], possibly RV32E; i.e. **low end**, single core, 
+- **S** (small) **ES-RV32I[M][C]**, possibly **ES-RV32E**: **low end**, single core, 
 32-bits, no floating point, (intended to support PIC & AVR 
 applications; comparable with Cortex-M0)
-- **M** (medium) **EM-RV32**/**EM-RV64**: RV32IM[F[D]]C/RV64IM[F[D]]C; i.e. 
-**regular**, single core, 32/64-bits, possibly with floating point 
+- **M** (medium) **EM-RV32IM[F[D]]C**/**EM-RV64IM[F[D]]C**: 
+**regular**, single hart, 32/64-bits, possibly with floating point 
 (intended to support common multi-threaded applications; comparable with 
 Cortex-M3/M4)
-- **L** (large) **EL-RV32**/**EL-RV64**: RV32IMA[F[D]]C/RV64IMA[F[D]]C multi-hart, 
-i.e. **high end**, 32/64-bits, atomics, possibly with floating point
+- **L** (large) **EL-RV32IMA[F[D]]C**/**EL-RV64IMA[F[D]]C**: 
+**high end**, multi-hart, 32/64-bits, atomics, possibly with floating point
 (intended to support hard real-time, high performance applications)
 
 ## Definitions
