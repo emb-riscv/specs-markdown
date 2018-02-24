@@ -109,7 +109,7 @@ counter register
 contains a value greater than or equal to the value in the comparator register.
 The interrupt remains posted until it is cleared by writing to the comparator register.
 
-The clock comparator register is part of the Hart Control Block.
+The clock comparator register is specific to each hart and is part of the Hart Control Block.
 
 Only hart 0 is required to have a comparator. If any other harts also have comparators, 
 the `sysclock_cmp` interrupt is posted only to the local hart. For harts that do not have
