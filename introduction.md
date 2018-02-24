@@ -25,7 +25,7 @@ Architecture" specifications.
 Since there are many microcontroller configurations, 3 classes were identified:
 
 - **ES** (embedded small) **ES-RV32I[M][C]**, possibly **ES-RV32E**: **low end**, single core, 
-32-bits, no floating point, (intended to support PIC & AVR 
+32-bits, no floating point, (intended to support legacy PIC & AVR class
 applications; comparable with Cortex-M0)
 - **EM** (embedded medium) **EM-RV32IM[F[D]]C**/**EM-RV64IM[F[D]]C**: 
 **regular**, single hart, 32/64-bits, possibly with floating point 
