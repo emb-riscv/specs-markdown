@@ -22,7 +22,7 @@ not necessarily be numbered contiguously
 | [N:0] | `hartid` | ro | | The integer ID of the hart. |
 | [(xlen-1):(N+1)] | | | | Reserved. |
 
-N is implementation specific.
+N is the number of bits required to store the maximum hart ID and is implementation specific.
 
 This CSR is identical to `mhartid` in the RISC-V privileged profile.
 
