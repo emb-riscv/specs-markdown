@@ -22,7 +22,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Device Control Block (`dcb`)](device-control-block.md)
 * [Device Real-Time Clock (`rtclock`)](real-time-clock.md)
 * [Device System Clock (`sysclock`)](system-clock.md)
-* [Device Watchdog Timer (`wdog`)]()
+* [Device Watchdog Timer (`wdog`)](watchdog-timer.md)
 * [RTOS Support Features](rtos-support-features.md)
 * [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md)
 * [Appendix B: History](history.md)
