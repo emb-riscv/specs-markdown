@@ -66,80 +66,62 @@ pending
 * `active`: interrupts can either be in an active (being served) or inactive state
 * `prio`: interrupt priority
 
-To store and control these attributes, each interrupt has a per-hart 32-bits status and 
-control register with the following fields:
+To store and control these attributes, each interrupt has a per-hart two 32-bits registers:
 
+| Offset | Name | Width | Type | Reset | Description |
+|:-------|:-----|:------|:-----|:------|-------------|
+| 0x0000 | `prio` | 32b | rw | 0x00000000 | The interrupt priority register. |
+| 0x0004 | `status` | 32b | rw | 0x00000000 | The interrupt status and control register. |
 
-| Bits | Name | Type | Reset | Description |
-|:-----|:-----|:-----|:------|-------------|
-| [7:0] | `prio` | rw | 0x00 | If non zero, the interrupt priority. |
-| [15:8] | `status`| r | 0x00 | Status bits. |
-| [23:16] | `set` | w1s | 0x00 | Set bits. |
-| [31:24] | `clear` | w1c | 0x00 | Clear bits. |
-
-TODO: check if a cheaper method of encoding the bits is possible, possibly avoiding byte cycles.
-
-
-The `status` bits:
+The `prio` register has the the following content:
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [0] | `enabled` | r | 0 | Enabled status bit; 1 if the interupt is enabled. |
-| [1] | `pending` | r | 0 | Pending status bit; 1 if the interupt is pending. |
+| [N:0] | `prio` | rw | 0 | The interrupt priority. |
+| [(xlen-1):(N+1)] | | | | Reserved. |
+
+N is the number of bits required to store the maximum priority level, and is implementation 
+specific.
+
+The `status` register has the following content: 
+
+| Bits | Name | Type | Reset | Description |
+|:-----|:-----|:-----|:------|-------------|
+| [0] | `enabled` | rw1s | 0 | Enabled status bit; 1 if the interupt is enabled.<br>When 1 is written, the `enabled` bit is set. |
+| [1] | `pending` | rw1s | 0 | Pending status bit; 1 if the interupt is pending.<br>When 1 is written, the `pending` bit is set. |
 | [2] | `active` | r | 0 | Active status bit; 1 if the interupt is active. | 
-| [7:3] |||| Reserved |
-
-Writing the status bits is ineffective.
-
-The `set` bits:
-
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [0] | `enabled` | w1s | When 1 is written, the `enabled` status bit is set. |
-| [1] | `pending` | w1s | When 1 is written, the `pending` status bit is set. |
-| [7:2] ||| Reserved |
-
-Reading the `set` bits always returns 0.
-
-The `clear` bits:
-
-| Bits | Name | Type | Description |
-|:-----|:-----|:-----|-------------|
-| [0] | `enabled` | w1c | When 1 is written, the `enabled` status bit is cleared. |
-| [1] | `pending` | w1c | When 1 is written, the `pending` status bit is cleared. |
-| [7:2] ||| Reserved |
-
-Reading the `clear` bits always returns 0.
-
-The Interrupt control registers must be accessible at byte level.
+| [3] |||| Reserved |
+| [4] | `clearenabled` | w1c | | When 1 is written, the `enabled` status bit is cleared. |
+| [5] | `clearpending` | w1c | | When 1 is written, the `pending` status bit is cleared. |
+| [31:6] |||| Reserved |
 
 > <sup>The alternative to packing all status and control bits related to an interrupt 
-  in a word would be to have separate multi-word fields with status, enable, disable,
+  in two words would be to have separate multi-word fields with status, enable, disable,
   set pending, clear pending, active bits. It was considered that the packed solution
   is easier to use in software.</sup>
   
 ### Usage
 
-Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by clearing the `enabled` bit. To be effective, interrupts must also have non-zero priorities.
+Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by clearing the `status.clearenabled` bit. To be effective, interrupts must also have non-zero priorities.
 
 ```c
-hic.interrupts[7].prioth = 0xC0; // A byte write cycle.
-hic.interrupts[7].set = INTERRUPTS_SET_ENABLED; // A byte write cycle.
+hic.interrupts[7].prio = 7;
+hic.interrupts[7].status = INTERRUPTS_SET_ENABLED;
 
-hcb.interrupts[7].clear = INTERRUPTS_CLEAR_ENABLED; // A byte write cycle.
+hcb.interrupts[7].status = INTERRUPTS_CLEAR_ENABLED;
 ```
 
-Interrupts can be programatically set to be pending by writing 1 in the `status.pending` field; the pending status can be cleared by writing 1 to the `clear.pending` field.
+Interrupts can be programatically set to be pending by writing 1 in the `status.pending` field; the pending status can be cleared by writing 1 to the `status.clearpending` bit.
 
 ```c
-hcb.interrupts[7].set = INTERRUPTS_SET_PENDING; // A byte write cycle.
-hcb.interrupts[7].clear = INTERRUPTS_CLEAR_PENDING; // A byte write cycle.
+hcb.interrupts[7].status = INTERRUPTS_SET_PENDING;
+hcb.interrupts[7].status = INTERRUPTS_CLEAR_PENDING;
 ```
 
 To check the status bits:
 
 ```c
-if (hcb.interrupts[7].status & INTERRUPTS_STATUS_PENDING) { // A byte read cycle.
+if (hcb.interrupts[7].status & INTERRUPTS_STATUS_PENDING) {
   // ...
 }
 ```
