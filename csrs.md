@@ -90,6 +90,7 @@ specific.
 
 This CSR is specific to the RISC-V microcontroller profile.
 
+TODO: possibly find a better name. how about `ipriothup`?
 TODO: allocate a number for it.
 
 ## Main Stack Pointer (`msp`)
