@@ -46,8 +46,8 @@ TODO: allocate a number for it.
 ## Interrupt Priority Threshold (`iprioth`)
 
 The `iprioth` CSR is an XLEN-bit read/write register that holds the interrupts threshold. 
-Only active interrupts that have a priority strictly greater than the threshold will cause 
-an interrupt to occur. The threshold register must always be able to hold the value zero, 
+Only interrupts requests that have a priority strictly greater than the threshold will cause 
+an interrupt to become active. The threshold register must always be able to hold the value zero, 
 in which case, no interrupts are masked. The threshold register must also be able to hold 
 the maximum priority level, in which case all interrupts are masked. 
 
