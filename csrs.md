@@ -17,12 +17,12 @@ In single-hart devices, it always reads 0. In multi-hart devices the hart IDs mi
 not necessarily be numbered contiguously
 (althoug it is preferable), but at least one hart must have a hart ID of zero.
 
-The RISC-V microcontroller profile limits the thread ID to 1023.
-
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [9:0] | `hartid` | ro | | The integer ID of the hart. |
-| [(xlen-1):10] | | | | Reserved. |
+| [N:0] | `hartid` | ro | | The integer ID of the hart. |
+| [(xlen-1):(N+1)] | | | | Reserved. |
+
+N is implementation specific.
 
 This CSR is identical to `mhartid` in the RISC-V privileged profile.
 
@@ -59,6 +59,9 @@ handling the interrupts threshold is one of the methods used to implement critic
 | [N:0] | `iprioth` | rw | 0 | The interrupt priority threshold. |
 | [(xlen-1):(N+1)] | | | | Reserved. |
 
+N is the number of bits required to store the maximum priority level, and is implementation 
+specific.
+
 This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
@@ -78,6 +81,9 @@ handling the interrupts threshold is one of the methods used to implement critic
 | [N:0] | `ipriothinc` | rw | 0 | The interrupt priority threshold. |
 | [(xlen-1):(N+1)] | | | | Reserved. |
 
+N is the number of bits required to store the maximum priority level, and is implementation 
+specific.
+
 This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
@@ -88,13 +94,14 @@ The `msp` CSR is an XLEN-bit read-write register that holds the main stack point
 It is always the default stack pointer after reset. Interrupts ansd exceptions always 
 use this stack to store the exception frame.
 
-
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
 | [(xlen-1):1] | `msp` | rw | startup | The main stack pointer. |
 
 This CSR is specific to the RISC-V microcontroller profile.
+
+TODO: check if the stack has more strict alignment requirements.
 
 TODO: allocate a number for it.
 
