@@ -13,7 +13,8 @@ Unless otherwise mentioned, access to these CSRs is limited to machine mode.
 
 The `hartid` CSR is an XLEN-bit read-only register containing the integer ID of the 
 hardware thread running the code. This register must be readable in any implementation. 
-In a multi-hart device the hart IDs might not necessarily be numbered contiguously
+In single-hart devices, it always reads 0. In multi-hart devices the hart IDs might 
+not necessarily be numbered contiguously
 (althoug it is preferable), but at least one hart must have a hart ID of zero.
 
 The RISC-V microcontroller profile limits the thread ID to 1023.
