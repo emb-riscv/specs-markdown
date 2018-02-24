@@ -60,7 +60,8 @@ handling the interrupts threshold is one of the methods used to implement critic
 | [(xlen-1):(N+1)] | | | | Reserved. |
 
 N is the number of bits required to store the maximum priority level, and is implementation 
-specific.
+specific. It must match the number of bits used by the `prio` register in the interrupt 
+controller.
 
 This CSR is specific to the RISC-V microcontroller profile.
 
