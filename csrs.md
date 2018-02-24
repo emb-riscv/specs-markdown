@@ -237,3 +237,38 @@ TODO:
 
 - add MPU registers
 
+## Usage
+
+### Interrupt critical sections
+
+There are two ways to implement critical section: if the application does not need to keep any fast interrupts enabled, it can fully disable interrupts; 
+
+```c
+function f()
+{
+  // ...
+  {
+    // Interrupts critical section.
+    xlenreg_t status = riscv_csr_write_iena(0);
+    // ...
+    riscv_csr_write_iena(status);
+  }
+  // ...
+}
+```
+
+Otherwise it can raise the interrupt threashold to a limit below the fast interrupts priority.
+
+```c
+function f()
+{
+  // ...
+  {
+    // Interrupts critical section.
+    xlenreg_t status = riscv_csr_write_ipriothinc(7);
+    // ...
+    riscv_csr_write_iprioth(status);
+  }
+  // ...
+}
+```
