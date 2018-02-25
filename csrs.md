@@ -50,7 +50,8 @@ The `status` CSR is an XLEN-bit read/write register that identifies the current 
 |:-----|:-----|:-----|:------|-------------|
 | [?] | `handler` | r | 0 | If 1, the hart is in handler mode. |
 | [?] | `user` | r | 0 | If 1, the hart is in user mode. |
-| [(xlen-1):?] | | | | Reserved. |
+| [(xlen-2):(xlen-16)] | `cause` | r | 0 | The exception or interrupt cause code. |
+| [(xlen-1)] | `interupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
 
 TODO: the bits in this register, as the entire mechanism to enter/exit exceptions and traps, requires a thorough analysis.
 
@@ -223,6 +224,9 @@ This CSR is similar to `mepc` from the RISC-V privileged profile.
 it is not needed, execution will resume to the address pushed onto the main stack.</sup>
 
 ## Exception Cause Register (`ecause`)
+
+Update: probably no longer needed, the cause is now in `state`, since it must be saved 
+in the stack context.
 
 The `ecause` CSR is an XLEN-bit read-write register. When an exception or interrupt is
 taken `ecause` is written with a code indicating the event that caused the exception or the
