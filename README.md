@@ -23,6 +23,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Device Real-Time Clock (`rtclock`)](real-time-clock.md)
 * [Device System Clock (`sysclock`)](system-clock.md)
 * [Device Watchdog Timer (`wdog`)](watchdog-timer.md)
+* [Embedded ABI (EABI)](eabi.md)
 * [RTOS Support Features](rtos-support-features.md)
 * [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md)
 * [Appendix B: History](history.md)
