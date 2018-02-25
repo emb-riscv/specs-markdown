@@ -49,10 +49,11 @@ The `iprioth` CSR is an XLEN-bit read/write register that holds the interrupts t
 Only interrupts requests that have a priority strictly greater than the threshold will cause 
 an interrupt to become active. The threshold register must always be able to hold the value zero, 
 in which case, no interrupts are masked. The threshold register must also be able to hold 
-the maximum priority level, in which case all interrupts are masked. 
+the maximum priority level, in which case all interrupts are masked (functionally equivalent 
+to disabling interrupts). 
 
-It is a CSR because access to the interrupt threashold register must be quite fast since 
-handling the interrupts threshold is one of the methods used to implement critical sections.
+This register is a CSR because handling the interrupts threshold is one of the methods used 
+to implement critical sections, and this must be as fast as possible.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
@@ -77,8 +78,8 @@ same register as `iprioth`. The difference is that writes to this CSR are effect
 if the new value is higher than the current value, in other words it guarantees that the
 interrupt threshold is not decreased.
 
-It is a CSR because access to the interrupt threashold register must be quite fast since 
-handling the interrupts threshold is one of the methods used to implement critical sections.
+This register is a CSR because handling the interrupts threshold is one of the methods used 
+to implement critical sections, and this must be as fast as possible.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
@@ -91,6 +92,7 @@ specific.
 This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: possibly find a better name. how about `ipriothup`?
+
 TODO: allocate a number for it.
 
 ## Main Stack Pointer (`msp`)
