@@ -5,9 +5,13 @@ instruction in the current RISC-V hart.
 
 Interrupts are events that occur asynchronously outside any of the RISC-V harts.
 
+The mechanism to process exceptions and interrupts is one of the main 
+improvements in the RISC-V microcontroller profile versus the privileged
+profile.
+
 ## Exceptions
 
-Exceptions trigger **a synchronous transfer of control** to an exception handler 
+Exceptions trigger a **synchronous transfer of control** to an exception handler 
 within the current hart.
 
 Some exceptions cannot be disabled, and handlers to process them should always be installed.
