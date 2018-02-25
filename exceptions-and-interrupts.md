@@ -7,7 +7,7 @@ Interrupts are events that occur asynchronously outside any of the RISC-V harts.
 
 ## Exceptions
 
-Exceptions trigger **a synchronous transfer of contro**l to an exception handler 
+Exceptions trigger **a synchronous transfer of control** to an exception handler 
 within the current hart.
 
 Exceptions cannot be disabled, and handlers to process them should always be installed.
@@ -135,6 +135,72 @@ The first 8 entries are reserved for system interrupts:
 * `context_switch` (must have the lowest priority)
 * `rtclock_cmp`
 * `sysclock_cmp`
+
+### Context stack
+
+When exceptions and interrupts are taken, they push a context on the main stack. The stack pointer must be xlen aligned. For RV32 harts with the D extension, an additional alignment to 8 must be performed by adding a stack padding.
+
+> <sup>ARM has a status bit that aligns the stack to 8 even if double precision is not used; depending on how caches are organised, it may lead to faster context switches it might be better to do the same.</sup>
+
+For the current RISC-V Linux ABI, the stack context is, from hight to low addresses
+
+- <- original SP 
+- optional padding
+- fcsr (\*) <- for double, it must be aligned to 8
+- ft11 (\*)
+- ft10 (\*)
+- ft9 (\*)
+- ft8 (\*)
+- fa7 (\*)
+- fa6 (\*)
+- fa5 (\*)
+- fa4 (\*)
+- fa3 (\*)
+- fa2 (\*)
+- fa1 (\*)
+- fa0 (\*)
+- ft7 (\*)
+- ft6 (\*)
+- ft5 (\*)
+- ft4 (\*)
+- ft3 (\*)
+- ft2 (\*)
+- ft1 (\*)
+- ft0 (\*)
+- status (?)
+- pc (the return address)
+- t6
+- t5
+- t4
+- t3
+- a7
+- a6
+- a5
+- a4
+- a3
+- a2
+- a1
+- a0
+- t2
+- t1
+- t0
+- ra <- new SP
+
+The floating point registers are not saved by devices that do not implement the 
+F or D extentions and do not have the `ctrl.fpena` bit set.
+
+After saving the context stack:
+
+- the `ra` register is adjust to a special pattern 
+that is illegal as a return address, to instruct the core to return from the 
+interrupt/exception
+- the status register that identifies the curent mode is set to thread-mode.
+
+The special pattern is an 'all-1' for the given xlen.
+
+
+
+
 
 
 
