@@ -83,16 +83,17 @@ specific, but must
 be at least 3 (i.e. at least 8 priority levels).
 
 > <sup>Extra care must be considered when moving code to implmentations with fewer 
-  priority levels, since truncation could lead to priority inversions; it is 
+  priority levels, since truncation could lead to priority inversions.
+  For example, when moving a program from devices 
+  with 4-bit priority bits to devices with 3-bit priorities, if the application 
+  uses priority 9 for IRQ0 and priority 3 
+  for IRQ1, IRQ0 is expected to have a higher 
+  priority. But if the MSB bit is removed, IRQ0 will have priority 1 and be 
+  lower than IRQ1.</sup>
+  
+> <sup>It is 
   recommended that software handling priorities know about the numbr of bits 
   and use asserts to validate the priority values.</sup>
-  
-> <sup>For example, when moving a program from devices 
-  with 4-bit priority bits to devices with 3-bit priorities, if the application 
-  uses priority 0x05 for IRQ0 and priority 0x03 
-  for IRQ1, IRQ0 is expected to have a higher 
-  priority. But if MSB bit 2 is removed, IRQ0 will become level 0x01 and have a 
-  lower priority than IRQ1.</sup>
 
 ### Interrupt preemption and nesting
 
