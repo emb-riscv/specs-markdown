@@ -82,7 +82,7 @@ The actual number of bits used to store the interrupt priority is implementation
 specific, but must 
 be at least 3 (i.e. at least 8 priority levels).
 
-> <sup>Extra care must be taken when moving code to implmentations with fewer 
+> <sup>Extra care must be considered when moving code to implmentations with fewer 
   priority levels, since truncation could lead to priority inversions; it is 
   recommended that software handling priorities know about the numbr of bits 
   and use asserts to validate the priority values.</sup>
