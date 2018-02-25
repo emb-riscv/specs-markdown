@@ -37,8 +37,9 @@ TODO: NMI? routed only to hart 0?
 The exceptions vector table is an array of addresses (xlen size elements) pointing to 
 interrupt handlers (C/C++ functions).
 
-Its address is kept in (`hcb.excvta`); it is automatically initialised at startup with 
-the address provided in the hart startup block and can be be later writen by software.
+The address of the exceptions vector table is kept by each hart in (`hcb.excvta`); 
+it is automatically initialised at startup with 
+the address provided in the hart startup block and can be later writen by software.
 
 ## Interrupts
 
@@ -97,9 +98,13 @@ be at least 3 (i.e. at least 8 priority levels).
 
 ### Interrupt preemption and nesting
 
-If an hart is executing an interrupt handler and a higher priority interrupt occurs, the current interrupt handler is temporarily suspended and the higher priority interrupt handler is executed to completion, than the first interrupt handler is resumed.
+If an hart is executing an interrupt handler and a higher priority interrupt 
+occurs, the current interrupt handler is temporarily suspended and the higher 
+priority interrupt handler is executed to completion, than the first 
+interrupt handler is resumed.
 
-Each new interrupt creates a new context on the main stack, and removes it when the handler returns.
+Each new interrupt creates a new context on the main stack, and removes it 
+when the handler returns.
 
 There is no limit for interrupt nesting, assuming the main stack is large enough.
 
@@ -111,11 +116,14 @@ TBD
 
 ### Interrupts vector table
 
-The interrupts table is an **array of pointers** to interrupt handlers, implemented as **C/C++ functions**. The number of interrupts per hart is implementation specific but cannot exceed 1024 elements.
+The interrupts table is an **array of pointers** to interrupt handlers, 
+implemented as **C/C++ functions**. The number of interrupts per hart is 
+implementation specific but cannot exceed 1024 elements.
 
 Each hart has its own table, with handlers for the interrupts it can process.
 
-The address of the array must be programatically written by each hart to its `hcb.intvta` register before enabling interrupts, usually during startup.
+The address of the array must be programatically written by each hart to 
+its `hcb.intvta` register before enabling interrupts, usually during startup.
 
 The first 8 entries are reserved for system interrupts:
 
