@@ -185,8 +185,8 @@ For the current RISC-V Linux ABI, the stack context is, from hight to low addres
 - ft2 (\*)
 - ft1 (\*)
 - ft0 (\*)
-- status (?)
-- pc (the return address)
+- status (CSR, the current mode when the exception/interrupt occured)
+- pc (the next address to return from the exception/interrupt)
 - t6
 - t5
 - t4
@@ -207,14 +207,23 @@ For the current RISC-V Linux ABI, the stack context is, from hight to low addres
 The floating point registers are not saved by devices that do not implement the 
 F or D extentions and do not have the `ctrl.fpena` bit set.
 
+To reduce latency, in parallel with saving the registers, the address of the exception/interrupt
+handler is fetched from the vector table.
+
 After saving the context stack:
 
-- the `ra` register is adjust to a special pattern 
-that is illegal as a return address, to instruct the core to return from the 
-interrupt/exception
-- the status register that identifies the curent mode is set to thread-mode.
+- the `handler` bit in the `status` is set, to mark the handler-mode
+- the `ra` register is adjusted to a special pattern 
+that is illegal as a return address
+- the `pc` register is loaded with the handler address; this is 
 
 The special pattern is an 'all-1' for the given xlen.
+
+When the C/C++ function returns, it'll load `pc` with the specail return address in `ra`. 
+This will trigger the exception return mechanism, which will pop the context from the stack 
+and return from the interrupt/exception.
+
+
 
 
 
