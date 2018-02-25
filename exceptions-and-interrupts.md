@@ -10,7 +10,7 @@ Interrupts are events that occur asynchronously outside any of the RISC-V harts.
 Exceptions trigger **a synchronous transfer of control** to an exception handler 
 within the current hart.
 
-Exceptions cannot be disabled, and handlers to process them should always be installed.
+Some exceptions cannot be disabled, and handlers to process them should always be installed.
 
 Some exceptions are **resumable**, i.e. execution can continue to the next 
 instruction (for example the illegal instruction handler can implement a custom 
