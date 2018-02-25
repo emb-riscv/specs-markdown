@@ -93,7 +93,9 @@ specific. It must match the number of bits used by the `prio` register in the in
 controller.
 
 All reserved bits read back as 0. To find out N at runtime, an application can write an 
-all-1 pattern and read back the register.
+'all-1' pattern and read back the register.
+
+If the hart does not implement an interrupt controller, the whole register reads back as zero.
 
 This CSR is specific to the RISC-V microcontroller profile.
 
