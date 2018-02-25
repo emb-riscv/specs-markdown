@@ -44,7 +44,7 @@ functionality.
 
 ## Mode and status (`status`)
 
-The `status` CSR is an XLEN-bit read/write register that identifies the current core mode and status.
+The `status` CSR is an XLEN-bit read/write register that identifies the current hart mode and status.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
