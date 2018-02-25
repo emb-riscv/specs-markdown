@@ -31,13 +31,9 @@ This CSR is identical to `mhartid` in the RISC-V privileged profile.
 The `ctrl` CSR is an XLEN-bit read/write register that controls several aspects of the hart
 functionality.
 
-Bits (to be sorted out)
-
-- `stackalign` 
-
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [?] | `stackalign` | rw | 0 | The context stack alignment; <br>0: 4-bytes alignment guaranteed, no SP adjustment is performed.<br>1: 8-bytes alignment guaranteed, SP adjusted if necessary.|
+| [?] | `stackalign` | rw | 0 | The context stack alignment: <br>0: 4-bytes alignment guaranteed, no SP adjustment is performed.<br>1: 8-bytes alignment guaranteed, SP adjusted if necessary.|
 | [(xlen-1):?] | | | | Reserved. |
 
 
