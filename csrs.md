@@ -33,6 +33,7 @@ functionality.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
+| [?] | `sptena` | r | 0 | Thread stack enable: <br>- 0 Always use `spm` as `sp`. <br>- 1, in Thread mode use `spt` as `sp`. |
 | [?] | `stackalign` | rw | (\*1) | The context stack alignment: <br>- 0: 4-bytes alignment guaranteed, no SP adjustment is performed.<br>- 1: 8-bytes alignment guaranteed, SP adjusted if necessary.|
 | [?] | `fpena` | rw | 0 | Floating point enable: <br>- 0: if the FP unit is disabled.<br>- 1: if the FP unit is enabled. |
 | [?] | `fpcs` | rw | 1 | Floating point context save: <br>- 0: if the context stack should not save FP registers. <br>- 1: if the context stack should save FP registers. |
@@ -40,6 +41,18 @@ functionality.
 | [(xlen-1):?] | | | | Reserved. |
 
 \*1: The default value for the `stackalign` is implementaion specific; the recommended default is 1.
+
+## Mode and status (`status`)
+
+The `status` CSR is an XLEN-bit read/write register that identifies the current core mode and status.
+
+| Bits | Name | Type | Reset | Description |
+|:-----|:-----|:-----|:------|-------------|
+| [?] | `handler` | r | 0 | If 1, the core is in handler mode. |
+| [?] | `user` | r | 0 | If 1, the core is in user mode. |
+
+| [(xlen-1):?] | | | | Reserved. |
+
 
 ## Interrupt Enable (`iena`)
 
