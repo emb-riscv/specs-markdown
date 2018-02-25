@@ -43,3 +43,5 @@ If not set (i.e. 0x0) and an interrupt occurs, an exception is triggered (TODO: 
 The address of the interrupts dispatch table. The table is an array of addresses (xlen size elements) pointing to interrupt handlers (C/C++ functions).
 
 If not set (i.e. 0x0) and an interrupt occurs, an exception is triggered (TODO: what exception?).
+
+If the hart does not implement an interrupt controller, writing this register is ignored and reading always returns zero. This mechanism can also be used to determine at runtime if the hart implements an interrupt controller.
