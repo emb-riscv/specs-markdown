@@ -177,44 +177,44 @@ addresses:
 - <- original sp (`spt` or `spm`)
 - optional padding
 - fcsr (\*) <- for double, it must be aligned to 8
-- ft11 (\*)
-- ft10 (\*)
-- ft9 (\*)
-- ft8 (\*)
-- fa7 (\*)
-- fa6 (\*)
-- fa5 (\*)
-- fa4 (\*)
-- fa3 (\*)
-- fa2 (\*)
-- fa1 (\*)
-- fa0 (\*)
-- ft7 (\*)
-- ft6 (\*)
-- ft5 (\*)
-- ft4 (\*)
-- ft3 (\*)
-- ft2 (\*)
-- ft1 (\*)
-- ft0 (\*)
+- f31/ft11 (\*)
+- f30/ft10 (\*)
+- f29/ft9 (\*)
+- f28/ft8 (\*)
+- f17/fa7 (\*)
+- f16/fa6 (\*)
+- f15/fa5 (\*)
+- f14/fa4 (\*)
+- f13/fa3 (\*)
+- f12/fa2 (\*)
+- f11/fa1 (\*)
+- f10/fa0 (\*)
+- f7/ft7 (\*)
+- f6/ft6 (\*)
+- f5/ft5 (\*)
+- f4/ft4 (\*)
+- f3/ft3 (\*)
+- f2/ft2 (\*)
+- f1/ft1 (\*)
+- f0/ft0 (\*)
 - status (CSR, the current mode when the exception/interrupt occured)
 - pc (the next address to return from the exception/interrupt)
-- t6
-- t5
-- t4
-- t3
-- a7
-- a6
-- a5
-- a4
-- a3
-- a2
-- a1
-- a0
-- t2
-- t1
-- t0
-- ra <- new sp
+- x31/t6
+- x30/t5
+- x29/t4
+- x28/t3
+- x17/a7
+- x16/a6
+- x15/a5
+- x14/a4
+- x13/a3
+- x12/a2
+- x11/a1
+- x10/a0
+- x7/t2
+- x6/t1
+- x5/t0
+- x1/ra <- new sp
 
 The floating point registers are not saved by devices that do not implement the 
 F or D extentions and do not have the `ctrl.fpena` bit set.
