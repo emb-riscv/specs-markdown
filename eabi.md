@@ -25,7 +25,7 @@ TODO: This is a very preliminary proposal and must be discussed thouroghly with 
 | x2 | sp | Stack pointer |  | * |
 | x3 | gp | Global pointer |  |  |
 | x4 | tp | Thread pointer |  |  |
-| x5 | t0/**sl** | Temporary/**Stack limit** |  | * |
+| x5 | **sl** | **Stack limit** |  | * |
 | x6–x7 | t1,t2 | Temporaries | | * |
 | x8 | s0/fp | Saved register/frame pointer |  | * |
 | x9 | s1 | Saved register |  | * |
@@ -33,7 +33,7 @@ TODO: This is a very preliminary proposal and must be discussed thouroghly with 
 | x12,x13 | a2,a3 | Function arguments | * |  |
 | x14,x15 | a4,a5 | Function arguments | * |  |
 |||||
-| x16–x17 | a6,a7 | Function arguments |  | * |
+| x16–x17 | ?? | Temporaries? |  | * |
 | x18–x27 | s2-s11 | Saved registers |  | * |
 | x28–x31 | t3-t6 | Temporaries |  | * |
 |||||
@@ -53,7 +53,7 @@ TODO: This is a very preliminary proposal and must be discussed thouroghly with 
 | x2 | sp | Stack pointer |  | * |
 | x3 | gp | Global pointer |  |  |
 | x4 | tp | Thread pointer |  |  |
-| x5 | t0/**sl** | Temporary/**Stack limit** |  | * |
+| x5 | **sl** | **Stack limit** |  | * |
 | x6–x7 | t1,t2 | Temporaries |  | * |
 | x8 | s0/fp | Saved register/frame pointer |  | * |
 | x9 | s1 | Saved register |  | * |
