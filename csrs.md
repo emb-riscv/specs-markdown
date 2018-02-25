@@ -110,16 +110,16 @@ TODO: possibly find a better name. how about `ipriothup`?
 
 TODO: allocate a number for it.
 
-## Main Stack Pointer (`msp`)
+## Main Stack Pointer (`spm`)
 
-The `msp` CSR is an XLEN-bit read-write register that holds the main stack pointer. 
+The `spm` CSR is an XLEN-bit read-write register that holds the main stack pointer. 
 It is always the default stack pointer after reset. Interrupts and exceptions always 
 use this stack to store the exception frame.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `msp` | rw | startup | The main stack pointer. |
+| [(xlen-1):1] | `spm` | rw | startup | The main stack pointer. |
 
 This CSR is specific to the RISC-V microcontroller profile.
 
@@ -127,7 +127,7 @@ TODO: check if the stack has more strict alignment requirements.
 
 TODO: allocate a number for it.
 
-## Main Stack Pointer Limit (`msplimit`)
+## Main Stack Pointer Limit (`spmlimit`)
 
 The `msplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
 the main stack can descend.
@@ -135,7 +135,7 @@ the main stack can descend.
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `msplimit` | rw | startup | The main stack lower limit. |
+| [(xlen-1):1] | `spmlimit` | rw | startup | The main stack lower limit. |
 
 If an operation using the main stack pointer attempts to write to an address below 
 the limit, an exception is triggered and the operation is not performed.
@@ -144,9 +144,9 @@ This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
-## Thread Stack Pointer (`tsp`)
+## Thread Stack Pointer (`spt`)
 
-The `tsp` CSR is an XLEN-bit read-write register that holds the stack pointer used 
+The `spt` CSR is an XLEN-bit read-write register that holds the stack pointer used 
 by the application current thread.
 
 It is a CSR because access to the stack pointer may occur in context switching 
@@ -155,13 +155,13 @@ routines and needs to be fast.
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `tsp` | rw | Unknown | The thread stack pointer. |
+| [(xlen-1):1] | `spt` | rw | Unknown | The thread stack pointer. |
 
 This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
-## Thread Stack Pointer Limit (`tsplimit`)
+## Thread Stack Pointer Limit (`sptlimit`)
 
 The `tsplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
 the thread stack can descend.
@@ -172,7 +172,7 @@ routines and needs to be fast.
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `mtsplimit` | rw | Unknown | The thread stack lower limit. |
+| [(xlen-1):1] | `sptplimit` | rw | Unknown | The thread stack lower limit. |
 
 If an operation using the thread stack pointer attempts to write to an address below 
 the limit, an exception is triggered and the operation is not performed.
