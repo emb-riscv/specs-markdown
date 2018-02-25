@@ -138,9 +138,13 @@ The first 8 entries are reserved for system interrupts:
 
 ### Context stack
 
-When exceptions and interrupts are taken, they push a context on the main stack. The stack pointer must be xlen aligned. For RV32 harts with the D extension, an additional alignment to 8 must be performed by adding a stack padding.
+When exceptions and interrupts are taken, they push a context on the main stack. 
+The stack pointer must be xlen aligned. For RV32 harts with the D extension, 
+an additional alignment to 8 must be performed by adding a stack padding.
 
-> <sup>ARM has a status bit that aligns the stack to 8 even if double precision is not used; depending on how caches are organised, it may lead to faster context switches it might be better to do the same.</sup>
+If the `stackalign` bit in the `ctrl` CSR is set, the stack is always aligned
+at 8. Depending on how caches are organised, it usually allow faster context
+switches.
 
 For the current RISC-V Linux ABI, the stack context is, from hight to low addresses
 
