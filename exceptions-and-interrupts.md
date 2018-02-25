@@ -162,7 +162,7 @@ switches.
 
 For the current RISC-V Linux ABI, the stack context is, from hight to low addresses
 
-- <- original SP 
+- <- original sp 
 - optional padding
 - fcsr (\*) <- for double, it must be aligned to 8
 - ft11 (\*)
@@ -202,7 +202,7 @@ For the current RISC-V Linux ABI, the stack context is, from hight to low addres
 - t2
 - t1
 - t0
-- ra <- new SP
+- ra <- new sp
 
 The floating point registers are not saved by devices that do not implement the 
 F or D extentions and do not have the `ctrl.fpena` bit set.
