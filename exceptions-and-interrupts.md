@@ -136,7 +136,13 @@ The first 8 entries are reserved for system interrupts:
 * `rtclock_cmp`
 * `sysclock_cmp`
 
-### Context stack
+## Vector tables relocation
+
+The starting address used by a RISC-V microcontroller be boot memory is usually either a flash memory or a ROM device, and the value cannot be changed at run-time. However, in some applications, like booladers, start with the vector tables at one address and later transfer control to the application located at a different address. For such cases it is useful to be able to modify or define vector tables at run-time. In order to handle this, the RISC-V microcontroller support a feature called Vector Table Relocation.
+
+For this, the `hcb.excvta` and `hcb.intvta` registers can be written at any time from code running in machine mode.
+
+## Context stack
 
 When exceptions and interrupts are taken, they push a context on the main stack. 
 The stack pointer must be xlen aligned. For RV32 harts with the D extension, 
