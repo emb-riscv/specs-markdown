@@ -52,6 +52,7 @@ The `status` CSR is an XLEN-bit read/write register that identifies the current 
 | [?] | `user` | r | 0 | If 1, the core is in user mode. |
 | [(xlen-1):?] | | | | Reserved. |
 
+TODO: the bits in this register, as the entire mechanism to enter/exit exceptions and traps, requires a thorough analysis.
 
 ## Interrupt Enable (`iena`)
 
