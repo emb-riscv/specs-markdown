@@ -16,6 +16,7 @@ As a secondary goal, if possible, it must remain consistent when applied to the 
 
 TODO: This is a very preliminary proposal and must be discussed thouroghly with the compiler maintainers.
 
+TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is mentioned as alternate link register.
 ### RV32I/RV64I
 
 | Register | ABI Name | Description | Caller | Calee |
