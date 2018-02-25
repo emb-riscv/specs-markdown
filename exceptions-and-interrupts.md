@@ -5,9 +5,9 @@ instruction in the current RISC-V hart.
 
 Interrupts are events that occur asynchronously outside any of the RISC-V harts.
 
-The mechanism to process exceptions and interrupts is one of the main 
-improvements in the RISC-V microcontroller profile versus the privileged
-profile.
+The mechanism to process exceptions and interrupts (vectored, nested, separate stack) 
+is one of the main improvements in the RISC-V microcontroller profile over the 
+privileged profile.
 
 ## Exceptions
 
@@ -83,8 +83,7 @@ possible for multiple harts to process the same interrupt.
 Each hart has an associated priority threshold, held in a hart-specific register. 
 
 Only interrupts that have a priority strictly greater than the threshold will 
-cause an interrupt to 
-be sent to the hart.
+cause an interrupt to be sent to the hart.
 
 ### Priority bits
 
@@ -109,7 +108,7 @@ be at least 3 (i.e. at least 8 priority levels).
 
 If an hart is executing an interrupt handler and a higher priority interrupt 
 occurs, the current interrupt handler is temporarily suspended and the higher 
-priority interrupt handler is executed to completion, than the first 
+priority interrupt handler is executed to completion, then the initial 
 interrupt handler is resumed.
 
 Each new interrupt creates a new context on the main stack, and removes it 
@@ -142,13 +141,13 @@ The first 8 entries are reserved for system interrupts:
 
 ## Vector tables relocation
 
-The starting address used by a RISC-V microcontroller be boot memory is usually 
+The starting address used by a RISC-V microcontroller is usually 
 either a flash memory or a ROM device, and the value cannot be changed at run-time. 
-However, some applications, like booladers or applications running in RAM, 
+However, some applications, like booloaders or applications running in RAM, 
 start with the vector tables at one 
 address and later transfer control to the application located at a different 
 address. For such cases it is useful to be able to modify or define vector tables 
-at run-time. In order to handle this, the RISC-V microcontroller support a feature 
+at run-time. In order to handle this, the RISC-V microcontrollers support a feature 
 called Vector Table Relocation.
 
 For this, the `hcb.excvta` and `hcb.intvta` registers can be written at any time from 
@@ -156,17 +155,25 @@ code running in machine mode.
 
 ## Context stack
 
-When exceptions and interrupts are taken, they push a context on the main stack. 
+When exceptions and interrupts are taken, they push a context on the current stack. 
 The stack pointer must be xlen aligned. For RV32 harts with the D extension, 
 an additional alignment to 8 must be performed by adding a stack padding.
 
 If the `stackalign` bit in the `ctrl` CSR is set, the stack is always aligned
-at 8. Depending on how caches are organised, it usually allow faster context
+at 8. Depending on how caches are organised, this usually allows faster context
 switches.
+
+The current stack is either `spt` (when in thread mode and the `ctrl.sptena` is set),
+or `spm` otherwise (when already in handler mode or `ctrl.sptena` is not set).
+
+In other words, regardless how many nested interrups occur, there is only one
+context saved on the thread stack, and all other happen on the main stack. Also
+all handlers use the main stack, and do not pollute the thread stack, which
+do not need to reserve space for the interrupt handlers.
 
 For the current RISC-V Linux ABI, the stack context is, from hight to low addresses
 
-- <- original sp 
+- <- original sp (`spt` or `spm`)
 - optional padding
 - fcsr (\*) <- for double, it must be aligned to 8
 - ft11 (\*)
@@ -211,21 +218,26 @@ For the current RISC-V Linux ABI, the stack context is, from hight to low addres
 The floating point registers are not saved by devices that do not implement the 
 F or D extentions and do not have the `ctrl.fpena` bit set.
 
-To reduce latency, in parallel with saving the registers, the address of the exception/interrupt
-handler is fetched from the vector table.
+To reduce latency, in parallel with saving the registers, the address of the 
+exception/interrupt handler is fetched from the vector table.
 
 After saving the context stack:
 
 - the `handler` bit in the `status` is set, to mark the handler-mode
-- the `ra` register is adjusted to a special pattern 
-that is illegal as a return address
-- the `pc` register is loaded with the handler address; this is 
+- the `ra` register is adjusted to a special pattern HANDLER_RETURN
+- the `pc` register is loaded with the handler address; this is equivalent
+with calling the handler.
 
-The special pattern is an 'all-1' for the given xlen.
+When the C/C++ function returns, the return code will load `pc` with the 
+special HANDLER_RETURN value in `ra`. 
+This will trigger the exception return mechanism, which will pop the context 
+from the stack and return from the interrupt/exception.
 
-When the C/C++ function returns, it'll load `pc` with the specail return address in `ra`. 
-This will trigger the exception return mechanism, which will pop the context from the stack 
-and return from the interrupt/exception.
+The special HANDLER_RETURN pattern is an 'all-1' for the given xlen.
+Since the RISC-V microcontroller profile reserves a slice at the end of
+the memory space, and this slice has the execute permissions removed,
+it does not create any confusion.
+
 
 
 
