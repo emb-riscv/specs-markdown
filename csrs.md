@@ -50,7 +50,6 @@ The `status` CSR is an XLEN-bit read/write register that identifies the current 
 |:-----|:-----|:-----|:------|-------------|
 | [?] | `handler` | r | 0 | If 1, the core is in handler mode. |
 | [?] | `user` | r | 0 | If 1, the core is in user mode. |
-
 | [(xlen-1):?] | | | | Reserved. |
 
 
