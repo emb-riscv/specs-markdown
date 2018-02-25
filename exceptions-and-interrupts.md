@@ -29,11 +29,21 @@ Exceptions, in decreasing priority order:
 * Store/AMO page fault
 
 TODO: rework for microcontrollers
+
 TODO: NMI? routed only to hart 0?
+
+### Exceptions vector table
+
+The exceptions vector table is an array of addresses (xlen size elements) pointing to 
+interrupt handlers (C/C++ functions).
+
+Its address is kept in (`hcb.excvta`); it is automatically initialised at startup with 
+the address provided in the hart startup block and can be be later writen by software.
 
 ## Interrupts
 
-Interrupts are generaly **triggered by peripherals** to notify the application of a given condition or event. 
+Interrupts are generaly **triggered by peripherals** to notify the application of a 
+given condition or event. 
 
 Interrupts trigger the transfer of control to an interrupt handler associated with a hart.
 
@@ -41,42 +51,48 @@ A hart can have up to **1024** interrupts, including the system interrupts.
 
 ### Interrupt priorities
 
-Interrupts have **programable priorities**, defined as small unsigned numbers, usually bytes.
+Interrupts have **programable priorities**, defined as small unsigned numbers, 
+usually bytes.
 The **priority value 0** is reserved to mean 
-_'never interrupt'_ or _'disabled'_, and interrupt priorities increase with an increasing integer value.
+_'never interrupt'_ or _'disabled'_, and interrupt priorities increase with 
+an increasing integer value.
 
-Interrupts with the same priority are processed in the order of their index in the interrupt 
+Interrupts with the same priority are processed in the order of their index 
+in the interrupt 
 table, with a higher index meaning a higher priority.
 
-For multi-hart devices, the interrupt wiring to harts is implementation specific; each interrupt 
+For multi-hart devices, the interrupt wiring to harts is implementation specific; 
+each interrupt 
 may be wired to one or several harts; it is the responsibility 
-of each hart to enable the interrupts it desires to process. For redundant systems, it is also
+of each hart to enable the interrupts it desires to process. For redundant systems, 
+it is also
 possible for multiple harts to process the same interrupt.
 
 ### Interrupt priority threshold
 
 Each hart has an associated priority threshold, held in a hart-specific register. 
 
-Only interrupts that have a priority strictly greater than the threshold will cause an interrupt to 
+Only interrupts that have a priority strictly greater than the threshold will 
+cause an interrupt to 
 be sent to the hart.
-
-The threashold register should always be able to hold the value of zero, in which case no interrupts are 
-masked. The threshold register should always be able to hold the 'all-1' value, in which case all interrupts 
-are masked (functionally equivalent to disabling interrupts).
 
 ### Priority bits
 
-The actual number of bits used to store the interrupt priority is implementation specific, but should be in the range [3-8].
+The actual number of bits used to store the interrupt priority is implementation 
+specific, but must 
+be at least 3 (i.e. at least 8 priority levels).
 
-If lower than 8 bits are implemented, the existing bits should always store the most significant bits (MSB), 
-with the least significant bits (LSB) ignored on write and reading 0.
-
-> <sup>The reason for removing the LSB instead of MSB is to make it easier to port software between RISC-V devices
-with different priority bits schemes. In this way, a program written for devices with 4-bit priority bits is likely to 
-be able to run on devices with 3-bit priority bits. If the MSB 
-is removed instead of the LSB, it might be possible to get a priority inversion,  
-for example, if an application uses priority level 0x05 for IRQ0 and level 0x03 for IRQ1, IRQ0 should have higher 
-priority. But when MSB bit 2 is removed, IRQ0 will become level 0x01 and have a lower priority than IRQ1.</sup>
+> <sup>Extra care must be taken when moving code to implmentations with fewer 
+  priority levels, since truncation could lead to priority inversions; it is 
+  recommended that software handling priorities know about the numbr of bits 
+  and use asserts to validate the priority values.</sup>
+  
+> <sup>For example, when moving a program from devices 
+  with 4-bit priority bits to devices with 3-bit priorities, if the application 
+  uses priority 0x05 for IRQ0 and priority 0x03 
+  for IRQ1, IRQ0 is expected to have a higher 
+  priority. But if MSB bit 2 is removed, IRQ0 will become level 0x01 and have a 
+  lower priority than IRQ1.</sup>
 
 ### System interrupts
 
