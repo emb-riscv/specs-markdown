@@ -1,16 +1,20 @@
 # Exceptions and Interrupts
 
-Exceptions are unusual conditions occuring at run time, associated with an instruction in the current RISC-V hart.
+Exceptions are unusual conditions that occur at run time, associated with an 
+instruction in the current RISC-V hart.
 
 Interrupts are events that occur asynchronously outside any of the RISC-V harts.
 
 ## Exceptions
 
-Exceptions trigger **a synchronous transfer of contro**l to an exception handler within the current hart.
+Exceptions trigger **a synchronous transfer of contro**l to an exception handler 
+within the current hart.
 
 Exceptions cannot be disabled, and handlers to process them should always be installed.
 
-Some exceptions are **resumable**, i.e. execution can continue to the next instruction (for example the illegal instruction handler can implement a custom instruction and resume).
+Some exceptions are **resumable**, i.e. execution can continue to the next 
+instruction (for example the illegal instruction handler can implement a custom 
+instruction and resume).
 
 Exceptions, in decreasing priority order:
 
@@ -46,7 +50,8 @@ the address provided in the hart startup block and can be later writen by softwa
 Interrupts are generaly **triggered by peripherals** to notify the application of a 
 given condition or event. 
 
-Interrupts trigger the transfer of control to an interrupt handler associated with a hart.
+Interrupts trigger the transfer of control to an interrupt handler associated with 
+a hart.
 
 A hart can have up to **1024** interrupts, including the system interrupts.
 
