@@ -40,15 +40,18 @@ functionality.
 | [?] | `fplazy` | rw | 1 | Floating point lazy context save: <br>- 0: Disable automatic lazy context save.<br>- 1: Enable automatic lazy context save. |
 | [(xlen-1):?] | | | | Reserved. |
 
-\*1: The default value for the `stackalign` is implementaion specific; the recommended default is 1.
+\*1: The default value for the `stackalign` is implementaion specific; the 
+recommended default is 1.
 
-TODO: decide if a `reset` bit fits here.
+TODO: decide if a `reset` bit (to reset the current hart) fits here, and 
+where should be a `sysreset` to reset the entire device.
 
 TODO: allocate a number for it.
 
 ## Mode and status (`status`)
 
-The `status` CSR is an XLEN-bit read/write register that identifies the current hart mode and status.
+The `status` CSR is an XLEN-bit read/write register that identifies the 
+current hart mode and status.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
@@ -57,7 +60,8 @@ The `status` CSR is an XLEN-bit read/write register that identifies the current 
 | [(xlen-2):(xlen-16)] | `cause` | r | 0 | The exception or interrupt cause code. |
 | [(xlen-1)] | `interupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
 
-TODO: the bits in this register, as the entire mechanism to enter/exit exceptions and traps, requires a thorough analysis.
+TODO: the bits in this register, as the entire mechanism to enter/exit 
+exceptions and traps, requires a thorough analysis.
 
 TODO: allocate a number for it.
 
@@ -283,7 +287,9 @@ TODO:
 
 ### Interrupt critical sections
 
-In a single hart device, the simple ways to implement critical section is to fully disable interrupts, assuming the application does not need to keep any fast interrupts enabled. 
+In a single hart device, the simple ways to implement critical section is to 
+fully disable interrupts, assuming the application does not need to keep any 
+fast interrupts enabled. 
 
 ```c
 void
@@ -300,7 +306,10 @@ f1(void)
 }
 ```
 
-Otherwise, if the application uses some fast interrupts, it can raise the interrupt threashold to a limit below the fast interrupts priority. Please note how entering the critical sections guarantees that the threashold is not lowered.
+Otherwise, if the application uses some fast interrupts, it can raise the 
+interrupt threashold to a limit below the fast interrupts priority. Please 
+note how entering the critical sections guarantees that the threashold is 
+not lowered.
 
 ```c
 void 
