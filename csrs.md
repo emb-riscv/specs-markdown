@@ -42,6 +42,10 @@ functionality.
 
 \*1: The default value for the `stackalign` is implementaion specific; the recommended default is 1.
 
+TODO: decide if a `reset` bit fits here.
+
+TODO: allocate a number for it.
+
 ## Mode and status (`status`)
 
 The `status` CSR is an XLEN-bit read/write register that identifies the current hart mode and status.
@@ -54,6 +58,8 @@ The `status` CSR is an XLEN-bit read/write register that identifies the current 
 | [(xlen-1)] | `interupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
 
 TODO: the bits in this register, as the entire mechanism to enter/exit exceptions and traps, requires a thorough analysis.
+
+TODO: allocate a number for it.
 
 ## Interrupt Enable (`iena`)
 
