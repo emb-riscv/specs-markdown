@@ -10,7 +10,7 @@ interrupt latency.
 
 ## Proposal
 
-The main goal of the RISC-V Embedded ABI is to balance the increase in performance for background code with the reduced interrupt latency.
+The main goal of the RISC-V Embedded ABI is to balance a high performance for background code with a reduced interrupt latency.
 
 As a secondary goal, if possible, it must remain consistent when applied to the reduced registry set used by the RV32E devices.
 
