@@ -171,7 +171,8 @@ context saved on the thread stack, and all other happen on the main stack. Also
 all handlers use the main stack, and do not pollute the thread stack, which
 do not need to reserve space for the interrupt handlers.
 
-For the current RISC-V Linux ABI, the stack context is, from hight to low addresses
+For the current RISC-V Linux ABI, the stack context is, from hight to low 
+addresses:
 
 - <- original sp (`spt` or `spm`)
 - optional padding
@@ -237,15 +238,3 @@ The special HANDLER_RETURN pattern is an 'all-1' for the given xlen.
 Since the RISC-V microcontroller profile reserves a slice at the end of
 the memory space, and this slice has the execute permissions removed,
 it does not create any confusion.
-
-
-
-
-
-
-
-
-
-
-
-
