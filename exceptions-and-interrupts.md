@@ -5,10 +5,6 @@ instruction in the current RISC-V hart.
 
 Interrupts are events that occur asynchronously outside any of the RISC-V harts.
 
-The mechanism to process exceptions and interrupts (vectored, nested, separate stack) 
-is one of the main improvements in the RISC-V microcontroller profile over the 
-privileged profile.
-
 > <sup>Other architectures define interrupts as a specific type of exceptions.
   However, for the RISC-V microcontroller profile, exceptions are specific 
   for the architecture, and common to all devices, while interrupts are
@@ -18,6 +14,10 @@ privileged profile.
   in the architecture software package, and one for interrupts, to be 
   implemented in the device software package.</sup>
   
+The mechanism to process exceptions and interrupts (vectored, nested, separate stack) 
+is one of the main improvements in the RISC-V microcontroller profile over the 
+privileged profile.
+
 ## Exceptions
 
 Exceptions trigger a **synchronous transfer of control** to an exception handler 
