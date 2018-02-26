@@ -38,12 +38,15 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 | x18–x27 | s2-s11 | Saved registers |  | * |
 | x28–x31 | t3-t6 | Temporaries |  | * |
 |||||
-| f0–f7 | ft0-ft7 | FP temporaries | * |  |
-| f8–f9 | fs0-fs1 | FP saved registers |  | * |
-| f10–f11 | fa0-fa1 | FP arguments/return values | * |  |
-| f12–f17 | fa2-fa7 | FP arguments | * |  |
-| f18–f27 | fs2-fs11 | FP saved registers |  | * |
-| f28–f31 | ft8-ft11 | FP temporaries | * |  |
+| f0–f1 | fa0-fa1 | FP arguments/return values | * |  |
+| f2–f7 | fa2-fa7 | FP arguments | * |  |
+| f8–f15 | ft0-ft7 | FP temporaries | * |  |
+| f16–f31 | fs0-fs15 | FP saved registers |  | * |
+
+> <sup>To simplify the context push/pop code, 
+the floating point registers were reordered, to group
+all the caller register in one half of the set and the callee 
+saved registers in the other half.</sup>
 
 ### RV32E
 
