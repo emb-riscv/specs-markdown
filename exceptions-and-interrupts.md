@@ -184,7 +184,7 @@ The stack pointer must be xlen aligned. For RV32 harts with the D extension,
 an additional alignment to 8 must be performed by adding a stack padding.
 
 If the `stackalign` bit in the `ctrl` CSR is set, the stack is always aligned
-at 8. Depending on how caches are organised, this usually allows faster context
+at 8. Although this is implemnetation specific, it usually allows faster context
 switches.
 
 The current stack is either `spt` (when in application mode and the `ctrl.sptena` is set),
