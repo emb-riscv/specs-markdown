@@ -16,7 +16,7 @@ within the current hart.
 
 Some exceptions cannot be disabled, and handlers to process them should always be installed.
 
-Some exceptions are **resumable**, i.e. execution can continue to the next 
+Some exceptions are **resumable**, i.e. an execution can continue to the next 
 instruction (for example the illegal instruction handler can implement a custom 
 instruction and resume).
 
