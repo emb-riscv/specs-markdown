@@ -1,9 +1,9 @@
 # Exceptions and Interrupts
 
-Exceptions are unusual conditions that occur at run time, associated with an 
-instruction in the current RISC-V hart.
+Exceptions are unusual **conditions that occur at run time, associated with an 
+instruction** in the current RISC-V hart.
 
-Interrupts are events that occur asynchronously outside any of the RISC-V harts.
+Interrupts are **events that occur asynchronously outside** any of the RISC-V harts.
 
 > <sup>Other architectures define interrupts as a specific type of exceptions.
   However, for the RISC-V microcontroller profile, exceptions are specific 
