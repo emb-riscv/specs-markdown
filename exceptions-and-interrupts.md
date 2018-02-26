@@ -272,7 +272,8 @@ microcontroller profile should use an Embedded ABI.
 - `x5/t0`
 - `x1/ra` <-- new `sp`, possibly align 8
 
-(\*) The floating point registers are not saved by devices that do not implement the 
+(\*) The floating point registers are not saved by devices that do not 
+implement the 
 F or D extentions and do not have the `ctrl.fpena` bit set.
 
 To reduce latency, in parallel with saving the registers, the address of the 
@@ -280,8 +281,9 @@ exception/interrupt handler is fetched from the vector table.
 
 After saving the context stack:
 
-- the `handler` bit in the `status` is set, to mark the handler-mode
-- the `ra` register is adjusted to a special pattern HANDLER_RETURN, defined below
+- the `handler` bit in the `status` register is set, to mark the handler-mode
+- the `ra` register is loaded with a special HANDLER_RETURN pattern, 
+defined below
 - the `pc` register is loaded with the handler address; this is equivalent
 with calling the handler.
 
@@ -290,13 +292,18 @@ special HANDLER_RETURN value in `ra`.
 This will trigger the exception return mechanism, which will pop the context 
 from the stack and return from the interrupt/exception.
 
+## The HANDLER_RETURN pattern
+
 The special HANDLER_RETURN pattern is an 'all-1' for the given xlen with 
-some bits used to differentiate contexts.
+some bits used to differentiate contexts. 
 Since the RISC-V microcontroller profile reserves a slice at the very end 
 of the memory space (0xF...), and this slice has the execute permissions
 removed, it does not create any confusion.
 
-The HANDLER_RETURN pattern:
+This value is generated at exception entrance and is stored in the return 
+address register (`ra`).
+
+The HANDLER_RETURN pattern bits:
 
 | Bits | Value | Description |
 |:-----|:------|-------------|
