@@ -181,8 +181,8 @@ increments the stack pointer.
 For the current RISC-V Linux ABI, the stack context is, from hight to low 
 addresses:
 
-- <- original sp (`spt` or `spm`)
-- optional padding
+- <-- original sp (`spt` or `spm`)
+- (optional padding)
 - status (CSR, the current mode when the exception/interrupt occured)
 - pc (the next address to return from the exception/interrupt)
 - x31/t6
@@ -200,12 +200,12 @@ addresses:
 - x7/t2
 - x6/t1
 - x5/t0
-- x1/ra <- new sp
+- x1/ra <-- new sp, possibly align 8
 
 With the new RISC-V EABI proposal, this would be reduced to a more 
 reasonable context stack:
 
-- <- original sp (`spt` or `spm`)
+- <-- original sp (`spt` or `spm`)
 - optional padding
 - status (CSR, the current mode when the exception/interrupt occured)
 - pc (the next address to return from the exception/interrupt)
@@ -215,12 +215,13 @@ reasonable context stack:
 - x12/a2
 - x11/a1
 - x10/a0
-- x1/ra <- new sp
+- x1/ra <-- new sp, possibly align 8
 
-With floating port added, the context stack for the current RISC-V 
-Linux ABI is quite large:
+With floating point support added, the context stack for the current RISC-V 
+Linux ABI is quite large, which is another good reason why the RISC-V 
+microcontroller profile should use an Embedded ABI.
 
-- <- original sp (`spt` or `spm`)
+- <-- original sp (`spt` or `spm`)
 - optional padding
 - fcsr (\*) <- for double, it must be aligned to 8
 - f31/ft11 (\*)
@@ -260,7 +261,7 @@ Linux ABI is quite large:
 - x7/t2
 - x6/t1
 - x5/t0
-- x1/ra <- new sp
+- x1/ra <-- new sp, possibly align 8
 
 The floating point registers are not saved by devices that do not implement the 
 F or D extentions and do not have the `ctrl.fpena` bit set.
@@ -292,6 +293,10 @@ The HANDLER_RETURN pattern:
 |:-----|:------|-------------|
 | [0] | 1 | Reserved. | 
 | [1] | 0 | Reserved. | 
-| [2] | - 0: Linux<br>- 1: Embedded | ABI |
-| [3] | - 0: short, without FP<br>- 1: long, with FP | Stack frame type. |
+| [2] | - 0: short, without FP<br>- 1: long, with FP | Stack frame type. |
+| [3] | - 0: Linux<br>- 1: Embedded | ABI |
 | [(xlen-1):(xlen-4)] | 1 | Reserved. | 
+
+The ABI bit is used mainly for compatibility reasons, until the EABI 
+will be finalised and implemented by the compiler.
+
