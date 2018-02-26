@@ -327,10 +327,11 @@ harts_startup_blocks[] = {
     hart_startup,
     hart_stack_pointer,
     hart_global_pointer,
-    hart_exception_handlers
+    hart_exception_handlers // <--
   }
 };
 
+// The exception vector table address is automatically set during startup.
 riscv_exception_handler_t
 hart_exception_handlers[] = {
   exception_handle_address_misaligned,
@@ -339,6 +340,7 @@ hart_exception_handlers[] = {
   // ...
 };
 
+// An example of an exception handler. Plain C function. May return.
 void
 exception_handle_address_misaligned() 
 {
@@ -351,7 +353,9 @@ void
 hart_startup(void)
 {
   // ...
-  hcb.intvta
+  // Set the interrupt vector table address.
+  hcb.intvta = hart_interrupt_handlers;
+  // ...
 }
 
 riscv_interrupt_handler_t
@@ -364,19 +368,14 @@ hart_interrupt_handlers[] = {
 
 // ...
 
-void
-interrupt_handle_rtclock_cmp(void)
-{
-  // ...
-}
-
+// An example of an interrupt handler. Plain C function.
 void
 interrupt_handle_syslock_cmp(void)
 {
   // ...
+  
+  // Simply returns without anything special.
 }
 
 
 ```
-
-  
