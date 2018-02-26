@@ -33,11 +33,11 @@ functionality.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [?] | `sptena` | r | 0 | Thread stack enable: <br>- 0 Always use `spm` as `sp`. <br>- 1, in Application mode use `spt` as `sp`. |
+| [?] | `sptena` | r | 0 | Thread stack enable: <br>- 0 always use `spm` as `sp`. <br>- 1, in **application** mode use `spt` as `sp`. |
 | [?] | `stackalign` | rw | (\*1) | The context stack alignment: <br>- 0: 4-bytes alignment guaranteed, no SP adjustment is performed.<br>- 1: 8-bytes alignment guaranteed, SP adjusted if necessary.|
 | [?] | `fpena` | rw | 0 | Floating point enable: <br>- 0: if the FP unit is disabled.<br>- 1: if the FP unit is enabled. |
 | [?] | `fpcxs` | rw | 1 | Floating point context save: <br>- 0: if the context stack should not save FP registers. <br>- 1: if the context stack should save FP registers. |
-| [?] | `fplazy` | rw | 1 | Floating point lazy context save: <br>- 0: Disable automatic lazy context save.<br>- 1: Enable automatic lazy context save. |
+| [?] | `fplazy` | rw | 1 | Floating point lazy context save: <br>- 0: disable automatic lazy context save.<br>- 1: enable automatic lazy context save. |
 | [(xlen-1):?] | | | | Reserved. |
 
 \*1: The default value for the `stackalign` is implementaion specific; the 
