@@ -293,8 +293,9 @@ The HANDLER_RETURN pattern:
 |:-----|:------|-------------|
 | [0] | 1 | Reserved. | 
 | [1] | 0 | Reserved. | 
-| [2] | - 0: short, without FP<br>- 1: long, with FP | Stack frame type. |
-| [3] | - 0: Linux<br>- 1: Embedded | ABI |
+| [2] | - 0: main stack<br>- 1: thread stack | Stack that holds the context to pop. |
+| [3] | - 0: short, without FP<br>- 1: long, with FP | Stack frame type. |
+| [4] | - 0: Linux<br>- 1: Embedded | ABI |
 | [(xlen-1):(xlen-4)] | 1 | Reserved. | 
 
 The ABI bit is used mainly for compatibility reasons, until the EABI 
