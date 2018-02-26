@@ -65,13 +65,16 @@ characteristics of a system, by not having to disable all interrupts while handl
 data structures. By raising the priority threshold instead of completely disabling interrupts, it 
 is possible to keep fast interrupts still active, regardless how busy the RTOS itself is.
 
-## Soft reset
+## Hart soft reset
 
-The soft reset is intended to reset the entire device from within.
+The hart soft reset is intended to reset the running hart from within.
+
+## Device Soft reset
+
+The device soft reset is intended to reset the entire device from within.
 
 Having an architecture soft reset allows to write the code to reset the device only once 
-inside the RTOS and do not rely 
-on device specific code.
+inside the RTOS and do not rely on device specific code.
 
 ## User mode
 
