@@ -9,19 +9,21 @@ If multiple harts share a memory area to fetch code (like a flash area), the sta
 For a RISC-V hart, the minimum information required to start a hart is:
 
 - a pointer to the startup routine
-- a pointer to the main stack (SP)
-- a pointer to the RISC-V global pointer (GP)
+- a pointer to the main stack (`spm`)
+- a pointer to the RISC-V global pointer (`gp`)
 - a pointer to the exception table
 
 All pointers are XLEN bits.
 
 For further extensions, a few words at the end of the startup area are reserved.
 
-> <sup>The pointer to the exception table must be known by the hart before entering the startup code, to catch possible execution faults in the startup code.</sup>
+> <sup>The pointer to the exception table must be known by the hart before entering 
+  the startup code, to catch possible execution faults in the startup code.</sup>
 
 ## Usage
 
-With the above definition of a startup block, there is no need for any assembly instructions, the entire startup code can be written in C/C++.
+With the above definition of a startup block, there is no need for any assembly 
+instructions, the entire startup code can be written in C/C++.
 
 ```c++
 #if defined __cplusplus
