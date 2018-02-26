@@ -1,10 +1,16 @@
 # Device startup
 
-After reset, all harts in a RISC-V microcontroller start executing code, identified by a per-hart **startup block**.
+After reset, all harts in a RISC-V microcontroller start executing code, identified by a 
+per-hart **startup block**.
 
-The location of the hart startup block is implementation specific. The typical configuration with a single hart has the hart startup block located at the begining of the memory space (address 0x00000000).
+The location of the hart startup block is implementation specific. The typical 
+configuration with a single hart has the startup block located at the begining 
+of the memory space (usually address 0x00000000).
 
-If multiple harts share a memory area to fetch code (like a flash area), the startup blocks are organised as an array located at the begining of the shared memory area. If different harts have different memory areas, the startup blocks are located at the beginning of each area.
+If multiple harts share a memory area to fetch code (like a flash area), the 
+startup blocks are organised as an array located at the begining of the shared 
+memory area. If different harts have different memory areas, the startup blocks 
+are located at the beginning of each area.
 
 For a RISC-V hart, the minimum information required to start a hart is:
 
