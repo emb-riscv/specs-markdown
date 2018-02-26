@@ -7,7 +7,7 @@ For performance reasons, in the RISC-V microcontroller profile only a small numb
 of core system registers are required to be CSRs; the rest are available in the memory 
 mapped system area.
 
-Unless otherwise mentioned, access to these CSRs is limited to machine mode.
+Unless otherwise mentioned, access to these CSRs is limited to machine/privileged mode.
 
 ## Hart ID Register (`hartid`)
 
@@ -56,7 +56,7 @@ current hart mode and status.
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
 | [?] | `handler` | r | 0 | Hart mode:<br>- 0: application mode.<br>- 1: handler mode. |
-| [?] | `user` | r | 0 | Privilege:<br>-0: Machine/privileged mode.<br>- 1: user/unprivileged mode. |
+| [?] | `user` | r | 0 | Protection mode:<br>-0: machine/privileged mode.<br>- 1: user/unprivileged mode. |
 | [(xlen-2):(xlen-16)] | `cause` | r | 0 | The exception or interrupt cause code. |
 | [(xlen-1)] | `interupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
 
