@@ -190,89 +190,89 @@ increments the stack pointer.
 For the current RISC-V Linux ABI, the stack context is, from hight to low 
 addresses:
 
-- <-- original sp (`spt` or `spm`)
+- <-- original `sp` (`spt` or `spm`)
 - (optional padding)
-- status (CSR, the current mode when the exception/interrupt occured)
-- pc (the next address to return from the exception/interrupt)
-- x31/t6
-- x30/t5
-- x29/t4
-- x28/t3
-- x17/a7
-- x16/a6
-- x15/a5
-- x14/a4
-- x13/a3
-- x12/a2
-- x11/a1
-- x10/a0
-- x7/t2
-- x6/t1
-- x5/t0
-- x1/ra <-- new sp, possibly align 8
+- `status` (CSR, the current mode when the exception/interrupt occured)
+- `pc` (the next address to return from the exception/interrupt)
+- `x31/t6`
+- `x30/t5`
+- `x29/t4`
+- `x28/t3`
+- `x17/a7`
+- `x16/a6`
+- `x15/a5`
+- `x14/a4`
+- `x13/a3`
+- `x12/a2`
+- `x11/a1`
+- `x10/a0`
+- `x7/t2`
+- `x6/t1`
+- `x5/t0`
+- `x1/ra` <-- new `sp`, possibly align 8
 
 With the new RISC-V EABI proposal, this would be reduced to a more 
 reasonable context stack:
 
-- <-- original sp (`spt` or `spm`)
-- optional padding
-- status (CSR, the current mode when the exception/interrupt occured)
-- pc (the next address to return from the exception/interrupt)
-- x15/a5
-- x14/a4
-- x13/a3
-- x12/a2
-- x11/a1
-- x10/a0
-- x1/ra <-- new sp, possibly align 8
+- <-- original `sp` (`spt` or `spm`)
+- (optional padding)
+- `status` (CSR, the current mode when the exception/interrupt occured)
+- `pc` (the next address to return from the exception/interrupt)
+- `x15/a5`
+- `x14/a4`
+- `x13/a3`
+- `x12/a2`
+- `x11/a1`
+- `x10/a0`
+- `x1/ra` <-- new `sp`, possibly align 8
 
 With floating point support added, the context stack for the current RISC-V 
 Linux ABI is quite large, which is another good reason why the RISC-V 
 microcontroller profile should use an Embedded ABI.
 
-- <-- original sp (`spt` or `spm`)
-- optional padding
-- fcsr (\*) <- for double, it must be aligned to 8
-- f31/ft11 (\*)
-- f30/ft10 (\*)
-- f29/ft9 (\*)
-- f28/ft8 (\*)
-- f17/fa7 (\*)
-- f16/fa6 (\*)
-- f15/fa5 (\*)
-- f14/fa4 (\*)
-- f13/fa3 (\*)
-- f12/fa2 (\*)
-- f11/fa1 (\*)
-- f10/fa0 (\*)
-- f7/ft7 (\*)
-- f6/ft6 (\*)
-- f5/ft5 (\*)
-- f4/ft4 (\*)
-- f3/ft3 (\*)
-- f2/ft2 (\*)
-- f1/ft1 (\*)
-- f0/ft0 (\*)
-- status (CSR, the current mode when the exception/interrupt occured)
-- pc (the next address to return from the exception/interrupt)
-- x31/t6
-- x30/t5
-- x29/t4
-- x28/t3
-- x17/a7
-- x16/a6
-- x15/a5
-- x14/a4
-- x13/a3
-- x12/a2
-- x11/a1
-- x10/a0
-- x7/t2
-- x6/t1
-- x5/t0
-- x1/ra <-- new sp, possibly align 8
+- <-- original `sp` (`spt` or `spm`)
+- (optional padding)
+- `fcsr` (\*) <- for double, it must be aligned to 8
+- `f31/ft11` (\*)
+- `f30/ft10` (\*)
+- `f29/ft9` (\*)
+- `f28/ft8` (\*)
+- `f17/fa7` (\*)
+- `f16/fa6` (\*)
+- `f15/fa5` (\*)
+- `f14/fa4` (\*)
+- `f13/fa3` (\*)
+- `f12/fa2` (\*)
+- `f11/fa1` (\*)
+- `f10/fa0` (\*)
+- `f7/ft7` (\*)
+- `f6/ft6` (\*)
+- `f5/ft5` (\*)
+- `f4/ft4` (\*)
+- `f3/ft3` (\*)
+- `f2/ft2` (\*)
+- `f1/ft1` (\*)
+- `f0/ft0` (\*)
+- `status` (CSR, the current mode when the exception/interrupt occured)
+- `pc` (the next address to return from the exception/interrupt)
+- `x31/t6`
+- `x30/t5`
+- `x29/t4`
+- `x28/t3`
+- `x17/a7`
+- `x16/a6`
+- `x15/a5`
+- `x14/a4`
+- `x13/a3`
+- `x12/a2`
+- `x11/a1`
+- `x10/a0`
+- `x7/t2`
+- `x6/t1`
+- `x5/t0`
+- `x1/ra` <-- new `sp`, possibly align 8
 
-The floating point registers are not saved by devices that do not implement the 
+(\*) The floating point registers are not saved by devices that do not implement the 
 F or D extentions and do not have the `ctrl.fpena` bit set.
 
 To reduce latency, in parallel with saving the registers, the address of the 
@@ -281,7 +281,7 @@ exception/interrupt handler is fetched from the vector table.
 After saving the context stack:
 
 - the `handler` bit in the `status` is set, to mark the handler-mode
-- the `ra` register is adjusted to a special pattern HANDLER_RETURN
+- the `ra` register is adjusted to a special pattern HANDLER_RETURN, defined below
 - the `pc` register is loaded with the handler address; this is equivalent
 with calling the handler.
 
