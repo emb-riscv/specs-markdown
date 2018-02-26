@@ -74,6 +74,8 @@ hart1_startup(void)
 {
   // ...
 }
+
+} // extern "C"
 ```
 
 ### Prerequisites
@@ -106,6 +108,4 @@ start_hart(int hid)
   // Load program counter; this will immediately pass control to the startup code.
   hart[hid].pc = *(addr + word_size * 0);
 }
-
-} // extern "C"
 ```
