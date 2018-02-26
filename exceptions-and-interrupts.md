@@ -320,6 +320,8 @@ The HANDLER_RETURN pattern:
 ## Usage
 
 ```c
+extern "C" {
+
 riscv_startup_block_t
 __attribute__((section(".startup_blocks")))
 harts_startup_blocks[] = {
@@ -376,4 +378,6 @@ interrupt_handle_syslock_cmp(void)
   
   // Simply returns without having to do anything special.
 }
+
+} // extern "C"
 ```
