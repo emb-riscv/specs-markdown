@@ -18,6 +18,20 @@ The mechanism to process exceptions and interrupts (vectored, nested, separate s
 is one of the main improvements in the RISC-V microcontroller profile over the 
 privileged profile.
 
+## Exception and interrupt handlers in C/C++
+
+The main feature is the ability to write the exception and interrupt handlers 
+as plain C/C++ function, that do not need any compiler attributes, or assembly
+code.
+
+For this to be possible, there are two requirements:
+
+- both the exception and the interrupt entry code must abide by the ABI requirements 
+and save the same caller registers as a regular C/C++ call
+- a custom return address must be used, such that when the handler returns,
+the core will trigger the exception return mechanism, without the need of explicit
+assembly `mret` instructions.
+
 ## Exceptions
 
 Exceptions trigger a **synchronous transfer of control** to an exception handler 
