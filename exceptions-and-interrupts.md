@@ -307,8 +307,8 @@ The HANDLER_RETURN pattern:
 | [4] | - 0: Linux<br>- 1: Embedded | ABI |
 | [(xlen-1):5] | 1 | Reserved. | 
 
-The ABI bit is used mainly for compatibility reasons, until the EABI 
-will be finalised and implemented by the compiler.
+> <sup>The ABI bit is used mainly for compatibility reasons, until the EABI 
+  will be finalised and implemented by the compiler.</sup>
 
 > <sup>The HANDLER_RETURN pattern does not include a bit defining the 
   resulting 
