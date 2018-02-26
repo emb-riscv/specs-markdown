@@ -58,7 +58,7 @@ current hart mode and status.
 | [?] | `handler` | r | 0 | Hart is running:<br>- 0: application code.<br>- 1: handler code. |
 | [?] | `user` | r | 0 | Application privileges:<br>- 0: machine/privileged mode.<br>- 1: user/unprivileged mode. |
 | [(xlen-2):(xlen-16)] | `cause` | r | 0 | The exception or interrupt cause code. |
-| [(xlen-1)] | `interupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
+| [(xlen-1)] | `interrupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
 
 The handler code is always running in machine/privileged mode.
 
