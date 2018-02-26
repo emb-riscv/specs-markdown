@@ -70,14 +70,14 @@ A hart can have up to **1024** interrupts, including the system interrupts.
 
 ### Interrupt priorities
 
-Interrupts have **programable priorities**, defined as small unsigned numbers, 
-usually bytes.
+Interrupts have **programable priorities**, defined as small unsigned numbers.
+
 The **priority value 0** is reserved to mean 
 _'never interrupt'_ or _'disabled'_, and interrupt priorities increase with 
-an increasing integer value.
+the increasing integer value.
 
 Interrupts with the same priority are processed in the order of their index 
-in the interrupt 
+in the interrupt vector 
 table, with a higher index meaning a higher priority.
 
 For multi-hart devices, the interrupt wiring to harts is implementation specific; 
