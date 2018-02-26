@@ -147,6 +147,7 @@ The first 8 entries are reserved for system interrupts:
 * `context_switch` (must have the lowest priority)
 * `rtclock_cmp`
 * `sysclock_cmp`
+* ... reserved
 
 ## Vector tables relocation
 
