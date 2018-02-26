@@ -12,7 +12,7 @@ Unless otherwise mentioned, access to these CSRs is limited to machine/privilege
 ## Hart ID Register (`hartid`)
 
 The `hartid` CSR is an XLEN-bit read-only register containing the integer ID of the 
-hardware thread running the code. This register must be readable in any implementation. 
+hart running the code. This register must be readable in any implementation. 
 In single-hart devices, it always reads 0. In multi-hart devices, the hart IDs might 
 not necessarily be numbered contiguously
 (althoug it is preferable), but at least one hart must have a hart ID of zero.
@@ -175,9 +175,9 @@ TODO: allocate a number for it.
 ## Thread Stack Pointer (`spt`)
 
 The `spt` CSR is an XLEN-bit read-write register that holds the stack pointer used 
-by the application current thread.
+by the application current thread. It is intended to multi-threaded applications.
 
-It is a CSR because access to the stack pointer may occur in context switching 
+This register is a CSR because access to the stack pointer may occur in context switching 
 routines and needs to be fast.
 
 | Bits | Name | Type | Reset | Description |
@@ -194,7 +194,7 @@ TODO: allocate a number for it.
 The `tsplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
 the thread stack can descend.
 
-It is a CSR because access to the stack pointer limit may occur in context switching 
+This register is a CSR because access to the stack pointer limit may occur in context switching 
 routines and needs to be fast.
 
 | Bits | Name | Type | Reset | Description |
@@ -235,24 +235,6 @@ This CSR is similar to `mepc` from the RISC-V privileged profile.
 > <sup>In the privileged specs, `mepc` may be explicitly written by software. Here this
 it is not needed, execution will resume to the address pushed onto the main stack.</sup>
 
-## Exception Cause Register (`ecause`)
-
-Update: probably no longer needed, the cause is now in `state`, since it must be saved 
-in the stack context.
-
-The `ecause` CSR is an XLEN-bit read-write register. When an exception or interrupt is
-taken `ecause` is written with a code indicating the event that caused the exception or the
-interrupt. Otherwise `ecause` is never written by the implementation.
-
-| Bits | Name | Type | Reset | Description |
-|:-----|:-----|:-----|:------|-------------|
-| [9:0] | `cause` | rw | Unknown | The exception or interrupt cause code. |
-| [(xlen-1):10] | | | | Reserved. |
-
-This CSR is inspired from the RISC-V privileged profile, but does not use the high bit
-to differentiate between exceptions and interrupts, because this is not needed
-when separate vectors are called.
-
 ## Machine Trap Value Register (`mtval`)
 
 The `mtval` CSR is an XLEN-bit read-write register. When an exception is taken,
@@ -274,6 +256,7 @@ The RISC-V Volume II, mentions other CSRs, but it is not clear which one are man
 if any:
 
 - mstatus: not needed, there is only one bit needed, mie, which is now n the `iena` CSR.
+- mcause: no longer needed, the cause is packed in the `status` CSR
 - mie: not needed, interrupts are enabled in the HIC registers
 - mip: not needed, interrupt pending bits are in the HIC registers
 - mtvec: not needed, there are two memory mapped registers, `excvta` and `intvta`
