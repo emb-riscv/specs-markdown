@@ -349,7 +349,7 @@ exception_handle_address_misaligned()
 
 // ...
 
-void
+[[noreturn]] void
 hart_startup(void)
 {
   // ...
@@ -374,7 +374,7 @@ interrupt_handle_syslock_cmp(void)
 {
   // ...
   
-  // Simply returns without anything special.
+  // Simply returns without having to do anything special.
 }
 
 
