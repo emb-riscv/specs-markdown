@@ -339,7 +339,7 @@ The HANDLER_RETURN pattern bits:
   `handler` bit (which might have been added to HANDLER_RETURN), but for the
   `cause` field, which otherwise may be overriten by nested interrupts.</sup>
   
-## The FP lazy save mechanism
+## The FP lazy stacking mechanism
 
 The large number of floating point registers take a long time to copy 
 during context push/pop on the stack. 
