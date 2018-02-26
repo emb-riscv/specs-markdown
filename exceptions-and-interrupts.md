@@ -317,5 +317,66 @@ will be finalised and implemented by the compiler.
   `handler` bit (which might have been added to HANDLER_RETURN), but for the
   `cause` field, which otherwise may be overriten by nested interrupts.</sup>
   
+## Usage
+
+```c
+riscv_startup_block_t
+__attribute__((section(".startup_blocks")))
+harts_startup_blocks[] = {
+  {
+    hart_startup,
+    hart_stack_pointer,
+    hart_global_pointer,
+    hart_exception_handlers
+  }
+};
+
+riscv_exception_handler_t
+hart_exception_handlers[] = {
+  exception_handle_address_misaligned,
+  exception_handle_address_fault,
+  exception_handle_illegal_instruction,
+  // ...
+};
+
+void
+exception_handle_address_misaligned() 
+{
+  // ...
+}
+
+// ...
+
+void
+hart_startup(void)
+{
+  // ...
+  hcb.intvta
+}
+
+riscv_interrupt_handler_t
+hart_interrupt_handlers[] = {
+  interrupt_handle_context_switch,
+  interrupt_handle_rtclock_cmp,
+  interrupt_handle_sysclock_cmp,
+  // ...
+};
+
+// ...
+
+void
+interrupt_handle_rtclock_cmp(void)
+{
+  // ...
+}
+
+void
+interrupt_handle_syslock_cmp(void)
+{
+  // ...
+}
+
+
+```
 
   
