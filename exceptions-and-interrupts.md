@@ -376,6 +376,4 @@ interrupt_handle_syslock_cmp(void)
   
   // Simply returns without having to do anything special.
 }
-
-
 ```
