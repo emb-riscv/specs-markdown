@@ -171,6 +171,13 @@ context saved on the thread stack, and all other happen on the main stack. Also
 all handlers use the main stack, and do not pollute the thread stack, which
 do not need to reserve space for the interrupt handlers.
 
+The RISC-V microcontroller profile uses a full-descending context stack, where:
+
+- When pushing context, the hardware decrements the stack pointer to the end of the 
+new stack frame before it stores data onto the stack.
+- When popping context, the hardware reads the data from the stack frame and then 
+increments the stack pointer.
+
 For the current RISC-V Linux ABI, the stack context is, from hight to low 
 addresses:
 
