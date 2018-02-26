@@ -31,11 +31,9 @@ For further extensions, a few words at the end of the startup area are reserved.
 With the above definition of a startup block, there is no need for any assembly 
 instructions, the entire startup code can be written in C/C++.
 
-```c++
-#if defined __cplusplus
-extern "C"
-{
-#endif
+```c
+
+extern "C" {
 
 typedef void (*riscv_exception_handler_t)(void);
 
@@ -76,10 +74,6 @@ hart1_startup(void)
 {
   // ...
 }
-
-#if defined __cplusplus
-}
-#endif
 ```
 
 ### Prerequisites
@@ -112,4 +106,6 @@ start_hart(int hid)
   // Load program counter; this will immediately pass control to the startup code.
   hart[hid].pc = *(addr + word_size * 0);
 }
+
+} // extern "C"
 ```
