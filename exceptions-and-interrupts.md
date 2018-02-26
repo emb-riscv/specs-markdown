@@ -183,6 +183,45 @@ addresses:
 
 - <- original sp (`spt` or `spm`)
 - optional padding
+- status (CSR, the current mode when the exception/interrupt occured)
+- pc (the next address to return from the exception/interrupt)
+- x31/t6
+- x30/t5
+- x29/t4
+- x28/t3
+- x17/a7
+- x16/a6
+- x15/a5
+- x14/a4
+- x13/a3
+- x12/a2
+- x11/a1
+- x10/a0
+- x7/t2
+- x6/t1
+- x5/t0
+- x1/ra <- new sp
+
+With the new RISC-V EABI proposal, this would be reduced to a more 
+reasonable context stack:
+
+- <- original sp (`spt` or `spm`)
+- optional padding
+- status (CSR, the current mode when the exception/interrupt occured)
+- pc (the next address to return from the exception/interrupt)
+- x15/a5
+- x14/a4
+- x13/a3
+- x12/a2
+- x11/a1
+- x10/a0
+- x1/ra <- new sp
+
+With floating port added, the context stack for the current RISC-V 
+Linux ABI is quite large:
+
+- <- original sp (`spt` or `spm`)
+- optional padding
 - fcsr (\*) <- for double, it must be aligned to 8
 - f31/ft11 (\*)
 - f30/ft10 (\*)
