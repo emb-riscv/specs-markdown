@@ -7,7 +7,7 @@ For performance reasons, in the RISC-V microcontroller profile only a small numb
 of core system registers are required to be CSRs; the rest are available in the memory 
 mapped system area.
 
-Unless otherwise mentioned, access to these CSRs is limited to machine/privileged mode.
+Unless otherwise mentioned, write access to these CSRs is limited to machine/privileged mode.
 
 ## Hart ID Register (`hartid`)
 
