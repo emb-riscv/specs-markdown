@@ -29,7 +29,7 @@ Some exceptions are **resumable**, i.e. an execution can continue to the next
 instruction (for example the illegal instruction handler can implement a custom 
 instruction and resume).
 
-Exceptions, in decreasing priority order:
+The RISC-V privileged specs define the following exceptions, in decreasing priority order:
 
 * Instruction address misaligned 
 * Instruction access fault
