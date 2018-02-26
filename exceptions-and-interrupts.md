@@ -163,7 +163,7 @@ If the `stackalign` bit in the `ctrl` CSR is set, the stack is always aligned
 at 8. Depending on how caches are organised, this usually allows faster context
 switches.
 
-The current stack is either `spt` (when in thread mode and the `ctrl.sptena` is set),
+The current stack is either `spt` (when in application mode and the `ctrl.sptena` is set),
 or `spm` otherwise (when already in handler mode or `ctrl.sptena` is not set).
 
 In other words, regardless how many nested interrups occur, there is only one
