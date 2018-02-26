@@ -9,6 +9,15 @@ The mechanism to process exceptions and interrupts (vectored, nested, separate s
 is one of the main improvements in the RISC-V microcontroller profile over the 
 privileged profile.
 
+> <sup>Other architectures define interrupts as a specific type of exceptions.
+  However, for the RISC-V microcontroller profile, exceptions are specific 
+  for the architecture, and common to all devices, while interrupts are
+  mostly specific to an implementation (except a few system interrupts,
+  also common to all devices). Thus it looks more natural to define
+  two separate vector tables, one for exceptions, to be implemented 
+  in the architecture software package, and one for interrupts, to be 
+  implemented in the device software package.</sup>
+  
 ## Exceptions
 
 Exceptions trigger a **synchronous transfer of control** to an exception handler 
