@@ -234,7 +234,18 @@ special HANDLER_RETURN value in `ra`.
 This will trigger the exception return mechanism, which will pop the context 
 from the stack and return from the interrupt/exception.
 
-The special HANDLER_RETURN pattern is an 'all-1' for the given xlen.
-Since the RISC-V microcontroller profile reserves a slice at the end of
-the memory space, and this slice has the execute permissions removed,
-it does not create any confusion.
+The special HANDLER_RETURN pattern is an 'all-1' for the given xlen with 
+some bits used to differentiate contexts.
+Since the RISC-V microcontroller profile reserves a slice at the very end 
+of the memory space (0xF...), and this slice has the execute permissions
+removed, it does not create any confusion.
+
+The HANDLER_RETURN pattern:
+
+| Bits | Value | Description |
+|:-----|:------|-------------|
+| [0] | 1 | Reserved. | 
+| [1] | 0 | Reserved. | 
+| [2] | - 0: Linux<br>- 1: Embedded | ABI |
+| [3] | - 0: short, without FP<br>- 1: long, with FP | Stack frame type. |
+| [(xlen-1):(xlen-4)] | 1 | Reserved. | 
