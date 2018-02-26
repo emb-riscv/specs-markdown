@@ -349,6 +349,18 @@ lazy save mechanism.
 
 TODO: define the details.
 
+## Tail channing
+
+When an exception/interrupt takes place while already in handler mode, and the 
+priority does not require pre-emption, the new exception/interrupt will enter the 
+pending state. When the hart finishes executing the current handler, it can then 
+proceed to process the pending exception/interrupt request. Instead of restoring 
+the registers back from the stack (unstacking) and then pushing them on to the 
+stack again (stacking), the hart skips the unstacking and stacking steps and 
+enters the new handler of the pended exception/interrupt as soon as possible.
+
+TODO: define the details.
+
 ## Usage
 
 ```c
