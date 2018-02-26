@@ -301,10 +301,11 @@ The HANDLER_RETURN pattern:
 The ABI bit is used mainly for compatibility reasons, until the EABI 
 will be finalised and implemented by the compiler.
 
-> <sup>The HANDLER_RETURN does not include a bit telling the resulting 
+> <sup>The HANDLER_RETURN pattern does not include a bit defining the 
+  resulting 
   application/handler mode, since it can be restored from the saved 
-  `status` register. Saving this register is needed not only for the
-  mode (which might have been added to HANDLER_RETURN), but for the
+  `status` register. Saving this register is necessary not only for the
+  `handler` bit (which might have been added to HANDLER_RETURN), but for the
   `cause` field, which otherwise may be overriten by nested interrupts.</sup>
   
 
