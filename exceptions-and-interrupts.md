@@ -59,7 +59,7 @@ The RISC-V privileged specs define the following exceptions, in decreasing prior
 * Load page fault
 * Store/AMO page fault
 
-TODO: rework for microcontrollers
+TODO: rework for microcontrollers; define which one have configurable priorities.
 
 TODO: NMI? routed only to hart 0?
 
