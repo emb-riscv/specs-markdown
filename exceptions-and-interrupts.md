@@ -296,8 +296,16 @@ The HANDLER_RETURN pattern:
 | [2] | - 0: main stack<br>- 1: thread stack | Stack that holds the context to pop. |
 | [3] | - 0: short, without FP<br>- 1: long, with FP | Stack frame type. |
 | [4] | - 0: Linux<br>- 1: Embedded | ABI |
-| [(xlen-1):(xlen-4)] | 1 | Reserved. | 
+| [(xlen-1):5] | 1 | Reserved. | 
 
 The ABI bit is used mainly for compatibility reasons, until the EABI 
 will be finalised and implemented by the compiler.
 
+> <sup>The HANDLER_RETURN does not include a bit telling the resulting 
+  application/handler mode, since it can be restored from the saved 
+  `status` register. Saving this register is needed not only for the
+  mode (which might have been added to HANDLER_RETURN), but for the
+  `cause` field, which otherwise may be overriten by nested interrupts.</sup>
+  
+
+  
