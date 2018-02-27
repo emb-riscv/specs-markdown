@@ -75,13 +75,20 @@ See the Device Real-Time Clock page.
 
 ## Cycle count
 
-The `cyclecnt` register is 64-bits wide and holds a count of the number of clock cycles executed by the hart from an arbitrary start time in the past. The underlying 64-bit counter should never overflow in practice. The rate at which the cycle counter advances will depend on the implementation and operating environment. The execution environment should provide a means to determine the current rate (cycles/second) at which the cycle counter is incrementing.
+The `cyclecnt` register is 64-bits wide and holds a count of the number of clock cycles 
+executed by the core on which the hart is running (not the hart itself!) from an 
+arbitrary start time in the past. The underlying 64-bit counter should never 
+overflow in practice. The rate at which the cycle counter advances will depend
+on the implementation and operating environment. The execution environment 
+should provide a means to determine the current rate (cycles/second) at which 
+the cycle counter is incrementing.
 
 On RV32 devices, the wide value is available as two separate 32-bit words registers.
 
 ## Instructions count
 
-The `instcnt` register is 64-bits wide and counts the number of instructions retired by this hart from some arbitrary start point in the past.
+The `instcnt` register is 64-bits wide and counts the number of instructions retired 
+by this hart from some arbitrary start point in the past.
 
 On RV32 devices, the wide value is available as two separate 32-bit words registers.
 
