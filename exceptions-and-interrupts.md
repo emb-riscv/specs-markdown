@@ -154,7 +154,7 @@ The interrupts table is an **array of pointers** to interrupt handlers,
 implemented as **C/C++ functions**. The number of interrupts per hart is 
 implementation specific but cannot exceed 1024 elements.
 
-Each hart has its own table, with handlers for the interrupts it can process.
+Each hart may have its own table, with handlers for the interrupts it can process.
 
 The address of the array must be programatically written by each hart to 
 its `hcb.intvta` register before enabling interrupts, usually during startup.
@@ -164,7 +164,7 @@ The first 8 entries are reserved for system interrupts:
 * `context_switch` (must have the lowest priority)
 * `rtclock_cmp`
 * `sysclock_cmp`
-* ... reserved
+* ... 5 more, reserved
 
 ## Vector tables relocation
 
@@ -182,21 +182,13 @@ code running in machine mode.
 
 ## Context stack
 
-When exceptions and interrupts are taken, they push a context on the current stack. 
+When exceptions/interrupts are taken, they push a context on the current stack. 
 The stack pointer must be xlen aligned. For RV32 harts with the D extension, 
-an additional alignment to 8 must be performed by adding a stack padding.
+an additional alignment to 8 may be required.
 
 If the `stackalign` bit in the `ctrl` CSR is set, the stack is always aligned
-at 8. Although this is implemnetation specific, it usually allows faster context
+at 8. Although this is implementation specific, it usually allows faster context
 switches.
-
-The current stack is either `spt` (when in application mode and the `ctrl.sptena` is set),
-or `spm` otherwise (when already in handler mode or `ctrl.sptena` is not set).
-
-In other words, regardless how many nested interrups occur, there is only one
-context saved on the thread stack, and all other happen on the main stack. Also
-all handlers use the main stack, and do not pollute the thread stack, which
-do not need to reserve space for the interrupt handlers.
 
 The RISC-V microcontroller profile uses a full-descending context stack, where:
 
@@ -204,6 +196,16 @@ The RISC-V microcontroller profile uses a full-descending context stack, where:
 new stack frame before it stores data onto the stack.
 - When popping context, the hardware reads the data from the stack frame and then 
 increments the stack pointer.
+
+The current stack pointer is either `spt` (when in application mode and the 
+`ctrl.sptena` is set),
+or `spm` otherwise (when already in handler mode or `ctrl.sptena` is not set).
+
+In other words, regardless how many nested interrups occur, there is only one
+context pushed onto the thread stack, and all other nested contexts are pushed 
+onto the main stack. Also
+all handlers use the main stack, and do not pollute the thread stack, which
+do not need to reserve space for the interrupt handlers.
 
 For the current RISC-V Linux ABI, the stack context is, from hight to low 
 addresses:
@@ -246,7 +248,7 @@ reasonable context stack:
 
 With floating point support added, the context stack for the current RISC-V 
 Linux ABI is quite large, which is another good reason why the RISC-V 
-microcontroller profile should use an Embedded ABI.
+microcontroller profile should use an optimised Embedded ABI.
 
 - <-- original `sp` (`spt` or `spm`)
 - (optional padding)
@@ -310,6 +312,8 @@ special HANDLER_RETURN value in `ra`.
 This will trigger the exception return mechanism, which will pop the context 
 from the stack and return from the interrupt/exception.
 
+TODO: define the detailed logic in pseudocode.
+
 ## The HANDLER_RETURN pattern
 
 The special HANDLER_RETURN pattern is an 'all-1' for the given xlen with 
@@ -348,7 +352,7 @@ The large number of floating point registers take a long time to copy
 during context push/pop on the stack. 
 
 One solution to optimize this is to save them only when needed, by using a
-lazy save mechanism.
+lazy stacking mechanism.
 
 TODO: define the details.
 
