@@ -46,7 +46,8 @@ written to the `hartid` register to set the hart id and the state bit before
 any write access to `pendings` and `prioth`. 
 The state bit is cleared at reset, and after any write to `pendnum` or `prioth` registers.
 
-The `pendnum` register is write only. Writing a small integer value pends the 
+The `pendnum` register is write only and allows access to the hart identified 
+by the write to `hartid`. Writing a small integer value pends the 
 interrupt with the given number. It must have enough bits to represent
 an interrupt number (at most 10).
 
