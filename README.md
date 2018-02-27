@@ -30,7 +30,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 
 TODO: Add MPU definitions
 
-TODO: Add user mode.
+TODO: Add more details about the restrictions in user mode.
 
 ## License
 
