@@ -1,6 +1,6 @@
 # The Hart Control Block (HCB)
 
-For uniform access by software, each hart maps its own status registers to the 
+For uniform access by software, in addition to CSRs, each hart maps its own status registers to the 
 same address in the memory space.
 
 ## Memory Map
@@ -40,17 +40,18 @@ same address in the memory space.
 
 ## Exceptions vector table address (`excvta`)
 
-The address of the exceptions dispatch table. The table is an array of addresses 
+An xlen-bits register that holds the address of the exceptions dispatch table. 
+The table is an array of addresses 
 (xlen size elements) pointing to exception handlers (C/C++ functions).
 
-The register is initialised with the value in the startup block.
+The register is initialised with the value fetched from the hart startup block.
 
-If not set (i.e. 0x0) and an interrupt occurs, an exception is 
-triggered (TODO: what exception?).
+If not set (i.e. 0x0) and an exception occurs, the behaviour is undefined.
 
 ## Interrupts vector table address (`intvta`)
 
-The address of the interrupts dispatch table. The table is an array of addresses 
+An xlen-bits register that holds the address of the interrupts dispatch table. 
+The table is an array of addresses 
 (xlen size elements) pointing to interrupt handlers (C/C++ functions).
 
 If not set (i.e. 0x0) and an interrupt occurs, an exception is 
@@ -60,10 +61,10 @@ If the hart does not implement an interrupt controller, writing this register
 is ignored and reading always returns zero. This mechanism can also be used 
 to determine at runtime if the hart implements an interrupt controller.
 
-## Index of the last interrupt
+## The highest interrupt number (`intmax`)
 
-The index of the last interrupt is available in the `intlast` read-only register. 
-It is useful when iterating the Hart Interrupt Controller array.
+The `intmax` read-only register is 32-bits and reads the highes interrupt number; it is 
+useful when iterating the Hart Interrupt Controller array.
 
 ## The system clock comparator
 
@@ -77,8 +78,8 @@ See the Device Real-Time Clock page.
 
 The `cyclecnt` register is 64-bits wide and holds a count of the number of clock cycles 
 executed by the core on which the hart is running (not the hart itself!) from an 
-arbitrary start time in the past. The underlying 64-bit counter should never 
-overflow in practice. The rate at which the cycle counter advances will depend
+arbitrary start time in the past. In practice, the underlying 64-bit counter should never 
+overflow between two samples. The rate at which the cycle counter advances will depend
 on the implementation and operating environment. The execution environment 
 should provide a means to determine the current rate (cycles/second) at which 
 the cycle counter is incrementing.
