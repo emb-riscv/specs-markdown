@@ -7,16 +7,16 @@ Each hart may be able to process its own set of interrupts, independent from the
 Only hart 0 is required to implement a HIC; additional interrupt controllers in all other 
 harts are optional and implementation specific.
 
-> <sup>Hard real-time devices may dedicate separate harts to process fast interrupts. At the limit,
-  it is possible to wire all interrupts to all harts, and decide in software which interrupts
+> <sup>Hard real-time devices may dedicate separate harts to process fast interrupts. 
+  It is possible to wire all interrupts to all harts, and decide in software which interrupts
   are processed by each hart.</sup>
 
 ## Features
 
 The HIC supports the following features:
 
-- HIC interrupts can be enabled and disabled by writing to their corresponding `set.enabled` or 
-`clear.enabled` bit fields, using a write-1-to-enable and write-1-to-clear policy.
+- HIC interrupts can be enabled and disabled by writing to their corresponding `status.enabled` or 
+`status.clearenabled` bit fields, using a write-1-to-enable and write-1-to-clear policy.
 
   When an interrupt is disabled, interrupt assertion causes the interrupt to become pending, but the interrupt 
 cannot become active. If an interrupt is active when it is disabled, it remains in the active state until 
@@ -27,8 +27,8 @@ the associated interrupt.
 exist, or hard-wired them to one if the associated interrupt line cannot be disabled.
 
 - the pending state of HIC interrupts can set or removed by software using 
-the `set.pending` and `clear.pending` bit fields. The registers use a write-1-to-enable and 
-write-1-to-clear policy. Writing 1 to a bit in the `clear.pending` bit field has no effect on the 
+the `status.pending` and `status.clearpending` bit fields. The registers use a write-1-to-enable and 
+write-1-to-clear policy. Writing 1 to a bit in the `status.clearpending` bit field has no effect on the 
 execution status of an active interrupt.
 
   It is implementation specific for each interrupt line supported, whether an interrupt supports either or both 
@@ -95,7 +95,7 @@ The `status` register has the following content:
   
 ### Usage
 
-Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by clearing the `status.clearenabled` bit. To be effective, interrupts must also have non-zero priorities.
+Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by writing 1 in the `status.clearenabled` bit. To be effective, interrupts must also have non-zero priorities.
 
 ```c
 hic.interrupts[7].prio = 7;
