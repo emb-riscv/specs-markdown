@@ -1,4 +1,4 @@
 # The Device Watchdog Timer (WDT)
 
-(see the E300 watchdog)
+TODO: define it. (consider E300 watchdog for inspiration)
 
