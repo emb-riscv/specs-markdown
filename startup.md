@@ -19,7 +19,7 @@ For a RISC-V hart, the minimum information required to start a hart is:
 - a pointer to the RISC-V global pointer (`gp`)
 - a pointer to the exception table
 
-All pointers are XLEN bits.
+All pointers are xlen bits.
 
 For further extensions, a few words at the end of the startup area are reserved.
 
@@ -80,7 +80,8 @@ hart1_startup(void)
 
 ### Prerequisites
 
-The linker script must allocate the `.startup_blocks` section at address 0x00000000.
+The linker script must allocate the `.startup_blocks` section at the implementaton 
+specific address (usually 0x00000000).
 
 ## Implementation
 
