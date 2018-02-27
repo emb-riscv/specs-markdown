@@ -24,8 +24,8 @@ For 32-bits devices, the system control area is **0xF0000000-0xFFFFFFFF**.
 
 For 64-bits devices, the system control area is **0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF**.
 
-The system control areas are implemented as a pair of memory-mapped address spaces, one providing control and status registers common for the entire 
-device, and one providing control and status registers for the current hart:
+The system control area is implemented as a set of memory-mapped address spaces, some providing control and status registers common for the entire 
+device, and some providing control and status registers for the current hart:
 
 | Base | Top | Name | Description |
 |:-----|:----|:-----|-------------|
