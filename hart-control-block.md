@@ -84,12 +84,14 @@ on the implementation and operating environment. The execution environment
 should provide a means to determine the current rate (cycles/second) at which 
 the cycle counter is incrementing.
 
-On RV32 devices, the wide value is available as two separate 32-bits registers.
+RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
+RV32 devices exposes separate high/low 32-bits registers.
 
 ## Instructions count
 
 The `instcnt` register is 64-bits wide and counts the number of instructions retired 
 by this hart from some arbitrary start point in the past.
 
-On RV32 devices, the wide value is available as two separate 32-bits registers.
+RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
+RV32 devices exposes separate high/low 32-bits registers.
 
