@@ -104,9 +104,21 @@ an EABI, (Embedded ABI), as a lighter version of the POSIX ABI.
 
 ## Improvements upon RISC-V privileged
 
-The main improvement is the new mechanism to handle interrupts.
+The main improvement is the new mechanism to handle interrupts, which should make 
+RISC-V more suitable for real-time, low power, bare metal applications.
 
-TODO: explain in detail.
+Other improvements:
+
+- easier access to the system registers in debugger peripheral viewers, thanks to a 
+limited use of CSRs
+- shadow thread stack pointer, improving RTOS implementation and reducing tread stack 
+requirements for RTOS multi-threaded applications
+- stack limit register, to detect the common issue with stack overruns
+- separate low-power real-time clock and high accuracy system clock
+- simplified context switch mechanims for RTOSes
+- architecture device reset mechanism
+- architecture resumable NMI
+- simplified device startup code, not requiring assembly code
 
 ## Criticism
 
