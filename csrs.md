@@ -3,15 +3,15 @@
 The RISC-V ISA defines a set of 4096 Control and Status Registers that can be accessed 
 via special `csr` instructions with immediate operands identifying the register.
 
-For performance reasons, in the RISC-V microcontroller profile only a small number 
-of core system registers are required to be CSRs; the rest are available in the memory 
+For performance reasons, the RISC-V microcontroller profile uses only a small number 
+of core system registers via the CSR mechanism; the rest are available in the memory 
 mapped system area.
 
-Unless otherwise mentioned, write access to these CSRs is limited to machine/privileged mode.
+Unless otherwise mentioned, write access to the CSRs is limited to machine/privileged mode.
 
 ## Hart ID Register (`hartid`)
 
-The `hartid` CSR is an XLEN-bit read-only register containing the integer ID of the 
+The `hartid` CSR is an xlen-bit read-only register containing the integer ID of the 
 hart running the code. This register must be readable in any implementation. 
 In single-hart devices, it always reads 0. In multi-hart devices, the hart IDs might 
 not necessarily be numbered contiguously
@@ -28,20 +28,21 @@ This CSR is identical to `mhartid` in the RISC-V privileged profile.
 
 ## Configuration and control (`ctrl`)
 
-The `ctrl` CSR is an XLEN-bit read/write register that controls several aspects of the hart
+The `ctrl` CSR is an xlen-bits read/write register that controls several aspects of the hart
 functionality.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [?] | `sptena` | r | 0 | Thread stack enable: <br>- 0: always use `spm` as `sp`. <br>- 1: in **application** mode use `spt` as `sp`. |
-| [?] | `stackalign` | rw | (\*1) | The context stack alignment: <br>- 0: 4-bytes alignment guaranteed, no SP adjustment is performed.<br>- 1: 8-bytes alignment guaranteed, SP adjusted if necessary.|
-| [?] | `spadjusted` | r | 0 | Reserved bit used during context push/pop to remember if the stack required an extra alignment word. | 
-| [?] | `fpena` | rw | 0 | Floating point enable: <br>- 0: if the FP unit is disabled.<br>- 1: if the FP unit is enabled. |
-| [?] | `fpcxs` | rw | 1 | Floating point context save: <br>- 0: if the context stack should not save FP registers. <br>- 1: if the context stack should save FP registers. |
-| [?] | `fplazy` | rw | 1 | Floating point lazy context save: <br>- 0: disable automatic lazy context save.<br>- 1: enable automatic lazy context save. |
-| [(xlen-1):?] | | | | Reserved. |
+| [0] | `sptena` | r | 0 | Thread stack enable: <br>- 0: always use `spm` as `sp`. <br>- 1: in **application** mode use `spt` as `sp`. |
+| [1] | `stackalign` | rw | 1<sup>[1]</sup> | The context stack alignment: <br>- 0: 4-bytes alignment guaranteed, no SP adjustment is performed.<br>- 1: 8-bytes alignment guaranteed, SP adjusted if necessary.|
+| [2] | `spadjusted` | r | 0 | Reserved bit used during context push/pop to remember if the stack required an extra alignment word. | 
+| [7:3] | | | | Reserved. |
+| [8] | `fpena` | rw | 0 | Floating point enable: <br>- 0: if the FP unit is disabled.<br>- 1: if the FP unit is enabled. |
+| [9] | `fpcxs` | rw | 1 | Floating point context save: <br>- 0: if the context stack should not save FP registers. <br>- 1: if the context stack should save FP registers. |
+| [10] | `fplazy` | rw | 1 | Floating point lazy context save: <br>- 0: disable automatic lazy context save.<br>- 1: enable automatic lazy context save. |
+| [(xlen-1):11] | | | | Reserved. |
 
-\*1: The default value for the `stackalign` is implementaion specific; the 
+<sup>*1</sup>: The default value for the `stackalign` is implementaion specific; the 
 recommended default is 1.
 
 TODO: decide if a `reset` bit (to reset the current hart) fits here, and 
@@ -51,13 +52,14 @@ TODO: allocate a number for it.
 
 ## Mode and status (`status`)
 
-The `status` CSR is an XLEN-bit read/write register that identifies the 
+The `status` CSR is an xlen-bits read/write register that identifies the 
 current hart mode and status.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [?] | `handler` | r | 0 | Hart is running:<br>- 0: application code.<br>- 1: handler code. |
-| [?] | `user` | r | 0 | Application privileges:<br>- 0: machine/privileged mode.<br>- 1: user/unprivileged mode. |
+| [0] | `handler` | r | 0 | Hart is running:<br>- 0: application code.<br>- 1: handler code. |
+| [1] | `user` | r | 0 | Application privileges:<br>- 0: machine/privileged mode.<br>- 1: user/unprivileged mode. |
+| [(xlen-17):2] | | | | Reserved. |
 | [(xlen-2):(xlen-16)] | `cause` | r | 0 | The exception or interrupt cause code. |
 | [(xlen-1)] | `interrupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
 
@@ -70,7 +72,7 @@ TODO: allocate a number for it.
 
 ## Interrupt Enable (`iena`)
 
-The `iena` CSR is an XLEN-bit read/write register that controls whether the interrupt 
+The `iena` CSR is an xlen-bits read/write register that controls whether the interrupt 
 are enabled or not. 
 
 This register has a single bit on purpose. Access to the interrupt enable bit must be quite 
@@ -87,7 +89,7 @@ TODO: allocate a number for it.
 
 ## Interrupt Priority Threshold (`iprioth`)
 
-The `iprioth` CSR is an XLEN-bit read/write register that holds the interrupts threshold. 
+The `iprioth` CSR is an xlen-bits read/write register that holds the interrupts threshold. 
 Only interrupts requests that have a priority strictly greater than the threshold will cause 
 an interrupt to become active. The threshold register must always be able to hold the value zero, 
 in which case, no interrupts are masked. The threshold register must also be able to hold 
@@ -117,7 +119,7 @@ TODO: allocate a number for it.
 
 ## Interrupt Priority Threshold Increase (`ipriothinc`)
 
-The `ipriothinc` CSR behaves like an XLEN-bit read/write register, but in fact uses the
+The `ipriothinc` CSR behaves like an xlen-bits read/write register, but in fact uses the
 same register as `iprioth`. The difference is that writes to this CSR are effective only 
 if the new value is higher than the current value, in other words it guarantees that the
 interrupt threshold is not decreased.
@@ -141,7 +143,7 @@ TODO: allocate a number for it.
 
 ## Main Stack Pointer (`spm`)
 
-The `spm` CSR is an XLEN-bit read-write register that holds the main stack pointer. 
+The `spm` CSR is an xlen-bits read-write register that holds the main stack pointer. 
 It is always the default stack pointer after reset. Interrupts and exceptions always 
 use this stack to store the exception frame.
 
@@ -158,7 +160,7 @@ TODO: allocate a number for it.
 
 ## Main Stack Pointer Limit (`spmlimit`)
 
-The `msplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
+The `msplimit` CSR is an xlen-bits read-write register that holds the lowest address 
 the main stack can descend.
 
 | Bits | Name | Type | Reset | Description |
@@ -175,7 +177,7 @@ TODO: allocate a number for it.
 
 ## Thread Stack Pointer (`spt`)
 
-The `spt` CSR is an XLEN-bit read-write register that holds the stack pointer used 
+The `spt` CSR is an xlen-bits read-write register that holds the stack pointer used 
 by the application current thread. It is intended to multi-threaded applications.
 
 This register is a CSR because access to the stack pointer may occur in context switching 
@@ -192,7 +194,7 @@ TODO: allocate a number for it.
 
 ## Thread Stack Pointer Limit (`sptlimit`)
 
-The `tsplimit` CSR is an XLEN-bit read-write register that holds the lowest address 
+The `tsplimit` CSR is an xlen-bits read-write register that holds the lowest address 
 the thread stack can descend.
 
 This register is a CSR because access to the stack pointer limit may occur in context switching 
@@ -212,7 +214,7 @@ TODO: allocate a number for it.
 
 ## Exception Program Counter (`epc`)
 
-The `epc` CSR is an XLEN-bit read/write register that holds the trap address. The low bit of 
+The `epc` CSR is an xlen-bits read/write register that holds the trap address. The low bit of 
 `epc` (`epc[0]`) is always zero. 
 
 | Bits | Name | Type | Reset | Description |
@@ -238,7 +240,7 @@ it is not needed, execution will resume to the address pushed onto the main stac
 
 ## Machine Trap Value Register (`mtval`)
 
-The `mtval` CSR is an XLEN-bit read-write register. When an exception is taken,
+The `mtval` CSR is an xlen-bits read-write register. When an exception is taken,
 `mtval` is written with exception-specific information to assist software in handling the 
 exception. Otherwise, `mtval` is never written by the implementation, though it may be 
 explicitly written by software.
