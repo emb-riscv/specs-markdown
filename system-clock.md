@@ -15,7 +15,7 @@ measure time and to drive pre-emptive context switches
 All harts in a RISC-V device share the same system clock counter, but each hart may have its  
 own comparator.
 
-When the processor is halted in Debug state, the clock counter is not incremented.
+When the device is halted in Debug state, the clock counter is not incremented.
 
 The system clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V 
 privileged specs, but it differs by counting a higher frequency input, running only when 
