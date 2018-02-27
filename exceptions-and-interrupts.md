@@ -80,7 +80,10 @@ given condition or event.
 Interrupts trigger the transfer of control to an interrupt handler associated with 
 a hart.
 
-A hart can have up to **1024** interrupts, including the system interrupts.
+In the RISC-V microcontroller profile, a hart can have up to **1024** interrupts, 
+including the system interrupts.
+
+> <sup>This limit was chosen arbitrarily and is considered quite high.</sup>
 
 ### Interrupt priorities
 
