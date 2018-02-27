@@ -9,9 +9,10 @@ class `steady_clock` represent clocks for which values of the time point never d
 physical time advances and for which values of time_point advance at a steady rate 
 relative to real time. That is, the clock may not be adjusted.
 
-All harts in a RISC-V device share the same Device Real-Time Clock counter.
+All harts in a RISC-V device share the same Device Real-Time Clock counter, but each hart may 
+have its own comparator.
 
-When the device/hart is halted in Debug state, the clock counter continues to be incremented.
+Even when the device is halted in Debug state, the clock counter continues to be incremented.
 
 The real-time clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V privileged specs, 
 but it differs by having a control register and not being intended to drive the scheduler clock.
