@@ -20,7 +20,7 @@ specific to any given hart.
 ## The ID of the last hart
 
 For multi-hart devices, reading this register returns the ID of the last hart available 
-in the device. Single-hart devices return 0.
+in the device. Single-hart devices must return 0.
 
 ## All harts interrupts
 
