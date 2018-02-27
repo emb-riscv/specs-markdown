@@ -182,3 +182,41 @@ riscv_sysclock_write_cmp(uint64_t value)
 #endif
 }
 ```
+
+A typical periodic tick counter:
+
+```c
+
+uint64_c sysclock_cmp;
+uint32_t sysclock_increment;
+
+void
+sysclock_init(void)
+{
+  // ...
+  sysclock_increment = INPUT_FREQ_HZ/SYSCLOCK_FREQ_HZ;
+  sysclock_cmp = riscv_sysclock_read_cnt() + sysclock_increment;
+  
+  // Ask for an interrupt after one tick interval.
+  // Since the comparator is not initialised at reset, it
+  // must be written before enabling interrupts.
+  riscv_sysclock_write_cmp(sysclock_cmp);
+  
+  // Assign a priority.
+  hic.interrupts[SYSCLOCK_CMP_INT_NUM].prio = SYSCLOCK_CMP_PRIO;
+  // Enable.
+  hic.interrupts[SYSCLOCK_CMP_INT_NUM].status = INTERRUPTS_SET_ENABLED;
+}
+
+void
+interrupt_handle_sysclock_cmp(void)
+{
+  // Increment the clock tick counter and run tick actions.
+  sysclock_tick_increment();
+  
+  // Compute the next time point when the interrupt should come.
+  sysclock_cmp += sysclock_increment;
+  riscv_sysclock_write_cmp(sysclock_cmp);
+}
+
+```
