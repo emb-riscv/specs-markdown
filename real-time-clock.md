@@ -9,9 +9,9 @@ class `steady_clock` represent clocks for which values of the time point never d
 physical time advances and for which values of time_point advance at a steady rate 
 relative to real time. That is, the clock may not be adjusted.
 
-All harts in a RISC-V device share the same Device Real-Time Clock instance.
+All harts in a RISC-V device share the same Device Real-Time Clock counter.
 
-When the processor is halted in Debug state, the clock counter continues to be incremented.
+When the device/hart is halted in Debug state, the clock counter continues to be incremented.
 
 The real-time clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V privileged specs, 
 but it differs by having a control register and not being intended to drive the scheduler clock.
@@ -26,8 +26,8 @@ domain from the cores.
 
 The real-time clock input frequency is fixed to a device or application specific value.
 
-To support low-power devices, the real-time clock input should be a low freqency oscilator; the actual 
-source is implementation dependent. 
+To support low-power devices, the real-time clock input should be a low freqency oscillator; the actual 
+source is implementation specific. 
 
 > <sup>Common implementations use a 32.678 Hz quartz or oscillator.
   Low frequency internal RC oscillators (for example 40 kHz) can also be used, but the application 
@@ -69,7 +69,7 @@ By default, the RTC starts disabled; software must enable it during startup.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [0] | `enable` | rw | 0b0 | Indicates the enabled status of the RTC counter: <br> 0 - Counter is disabled (default). <br> 1 - Counter is enabled. |
+| [0] | `enable` | rw | 0 | Indicates the enabled status of the RTC counter: <br> 0 - Counter is disabled (default). <br> 1 - Counter is enabled. |
 | [2-1] | `source` | rw | 0b11 | Indicates the clock source: <br> 0b00 - Implementation specific external reference clock. <br> 0b01 - Reserved. <br> 0b10 - Factory-trimmed on-chip oscillator. <br> 0b11 - External crystal oscillator (default). |
 | [31-3] |||| Reserved. |
 
@@ -106,15 +106,15 @@ RV64 devices:
 
 - `rtclock.ctrl`
 - `rtclock.cnt` 
-- `rtclock.cmp` 
+- `hcb.rtclockcmp` 
 
 RV32 devices:
 
 - `rtclock.ctrl`
 - `rtclock.cntl`
 - `rtclock.cnth`
-- `rtclock.cmpl`
-- `rtclock.cmph`
+- `hcb.rtclockcmpl`
+- `hcb.rtclockcmph`
 
 ```c
 uint64_t 
@@ -141,7 +141,7 @@ uint64_t
 riscv_rtclock_read_cmp(void)
 {
 #if __riscv_xlen == 32
-  return ((uint64_t) rtclock.cmph << 32) | rtclock.cmpl;
+  return ((uint64_t) hcb.rtclockcmph << 32) | hcb.rtclockcmpl;
 #else
   return dcb.rtclock.cmp;
 #endif
@@ -152,13 +152,13 @@ riscv_rtclock_write_cmp(uint64_t value)
 {
 #if __riscv_xlen == 32
   // Write low as max; no smaller than old value.
-  rtclock.cmpl = (uint32_t) UINT_MAX;
+  hcb.rtclockcmpl = (uint32_t) UINT_MAX;
   // Write high; no smaller than old value.
-  rtclock.cmph = ((uint32_t) (value >> 32));
+  hcb.rtclockcmph = ((uint32_t) (value >> 32));
   // Write low as new value.
-  rtclock.cmpl = ((uint32_t) value);
+  hcb.rtclockcmpl = ((uint32_t) value);
 #else
-  rtclock.cmp = value;
+  hcb.rtclockcmp = value;
 #endif
 }
 ```
