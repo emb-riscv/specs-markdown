@@ -39,7 +39,7 @@ Having an architecture timer allows the RTOS to implement the scheduler code onl
 rely on device specific timers, which require separate initialisation and interrupt handlers for
 each specific device.
 
-## Real-Time Clock
+## Real-time clock
 
 The real-time clock is intended to provide the application a way of keeping track of time while the 
 device is in sleep mode (and the system clock timer is shut down).
@@ -69,7 +69,7 @@ is possible to keep fast interrupts still active, regardless how busy the RTOS i
 
 The hart soft reset is intended to reset the running hart from within.
 
-## Device Soft reset
+## Device soft reset
 
 The device soft reset is intended to reset the entire device from within.
 
