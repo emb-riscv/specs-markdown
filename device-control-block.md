@@ -71,7 +71,7 @@ Other RISC-V registers from RISC-V Volume II:
 
 Other registers that migh need attention:
 
-- required for the debug module: 
+- required for the debug module (are these per-hart or per-device?):  
   - dcsr 
   - dpc 
 - optional for the debug module: 
