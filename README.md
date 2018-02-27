@@ -28,9 +28,10 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md)
 * [Appendix B: History](history.md)
 
-TODO: Add MPU definitions
+TODO: 
 
-TODO: Add more details about the restrictions in user mode.
+- add MPU definitions
+- add more details about the restrictions in user mode.
 
 ## License
 
