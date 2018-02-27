@@ -59,9 +59,10 @@ current hart mode and status.
 |:-----|:-----|:-----|:------|-------------|
 | [0] | `handler` | r | 0 | Hart is running:<br>- 0: application code.<br>- 1: handler code. |
 | [1] | `user` | r | 0 | Application privileges:<br>- 0: machine/privileged mode.<br>- 1: user/unprivileged mode. |
-| [(xlen-17):2] | | | | Reserved. |
-| [(xlen-2):(xlen-16)] | `cause` | r | 0 | The exception or interrupt cause code. |
-| [(xlen-1)] | `interrupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
+| [7:2] | | | | Reserved. |
+| [8] | `interrupt` | r | 0 | If `handler` is set, then<br>1 if in an interrupt, 0 if in an exception |
+| [18:9] | `cause` | r | 0 | The exception or interrupt cause code. |
+| [(xlen-1):19] | | | | Reserved. |
 
 The handler code is always running in machine/privileged mode.
 
@@ -212,41 +213,6 @@ This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
-## Exception Program Counter (`epc`)
-
-The `epc` CSR is an xlen-bits read/write register that holds the trap address. The low bit of 
-`epc` (`epc[0]`) is always zero. 
-
-| Bits | Name | Type | Reset | Description |
-|:-----|:-----|:-----|:------|-------------|
-| [0] | | | 0 | Reserved. |
-| [(xlen-1):1] | `epc` | rw | Unknown | Exception PC address. |
-
-On implementations that do not support instruction-set 
-extensions with 16-bit instruction alignment, the two low bits (`epc[1:0]`) are always zero.
-
-| Bits | Name | Type | Reset | Description |
-|:-----|:-----|:-----|:------|-------------|
-| [1:0] | | | 0 | Reserved. |
-| [(xlen-1):2] | `epc` | rw | Unknown | Exception PC address. |
-
-When an exception is taken, `epc` is written with the address of the instruction that 
-encountered the exception. Otherwise `mepc` is never written by the implementation.
-
-This CSR is similar to `mepc` from the RISC-V privileged profile.
-
-> <sup>In the privileged specs, `mepc` may be explicitly written by software. Here this
-it is not needed, execution will resume to the address pushed onto the main stack.</sup>
-
-## Machine Trap Value Register (`mtval`)
-
-The `mtval` CSR is an xlen-bits read-write register. When an exception is taken,
-`mtval` is written with exception-specific information to assist software in handling the 
-exception. Otherwise, `mtval` is never written by the implementation, though it may be 
-explicitly written by software.
-
-This CSR is identical with `mtval` from the RISC-V privileged profile.
-
 ## RISC-V compatibility CSRs
 
 The RISC-V Volume I, Chapter 2.8, mentions two mandatory instructions, `rdcycle` and 
@@ -264,12 +230,12 @@ if any:
 - mip: not needed, interrupt pending bits are in the HIC registers
 - mtvec: not needed, there are two memory mapped registers, `excvta` and `intvta`
 - misa: can be safely migrated to memory mapped
+- mepc: not needed, pushed onto the stack
+- mtval: not decided; nested exceptions may override this. TODO: check thoroughly.
 
 - mscratch: not decided if needed
 
-TODO: 
-
-- add MPU registers
+TODO: add MPU registers
 
 ## Usage
 
