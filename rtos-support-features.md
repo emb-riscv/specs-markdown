@@ -56,7 +56,7 @@ of handling context switches, allowing all other interrupt handlers to be writte
 not bother with context switches at all.
 
 Without such a feature, all application interrupt handlers require an assembly part to handle the 
-context switching prior to calling the C/C++ handler.
+context switching prior to calling the C/C++ handler, which is a major hassle.
 
 ## Interrupts priorities threshold
 
@@ -83,6 +83,7 @@ Protection Unit (MPU), thus further enhancing the robustness of embedded systems
 
 ## Atomics 
 
-The RISC-V 'A' Standard Extension for Atomic instuctions contains instructions that atomically 
+For multi-hart devices, the RISC-V 'A' Standard Extension for Atomic instuctions contains 
+instructions that atomically 
 read-modify-write memory to support synchronization between multiple RISC-V harts running in 
 the same memory space.
