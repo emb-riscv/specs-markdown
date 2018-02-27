@@ -8,15 +8,21 @@ specific to any given hart.
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | hartidlast | 32b | ro | 0x00000NNN | The ID of the last hart in the device. |
-| 0x0004 | | | | | Reserved. |
-| 0x0100 | harts[] | 256B x N | | | Array of hart status and control. |
+| 0x0004 | vendorid | 32b | ro |  | Vendor ID. |
+| 0x0008 | archid | 32b | ro |  | Architecture ID. |
+| 0x000C | impid | 32b | ro |  | Implementation ID. |
+| 0x0010 | | | | | Reserved. |
+| 0x0020 | dcsr | | | | Debug CSR. |
+| 0x0028 | dpc | | | | Debug PC. |
+| 0x0030 | | | | | Reserved. |
+| 0x0100 | harts | | | | All harts interrupts. |
 
-## ID of the last hart
+## The ID of the last hart
 
 For multi-hart devices, reading this register returns the ID of the last hart available 
 in the device. Single-hart devices return 0.
 
-## Hart status and control
+## All harts interrupts
 
 For multi-hart devices, these registers allow one hart to pend interrupts to any other 
 hart, and possibly to temporarily adjust the priority thresholds, to handle synchronization 
@@ -28,35 +34,30 @@ For single-hart devices, this area is reserved.
 
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
-| 0x0000 | `pendings[]` | 32b x 32 | w1s | 0x00000000 | Hart interrupt pending bits. |
-| 0x0080 | | | | | Reserved. |
-| 0x00F8 | `prioth` | 32b | rw | 0x00000000 | Hart priority threshold. |
-| 0x00FC | `key` | 32b | w | 0x00000000 | Access key. |
+| 0x0000 | `hartid` | 32b | w | 0x00000000 | Access key. |
+| 0x0004 | `pendnum` | 32b | w |  | Hart interrupt pending bits. |
+| 0x0008 | `prioth` | 32b | rw | 0x00000000 | Hart priority threshold. |
+| 0x000C |  |  |  |  | Reserved. |
 
-Total size: 256 bytes.
-
-The hart status and control area has one bit of state. To prevent inadvertent interrupt 
-pendings, all writes to this area (`pendings[]` and `prioth`) must be preceded by an 
+These registers have one bit of state. To prevent inadvertent interrupt 
+pendings, all writes to this area (`pendnum` and `prioth`) must be preceded by an 
 unlock operation to the `key` register. The value (0x51F15000 + (Hart ID)) must be 
-written to the `key` register to set the state bit before any write access to any 
-other hart status and control register. The state bit is cleared at reset, and after 
-any write to `pendings[]` or `prioth` registers. The `prioth` registers may be read 
-without setting the `key`.
+written to the `hartid` register to set the hart id and the state bit before 
+any write access to `pendings` and `prioth`. 
+The state bit is cleared at reset, and after any write to `pendnum` or `prioth` registers.
 
-The `pendings[]` array packs `pending` bits for 32 interrupts in each element. 
-The pending bit for interrupt N is stored in bit (N mod 32) of word (N/32). 
-When 1 is written, the corresponding `pending` status bit is set.
+The `pendnum` register is write only. Writing a small integer value pends the 
+interrupt with the given number. It must have enough bits to represent
+an interrupt number (at most 10).
 
-TODO: The key mechanism has sychronization problems in case multiple harts access it 
-simultaneously. Search for alternate solutions.
+The `prioth` register is read/write and allows access to the hart identified 
+by the write to `hartid`. It must have enough bits to represent an interrupt
+priority.
 
-TODO: check if it is cheaper to use a single register with a value representing the 
-number of the interrupt to pend, same as ARM STIR (Software Triggered Interrupt Register).
+Warning: The key mechanism has sychronization problems in case multiple harts access it 
+simultaneously. Implementations can choose to allow access only from hart 0.
 
 ## RISC-V compatibility CSRs
-
-TODO: decide what to do with these registers; probably some of them should be 
-added to `dcb`.
 
 The RISC-V Volume I, Chapter 2.8, mandates for the `rdtime` instruction. This can be 
 retrieved from `dcb.rtclock.counter`.
