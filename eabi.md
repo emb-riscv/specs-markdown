@@ -28,7 +28,7 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 | `x2` | `sp` | Stack pointer |  | * |
 | `x3` | `gp` | Global pointer |  |  |
 | `x4` | `tp` | Thread pointer |  |  |
-| `x5` | `**sl**` | **Stack limit** |  | * |
+| `x5` | **`sl`** | **Stack limit** |  | * |
 | `x6–x7` | `t1,t2` | Temporaries | | * |
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
@@ -63,7 +63,7 @@ saved registers in the other half.</sup>
 | `x2` | `sp` | Stack pointer |  | * |
 | `x3` | `gp` | Global pointer |  |  |
 | `x4` | `tp` | Thread pointer |  |  |
-| `x5` | `**sl**` | **Stack limit** |  | * |
+| `x5` | **`sl`** | **Stack limit** |  | * |
 | `x6–x7` | `t1,t2` | Temporaries |  | * |
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
