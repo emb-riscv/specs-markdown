@@ -7,7 +7,7 @@ specific to any given hart.
 
 | Offset | Name | Width | Type | Reset | Description | 
 |:-------|:-----|:------|:-----|:------|-------------|
-| 0x0000 | hartidlast | 32b | ro | 0x00000NNN | The ID of the last hart in the device. |
+| 0x0000 | hartidmax | 32b | ro | 0x00000NNN | The highest value for hart ID in the device. |
 | 0x0004 | vendorid | 32b | ro |  | Vendor ID. |
 | 0x0008 | archid | 32b | ro |  | Architecture ID. |
 | 0x000C | impid | 32b | ro |  | Implementation ID. |
@@ -17,9 +17,9 @@ specific to any given hart.
 | 0x0030 | | | | | Reserved. |
 | 0x0100 | harts | | | | All harts interrupts. |
 
-## The ID of the last hart
+## The highest hart ID
 
-For multi-hart devices, reading this register returns the ID of the last hart available 
+For multi-hart devices, reading this register returns the highest numerical value used as hart ID 
 in the device. Single-hart devices must return 0.
 
 ## All harts interrupts
@@ -39,20 +39,20 @@ For single-hart devices, this area is reserved.
 | 0x0008 | `prioth` | 32b | rw | 0x00000000 | Hart priority threshold. |
 | 0x000C |  |  |  |  | Reserved. |
 
-These registers have one bit of state. To prevent inadvertent interrupt 
+These registers have one additional bit of state. To prevent inadvertent interrupt 
 pendings, all writes to this area (`pendnum` and `prioth`) must be preceded by an 
-unlock operation to the `key` register. The value (0x51F15000 + (Hart ID)) must be 
+unlock operation to the `hartid` register. The value (0x51F15000 + (Hart ID)) must be 
 written to the `hartid` register to set the hart id and the state bit before 
 any write access to `pendings` and `prioth`. 
 The state bit is cleared at reset, and after any write to `pendnum` or `prioth` registers.
 
 The `pendnum` register is write only and allows access to the hart identified 
 by the write to `hartid`. Writing a small integer value pends the 
-interrupt with the given number. It must have enough bits to represent
-an interrupt number (at most 10).
+interrupt with the given number. The `pendnum` register must have enough bits to 
+represent any interrupt number (at most 10).
 
 The `prioth` register is read/write and allows access to the hart identified 
-by the write to `hartid`. It must have enough bits to represent an interrupt
+by the write to `hartid`. It must have enough bits to represent any interrupt
 priority.
 
 Warning: The key mechanism has sychronization problems in case multiple harts access it 
