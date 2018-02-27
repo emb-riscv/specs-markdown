@@ -126,15 +126,15 @@ RV64 devices:
 
 - `sysclock.ctrl`
 - `sysclock.cnt` 
-- `hcb.sysclock.cmp` 
+- `hcb.sysclockcmp` 
 
 RV32 devices:
 
 - `sysclock.ctrl`
 - `sysclock.cntl`
 - `sysclock.cnth`
-- `hcb.sysclock.cmpl`
-- `hcb.sysclock.cmph`
+- `hcb.sysclockcmpl`
+- `hcb.sysclockcmph`
 
 ```c
 uint64_t 
@@ -161,9 +161,9 @@ uint64_t
 riscv_sysclock_read_cmp(void)
 {
 #if __riscv_xlen == 32
-  return ((uint64_t) hcb.sysclock.cmph << 32) | hcb.sysclock.cmpl;
+  return ((uint64_t) hcb.sysclockcmph << 32) | hcb.sysclockcmpl;
 #else
-  return hcb.sysclock.cmp;
+  return hcb.sysclockcmp;
 #endif
 }
 
@@ -172,13 +172,13 @@ riscv_sysclock_write_cmp(uint64_t value)
 {
 #if __riscv_xlen == 32
   // Write low as max; no smaller than old value.
-  hcb.sysclock.cmpl = (uint32_t) UINT_MAX;
+  hcb.sysclockcmpl = (uint32_t) UINT_MAX;
   // Write high; no smaller than old value.
-  hcb.sysclock.cmph = ((uint32_t) (value >> 32));
+  hcb.sysclockcmph = ((uint32_t) (value >> 32));
   // Write low as new value.
-  hcb.sysclock.cmpl = ((uint32_t) value);
+  hcb.sysclockcmpl = ((uint32_t) value);
 #else
-  hcb.sysclock.cmp = value;
+  hcb.sysclockcmp = value;
 #endif
 }
 ```
