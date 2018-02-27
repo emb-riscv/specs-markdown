@@ -55,13 +55,13 @@ of the activity of other harts (at least at user level).
 #### RISC-V microcontroller specifics
 
 Harts are identified by a Hart ID, a small unsigned integer. Hart IDs are unique. 
-The rule used to assign hart IDs is implementation dependent, but it is recommended 
+The rule used to assign hart IDs is implementation specific, but it is recommended 
 to keep it simple, preferably within a continuous small range. There should always 
-be a hart with ID=0, which will have slightly more duties, for example processing 
+be a hart with ID=0, which will have slightly more duties, for example to process 
 the NMIs. 
 
 To help applications auto-configure themselves, the largest hart ID is stored in 
-a register in the Device Control Bloc (DCB).
+a register in the Device Control Bloc (`dcb.hartidlast`).
 
 ### Core
 
