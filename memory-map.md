@@ -29,10 +29,10 @@ device, and some providing control and status registers for the current hart:
 
 | Base | Top | Name | Description |
 |:-----|:----|:-----|-------------|
-| 0xF000'0000 | 0xF000'XXXX | `dcb` | The Device Control Block. |
-| 0xF0XX'XXXX | 0xF0XX'XXXX | `sysclock` | The Device System Clock. |
-| 0xF0XX'XXXX | 0xF0XX'XXXX | `rtclock` | The Device Real-Time Clock. |
-| 0xF0XX'XXXX | 0xF0XX'XXXX | `wdog` | The Device Watchdog Timer. |
+| 0xF000'0000 | 0xF000'0FFF | `dcb` | The Device Control Block. |
+| 0xF000'1000 | 0xF000'1FFF | `sysclock` | The Device System Clock. |
+| 0xF000'2000 | 0xF000'2FFF | `rtclock` | The Device Real-Time Clock. |
+| 0xF000'3000 | 0xF000'3FFF | `wdog` | The Device Watchdog Timer. |
 | | | | |
 | 0xF100'0000 | 0xF100'0FFF | `hcb` | The Hart Control Block. |
 | 0xF100'2000 | 0xF100'3FFF | `hic` | The Hart Interrupt Controller. |
