@@ -2,7 +2,7 @@
 
 A proposal for a friendlier microcontroller architecture using the beautiful RISC-V instruction set.
 
-Version: 0.1.1
+Version: 0.1.1-pre
 
 Editors:
 * Liviu Ionescu
