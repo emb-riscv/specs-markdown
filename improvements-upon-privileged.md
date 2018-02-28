@@ -226,9 +226,10 @@ specs are not optimal for real-time low-power bare metal applications
 
 ### Acknowledge the need for the changes
 
-Given the current structure of the RISC-V Foundation, with most of the members 
-interested in GNU/Linux systems, acknowledging that the specifications for a general 
-purpose device do not work very well for real-time systems will be a challenge.
+Given the current structure of the RISC-V Foundation, with most of the efforts  
+focused on finalising the specifications required for running Unix-like 
+operating systems, acknowledging that the specifications for general 
+purpose devices do not work very well for real-time systems will be a challenge.
 
 ### De-entangle the privileged specs
 
