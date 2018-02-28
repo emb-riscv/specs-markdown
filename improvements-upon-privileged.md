@@ -99,7 +99,7 @@ registers.
 Another important issue with the current specs is the mandatory use of the POSIX ABI, 
 which is too expensive for real-time devices.
 
-The solution is to move it to Volume II, and allow a micorcontroller profile to define 
+The solution is to move it to Volume II, and allow a microcontroller profile to define 
 an EABI, (Embedded ABI), as a lighter version of the POSIX ABI.
 
 ## Improvements upon RISC-V privileged
@@ -115,7 +115,7 @@ limited use of CSRs
 requirements for RTOS multi-threaded applications
 - stack limit register, to detect the common issue with stack overruns
 - separate low-power real-time clock and high accuracy system clock
-- simplified context switch mechanims for RTOSes
+- simplified context switch mechanism for RTOSes
 - architecture device reset mechanism
 - architecture resumable NMI
 - simplified device startup code, not requiring assembly code
@@ -198,13 +198,13 @@ This mechanism of accessing the system registers has two main disadvantages:
 
 - requires assembly code to access each individual register 
 - is not supported by current development tools, debuggers have no ways of accessing 
-these registers, IDEs have no special viewes for them, etc.
+these registers, IDEs have no special views for them, etc.
 
 Mapping system registers in the memory space is perfectly possible, and the RISC-V 
 privileged specs even mandates for some registers like the `mtime` and `mtimecmp`, 
 to be memory mapped.
 
-However, from a technical point of view, for virtual memory systems, accesing system 
+However, from a technical point of view, for virtual memory systems, accessing system 
 registers from code running in user mode requires 'punching' some holes into the 
 virtual memory space to reach the special memory mapped registers, which adds some 
 complexity.

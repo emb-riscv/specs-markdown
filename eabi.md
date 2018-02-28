@@ -15,7 +15,7 @@ The main goal of the RISC-V Embedded ABI is to balance a high performance for ba
 
 As a secondary goal, if possible, it should remain consistent when applied to the reduced register set used by the RV32E devices.
 
-TODO: This is a very preliminary proposal and must be discussed thouroghly with the compiler maintainers.
+TODO: This is a very preliminary proposal and must be discussed thoroughly with the compiler maintainers.
 
 TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is mentioned as alternate link register.
 

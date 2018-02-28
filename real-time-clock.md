@@ -4,7 +4,7 @@
 
 The **Device Real-Time Clock** is intended to support the implementation of the ISO/IEC 14882.2011 
 `system_clock` (§ 20.11.7.1) and `steady_clock` (§ 20.11.7.2) classes. Objects of class 
-`system_clock` represent wall clock time from the system-wide realtime clock. Objects of 
+`system_clock` represent wall clock time from the system-wide real-time clock. Objects of 
 class `steady_clock` represent clocks for which values of the time point never decrease as 
 physical time advances and for which values of time_point advance at a steady rate 
 relative to real time. That is, the clock may not be adjusted.
@@ -27,7 +27,7 @@ domain from the cores.
 
 The real-time clock input frequency is fixed to a device or application specific value.
 
-To support low-power devices, the real-time clock input should be a low freqency oscillator; the actual 
+To support low-power devices, the real-time clock input should be a low frequency oscillator; the actual 
 source is implementation specific. 
 
 > <sup>Common implementations use a 32.678 Hz quartz or oscillator.

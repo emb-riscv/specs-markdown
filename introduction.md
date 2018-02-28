@@ -15,7 +15,7 @@ specifications for RISC-V microcontrollers intended for **real-time**, **low pow
 
 ## Limitations
 
-These specifications intentionaly **do not** include application class devices which 
+These specifications intentionally **do not** include application class devices which 
 use virtual memory and/or have supervisor/hypervisor modes which are intended to run 
 operating systems kernels. For this class of devices, see the "RISC-V Privileged 
 Architecture" specifications.

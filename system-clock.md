@@ -8,7 +8,7 @@ with the shortest tick period.
 
 The system clock is also intended as:
 
-- the RTOS tick timer that fires periodically at a programable rate, for example 1000 Hz, to 
+- the RTOS tick timer that fires periodically at a programmable rate, for example 1000 Hz, to 
 measure time and to drive pre-emptive context switches
 - a variable rate alarm or signal timer to handle timeouts and alarms
 
@@ -44,7 +44,7 @@ document the relationship between the processor clock and the external reference
 > <sup>Low-power devices might need to vary the core frequency by changing implementation 
   specific clock registers (like PLL registers). In this case the system clock software 
   must be notified to use the same input frequency. Alternately, the system clock may 
-  be configured to use the high frequency clock reference (like the quarz 
+  be configured to use the high frequency clock reference (like the quartz 
   oscillator), assumed to have a fixed frequency. </sup>
 
 ## Memory map

@@ -11,11 +11,11 @@ Unless otherwise mentioned, write access to the CSRs is limited to machine/privi
 
 ## Hart ID Register (`hartid`)
 
-The `hartid` CSR is an xlen-bit read-only register containing the integer ID of the 
+The `hartid` CSR is an xlen-bits read-only register containing the integer ID of the 
 hart running the code. This register must be readable in any implementation. 
 In single-hart devices, it always reads 0. In multi-hart devices, the hart IDs might 
 not necessarily be numbered contiguously
-(althoug it is preferable), but at least one hart must have a hart ID of zero.
+(although it is preferable), but at least one hart must have a hart ID of zero.
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
@@ -42,7 +42,7 @@ functionality.
 | [10] | `fplazy` | rw | 1 | Floating point lazy context save: <br>- 0: disable automatic lazy context save.<br>- 1: enable automatic lazy context save. |
 | [(xlen-1):11] | | | | Reserved. |
 
-<sup>*1</sup>: The default value for the `stackalign` is implementaion specific; the 
+<sup>*1</sup>: The default value for the `stackalign` is implementation specific; the 
 recommended default is 1.
 
 TODO: decide if a `reset` bit (to reset the current hart) fits here, and 
@@ -261,8 +261,8 @@ f1(void)
 ```
 
 Otherwise, if the application uses some fast interrupts, it can raise the 
-interrupt threashold to a limit below the fast interrupts priority. Please 
-note how entering the critical sections guarantees that the threashold is 
+interrupt threshold to a limit below the fast interrupts priority. Please 
+note how entering the critical sections guarantees that the threshold is 
 not lowered.
 
 ```c

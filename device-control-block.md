@@ -55,7 +55,7 @@ The `prioth` register is read/write and allows access to the hart identified
 by the write to `hartid`. It must have enough bits to represent any interrupt
 priority.
 
-Warning: The key mechanism has sychronization problems in case multiple harts access it 
+Warning: The key mechanism has synchronisation problems in case multiple harts access it 
 simultaneously. Implementations can choose to allow access only from hart 0.
 
 ## RISC-V compatibility CSRs
@@ -69,7 +69,7 @@ Other RISC-V registers from RISC-V Volume II:
 - marchid 
 - mimpid 
 
-Other registers that migh need attention:
+Other registers that might need attention:
 
 - required for the debug module (are these per-hart or per-device?):  
   - dcsr 

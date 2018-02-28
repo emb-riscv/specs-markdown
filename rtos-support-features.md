@@ -60,7 +60,7 @@ context switching prior to calling the C/C++ handler, which is a major hassle.
 
 ## Interrupts priorities threshold
 
-Having a mechanism to disable only interupts below a certain threshold greatly improves the real-time
+Having a mechanism to disable only interrupts below a certain threshold greatly improves the real-time
 characteristics of a system, by not having to disable all interrupts while handling the system 
 data structures. By raising the priority threshold instead of completely disabling interrupts, it 
 is possible to keep fast interrupts still active, regardless how busy the RTOS itself is.
@@ -83,7 +83,7 @@ Protection Unit (MPU), thus further enhancing the robustness of embedded systems
 
 ## Atomics 
 
-For multi-hart devices, the RISC-V 'A' Standard Extension for Atomic instuctions contains 
+For multi-hart devices, the RISC-V 'A' Standard Extension for Atomic instructions contains 
 instructions that atomically 
 read-modify-write memory to support synchronization between multiple RISC-V harts running in 
 the same memory space.

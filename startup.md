@@ -4,11 +4,11 @@ After reset, all harts in a RISC-V microcontroller start executing code, identif
 per-hart **startup block**.
 
 The location of the hart startup block is implementation specific. The typical 
-configuration with a single hart has the startup block located at the begining 
+configuration with a single hart has the startup block located at the beginning 
 of the memory space (usually address 0x00000000).
 
 If multiple harts share a memory area to fetch code (like a flash area), the 
-startup blocks are organised as an array located at the begining of the shared 
+startup blocks are organised as an array located at the beginning of the shared 
 memory area. If different harts have different memory areas, the startup blocks 
 are located at the beginning of each area.
 
@@ -80,7 +80,7 @@ hart1_startup(void)
 
 ### Prerequisites
 
-The linker script must allocate the `.startup_blocks` section at the implementaton 
+The linker script must allocate the `.startup_blocks` section at the implementation 
 specific address (usually 0x00000000).
 
 ## Implementation

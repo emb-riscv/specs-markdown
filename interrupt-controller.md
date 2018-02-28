@@ -80,9 +80,9 @@ The `status` register has the following content:
 
 | Bits | Name | Type | Reset | Description |
 |:-----|:-----|:-----|:------|-------------|
-| [0] | `enabled` | rw1s | 0 | Enabled status bit; 1 if the interupt is enabled.<br>When 1 is written, the `enabled` bit is set. |
-| [1] | `pending` | rw1s | 0 | Pending status bit; 1 if the interupt is pending.<br>When 1 is written, the `pending` bit is set. |
-| [2] | `active` | r | 0 | Active status bit; 1 if the interupt is active. | 
+| [0] | `enabled` | rw1s | 0 | Enabled status bit; 1 if the interrupt is enabled.<br>When 1 is written, the `enabled` bit is set. |
+| [1] | `pending` | rw1s | 0 | Pending status bit; 1 if the interrupt is pending.<br>When 1 is written, the `pending` bit is set. |
+| [2] | `active` | r | 0 | Active status bit; 1 if the interrupt is active. | 
 | [3] |||| Reserved |
 | [4] | `clearenabled` | w1c | | When 1 is written, the `enabled` status bit is cleared. |
 | [5] | `clearpending` | w1c | | When 1 is written, the `pending` status bit is cleared. |
@@ -104,7 +104,7 @@ hic.interrupts[7].status = INTERRUPTS_SET_ENABLED;
 hcb.interrupts[7].status = INTERRUPTS_CLEAR_ENABLED;
 ```
 
-Interrupts can be programatically set to be pending by writing 1 in the `status.pending` field; the pending status can be cleared by writing 1 to the `status.clearpending` bit.
+Interrupts can be programmatically set to be pending by writing 1 in the `status.pending` field; the pending status can be cleared by writing 1 to the `status.clearpending` bit.
 
 ```c
 hcb.interrupts[7].status = INTERRUPTS_SET_PENDING;

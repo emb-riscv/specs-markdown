@@ -63,7 +63,7 @@ to determine at runtime if the hart implements an interrupt controller.
 
 ## The highest interrupt number (`intmax`)
 
-The `intmax` read-only register is 32-bits and reads the highes interrupt number; it is 
+The `intmax` read-only register is 32-bits and reads the highest interrupt number; it is 
 useful when iterating the Hart Interrupt Controller array.
 
 ## The system clock comparator
@@ -89,7 +89,7 @@ RV32 devices exposes separate high/low 32-bits registers.
 
 ## Instructions count
 
-The `instcnt` register is 64-bits wide and counts the number of instructions retired 
+The `instcnt` register is 64-bits wide and counts the number of instructions executed 
 by this hart from some arbitrary start point in the past.
 
 RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 

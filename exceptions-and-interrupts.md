@@ -70,11 +70,11 @@ interrupt handlers (C/C++ functions).
 
 The address of the exceptions vector table is kept by each hart in (`hcb.excvta`); 
 it is automatically initialised at startup with 
-the address provided in the hart startup block and can be later writen by software.
+the address provided in the hart startup block and can be later written by software.
 
 ## Interrupts
 
-Interrupts are generaly **triggered by peripherals** to notify the application of a 
+Interrupts are generally **triggered by peripherals** to notify the application of a 
 given condition or event. 
 
 Interrupts trigger the transfer of control to an interrupt handler associated with 
@@ -87,7 +87,7 @@ including the system interrupts.
 
 ### Interrupt priorities
 
-Interrupts have **programable priorities**, defined as small unsigned numbers.
+Interrupts have **programmable priorities**, defined as small unsigned numbers.
 
 The **priority value 0** is reserved to mean 
 _'never interrupt'_ or _'disabled'_, and interrupt priorities increase with 
@@ -117,7 +117,7 @@ The actual number of bits used to store the interrupt priority is implementation
 specific, but must 
 be at least 3 (i.e. at least 8 priority levels).
 
-> <sup>Extra care must be considered when moving code to implmentations with fewer 
+> <sup>Extra care must be considered when moving code to implementations with fewer 
   priority levels, since truncation could lead to priority inversions.
   For example, when moving a program from devices 
   with 4-bit priority bits to devices with 3-bit priorities, if the application 
@@ -127,7 +127,7 @@ be at least 3 (i.e. at least 8 priority levels).
   lower than IRQ1.</sup>
   
 > <sup>It is 
-  recommended that software handling priorities know about the numbr of bits 
+  recommended that software handling priorities know about the number of bits 
   and use asserts to validate the priority values.</sup>
 
 ### Interrupt preemption and nesting
@@ -156,7 +156,7 @@ implementation specific but cannot exceed 1024 elements.
 
 Each hart may have its own table, with handlers for the interrupts it can process.
 
-The address of the array must be programatically written by each hart to 
+The address of the array must be programmatically written by each hart to 
 its `hcb.intvta` register before enabling interrupts, usually during startup.
 
 The first 8 entries are reserved for system interrupts:
@@ -170,7 +170,7 @@ The first 8 entries are reserved for system interrupts:
 
 The starting address used by a RISC-V microcontroller is usually 
 either a flash memory or a ROM device, and the value cannot be changed at run-time. 
-However, some applications, like booloaders or applications running in RAM, 
+However, some applications, like bootloaders or applications running in RAM, 
 start with the vector tables at one 
 address and later transfer control to the application located at a different 
 address. For such cases it is useful to be able to modify or define vector tables 
@@ -201,7 +201,7 @@ The current stack pointer is either `spt` (when in application mode and the
 `ctrl.sptena` is set),
 or `spm` otherwise (when already in handler mode or `ctrl.sptena` is not set).
 
-In other words, regardless how many nested interrups occur, there is only one
+In other words, regardless how many nested interrupts occur, there is only one
 context pushed onto the thread stack, and all other nested contexts are pushed 
 onto the main stack. Also
 all handlers use the main stack, and do not pollute the thread stack, which
@@ -212,7 +212,7 @@ addresses:
 
 - <-- original `sp` (`spt` or `spm`)
 - (optional padding)
-- `status` (CSR, the current mode when the exception/interrupt occured)
+- `status` (CSR, the current mode when the exception/interrupt occurred)
 - `pc` (the next address to return from the exception/interrupt)
 - `x31/t6`
 - `x30/t5`
@@ -236,7 +236,7 @@ reasonable context stack:
 
 - <-- original `sp` (`spt` or `spm`)
 - (optional padding)
-- `status` (CSR, the current mode when the exception/interrupt occured)
+- `status` (CSR, the current mode when the exception/interrupt occurred)
 - `pc` (the next address to return from the exception/interrupt)
 - `x15/a5`
 - `x14/a4`
@@ -273,7 +273,7 @@ microcontroller profile should use an optimised Embedded ABI.
 - `f2/ft2` (\*)
 - `f1/ft1` (\*)
 - `f0/ft0` (\*)
-- `status` (CSR, the current mode when the exception/interrupt occured)
+- `status` (CSR, the current mode when the exception/interrupt occurred)
 - `pc` (the next address to return from the exception/interrupt)
 - `x31/t6`
 - `x30/t5`
@@ -294,7 +294,7 @@ microcontroller profile should use an optimised Embedded ABI.
 
 (\*) The floating point registers are not saved by devices that do not 
 implement the 
-F or D extentions and do not have the `ctrl.fpena` bit set.
+F or D extensions and do not have the `ctrl.fpena` bit set.
 
 To reduce latency, in parallel with saving the registers, the address of the 
 exception/interrupt handler is fetched from the vector table.
@@ -344,7 +344,7 @@ The HANDLER_RETURN pattern bits:
   application/handler mode, since it can be restored from the saved 
   `status` register. Saving this register is necessary not only for the
   `handler` bit (which might have been added to HANDLER_RETURN), but for the
-  `cause` field, which otherwise may be overriten by nested interrupts.</sup>
+  `cause` field, which otherwise may be overridden by nested interrupts.</sup>
   
 ## The FP lazy stacking mechanism
 
@@ -364,7 +364,7 @@ pending state. When the hart finishes executing the current handler, it can then
 proceed to process the pending exception/interrupt request. Instead of restoring 
 the registers back from the stack (unstacking) and then pushing them on to the 
 stack again (stacking), the hart skips the unstacking and stacking steps and 
-enters the new handler of the pended exception/interrupt as soon as possible.
+enters the new handler of the pending exception/interrupt as soon as possible.
 
 TODO: define the details.
 
