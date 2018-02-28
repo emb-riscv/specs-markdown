@@ -56,9 +56,9 @@ The following issues were identified:
 
 - handlers run with interrupts disabled; low priority interrupts that take
 a long time to complete may
-delay high priority interrupts, affecting real-time capabilities; the 
-microcontroller profile allows nesting, high priority interrupts
-preempt low priority ones and are processed as fast as possible;
+delay high priority interrupts, affecting real-time capabilities; the
+microcontroller profile allows nesting, with high priority interrupts
+preempting low priority ones and being processed as fast as possible;
 - there is only a single trap handler, serving all interrupts and exceptions
 (the so called 'vectored' mode is so complicated to use that it is not even 
 worth mentioning); the microcontroller profile directly dispatches interrupts
