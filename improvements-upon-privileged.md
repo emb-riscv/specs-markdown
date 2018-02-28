@@ -46,79 +46,68 @@ line between the RISC-V privileged profile and a possible RISC-V microcontroller
 profile is the use of virtual memory; as such, **RISC-V microcontrollers are devices 
 that do not implement a virtual memory system**.
 
-## Steps to changes the current RISC-V specs
-
-It is not realistic to expect a new set of RISC-V microcontroller specs to be 
-adopted overnight. However, given the expected ratification of the current specs by 
-the RISC-V Foundation, it is quite urgent to ensure that this process will not block 
-further developments in the embedded/microcontroller space.
-
-This will probably require several steps, but the main one are:
-
-- acknowledge the need for the changes
-- relax the requirements for the privileged specs
-- create new specs for the microcontroller profile
-
-### Acknowledge the need for the changes
-
-Given the current structure of the RISC-V Foundation, with most of the members 
-interested in GNU/Linux systems, acknowledging that the specifications for a general 
-purpose device do not work very well for real-time systems will be a challenge.
-
-### De-entangle the privileged specs
-
-The RISC-V Volume II, v1.10, mentions: _"... the entire privileged-level design 
-described in this document could be replaced with an entirely different 
-privileged-level design without changing the user-level ISA, and possibly without 
-even changing the ABI. In particular, this privileged specification was designed 
-to run existing popular operating systems, and so embodies the conventional 
-level-based protection model. Alternate privileged specifications could embody 
-other more flexible protection-domain models."_
-
-So, at least in theory, there should be possible to extend the specs, but in 
-practice it is not clear how exactly this can be done. Ideally, **the Volume 
-I should not explicitly refer to Volume II**, or should refer to it as optional, 
-leaving room for a complementary specification for microcontroller devices.
-
-As a parenthesis, the RISC-V ISA specs provide a very high degree of flexibility 
-allowing for custom extensions for the instruction set, but they are still very 
-rigid by insisting that all these devices should be able to run Unix-like 
-operating systems.
-
-### Move all mandatory CSRs to the privileged specs
-
-Apart from relaxing the need for the privileged specs, the instruction set defined 
-by Volume I is generally acceptable for microcontroller devices.
-
-The only notable exception is the list of mandatory CSRs, which should be moved to 
-Volume II, allowing for microcontrollers to define a more efficient set of mandatory 
-registers.
-
-### Remove the POSIX ABI from Volume I
-
-Another important issue with the current specs is the mandatory use of the POSIX ABI, 
-which is too expensive for real-time devices.
-
-The solution is to move it to Volume II, and allow a microcontroller profile to define 
-an EABI, (Embedded ABI), as a lighter version of the POSIX ABI.
-
 ## Improvements upon RISC-V privileged
 
-The main improvement is the new mechanism to handle interrupts, which should make 
-RISC-V more suitable for real-time, low power, bare metal applications.
+The main 'pain-point" with the current RISC-V privileged specs
+is the mechanism to handle interrupts, which is not suitable for real-time, 
+low power, bare metal applications.
 
-Other improvements:
+The following issues were identified:
 
-- easier access to the system registers in debugger peripheral viewers, thanks to a 
-limited use of CSRs
-- shadow thread stack pointer, improving RTOS implementation and reducing tread stack 
-requirements for RTOS multi-threaded applications
-- stack limit register, to detect the common issue with stack overruns
-- separate low-power real-time clock and high accuracy system clock
-- simplified context switch mechanism for RTOSes
-- architecture device reset mechanism
-- architecture resumable NMI
-- simplified device startup code, not requiring assembly code
+- handlers run with interrupts disabled; low priority interrupts that take
+a long time to complete may
+delay high priority interrupts, affecting real-time capabilities; the 
+microcontroller profile allows nesting, high priority interrupts
+preempt low priority ones and are processed as fast as possible;
+- there is only a single trap handler, serving all interrupts and exceptions
+(the so called 'vectored' mode is so complicated to use that it is not even 
+worth mentioning); the microcontroller profile directly dispatches interrupts
+to separate handlers, via a simple array of pointers, easy to define in C/C++;
+- the interrupt code must be written in assembly, to perform the low level
+stacking/unstacking and return from exception; the microcontroller profile
+automatically performs the stacking/unstacking, allowing the handlers to
+be written as C/C++ functions.
+
+Other issues with the privileged specs and the improvements provided by the
+microcontroller profile:
+
+- the current ISA Volume I manual defines a common POSIX ABI to be used by 
+all devices, but his ABI requires the caller to save a lot of registers,
+making interrupt stacking/unstacking very expensive and increasing latency; 
+the microcontroller profile defines a lighter Embedded ABI, reducing
+latency;
+- the privileged profile defines a few hundred CSRs, and encourages 
+implementation to define even more custom CSRs; current debuggers do not
+have support for proprietary mechansims like CSRs, and viewing/changing
+these registers requires unusual hacks; the microcontroller profile 
+uses a very limited set of CSRs and favours the use of memory mapped 
+registers, which are very well supported by debuggers/IDEs;
+- there is no separate stack for interrupts, all threads must reserve the
+aditional requirements of all interrupts; the microcontroller profile 
+add a shadow thread stack pointer, improving RTOS implementation and 
+reducing tread stack 
+requirements for RTOS multi-threaded applications;
+- one of the common reason of crashes during embedded systems development 
+is one of the threads running out of space; the privileged profile does
+not provide a standard way of detecting stack overruns;
+the microcontroller profile adds a stack limit register and stack 
+overruns trigger exceptions;
+- the system clock runs from the low frequency real-time clock, which
+has low resolution and, at common 32.768 Hz frequencies, do not allow
+accurate 1000 Hz scheduler clocks; the microcontroller profile defines
+separate low-power real-time clock and high accuracy system clock, 
+improving both general clock resolution and scheduler clock accuracy;
+- there is no explicit mechanism to trigger
+and implement context switches in a multi-threaded RTOS; the microcontroller 
+profile adds a dedicated interrupt, guaranteed with the lowest
+priority, to be used for all context switches, relieving all
+other interrupt handlers from this duty;
+- the microcontroller profile adds an architecture device reset mechanism;
+- the microcontroller profile adds an architecture resumable NMI;
+- the startup code also requires some assembly code, to set the
+stack and the `gp` register; the microcontroller profile adds a
+simplified device startup code, based on a table of standard C/C++ 
+pointers, requiring no assembly code at all.
 
 ## Criticism
 
@@ -202,12 +191,13 @@ these registers, IDEs have no special views for them, etc.
 
 Mapping system registers in the memory space is perfectly possible, and the RISC-V 
 privileged specs even mandates for some registers like the `mtime` and `mtimecmp`, 
-to be memory mapped.
+not to mention the PLIC, to be memory mapped.
 
 However, from a technical point of view, for virtual memory systems, accessing system 
 registers from code running in user mode requires 'punching' some holes into the 
 virtual memory space to reach the special memory mapped registers, which adds some 
-complexity.
+complexity. But, since the specs require this mechanism for `mtime` and `mtimecmp`,
+it no longer matters if there are two or more such memory mapped registers.
 
 Fortunately, microcontrollers running without a MMU do not have this problem, 
 accessing any memory mapped registers is usual, and the cost of doing so is 
@@ -217,7 +207,63 @@ Plus that in the microcontroller profile there are _no_ hardware security
 boundaries, so the risk of attacks somehow exploiting the CSR-as-MMIO is a 
 non-issue. 
 
+## Proposed steps to change the current RISC-V specs
 
+It is not realistic to expect a new set of RISC-V microcontroller specs to be 
+adopted overnight. However, given the expected ratification of the current specs by 
+the RISC-V Foundation, it is quite urgent to ensure that this process will not block 
+further developments in the embedded/microcontroller space.
 
+This will probably require several steps, but the main ones are:
 
+- acknowledge that microcontroller devices have different requirements 
+compared to systems running Unix-like operating systems
+- acknowledge that the solutions provided by the current privileged mode 
+specs are not optimal for real-time low-power bare metal applications
+- acknowledge the need for changes in the current specs 
+- relax the requirements for the privileged specs
+- create new specs for the microcontroller profile
+
+### Acknowledge the need for the changes
+
+Given the current structure of the RISC-V Foundation, with most of the members 
+interested in GNU/Linux systems, acknowledging that the specifications for a general 
+purpose device do not work very well for real-time systems will be a challenge.
+
+### De-entangle the privileged specs
+
+The RISC-V Volume II, v1.10, mentions: _"... the entire privileged-level design 
+described in this document could be replaced with an entirely different 
+privileged-level design without changing the user-level ISA, and possibly without 
+even changing the ABI. In particular, this privileged specification was designed 
+to run existing popular operating systems, and so embodies the conventional 
+level-based protection model. Alternate privileged specifications could embody 
+other more flexible protection-domain models."_
+
+So, at least in theory, there should be possible to extend the specs, but in 
+practice it is not clear how exactly this can be done. Ideally, **the Volume 
+I should not explicitly refer to Volume II**, or should refer to it as optional, 
+leaving room for a complementary specification for microcontroller devices.
+
+As a parenthesis, the RISC-V ISA specs provide a very high degree of flexibility 
+allowing for custom extensions for the instruction set, but they are still very 
+rigid by insisting that all these devices should be able to run Unix-like 
+operating systems.
+
+### Move all mandatory CSRs to the privileged specs
+
+Apart from relaxing the need for the privileged specs, the instruction set defined 
+by Volume I is generally acceptable for microcontroller devices.
+
+The only notable exception is the list of mandatory CSRs, which should be moved to 
+Volume II, allowing for microcontrollers to define a more efficient set of mandatory 
+registers.
+
+### Remove the POSIX ABI from Volume I
+
+Another important issue with the current specs is the mandatory use of the POSIX ABI, 
+which is too expensive for real-time devices.
+
+The solution is to move it to Volume II, and allow a microcontroller profile to define 
+an EABI, (Embedded ABI), as a lighter version of the POSIX ABI.
 
