@@ -78,12 +78,12 @@ the microcontroller profile defines a lighter Embedded ABI, reducing
 latency;
 - the privileged profile defines a few hundred CSRs, and encourages 
 implementation to define even more custom CSRs; current debuggers do not
-have support for proprietary mechansims like CSRs, and viewing/changing
+have support for proprietary mechanisms like CSRs, and viewing/changing
 these registers requires unusual hacks; the microcontroller profile 
 uses a very limited set of CSRs and favours the use of memory mapped 
 registers, which are very well supported by debuggers/IDEs;
 - there is no separate stack for interrupts, all threads must reserve the
-aditional requirements of all interrupts; the microcontroller profile 
+additional requirements of all interrupts; the microcontroller profile 
 add a shadow thread stack pointer, improving RTOS implementation and 
 reducing tread stack 
 requirements for RTOS multi-threaded applications;
