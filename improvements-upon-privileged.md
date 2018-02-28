@@ -64,9 +64,13 @@ preempting low priority ones and being processed as fast as possible;
 worth mentioning); the microcontroller profile directly dispatches interrupts
 to separate handlers, via a simple array of pointers, easy to define in C/C++;
 - the interrupt code must be written in assembly, to perform the low level
-stacking/unstacking and return from exception; the microcontroller profile
-automatically performs the stacking/unstacking, allowing the handlers to
-be written as C/C++ functions.
+stacking/unstacking and return from exception; this code **is** complicated,
+a good example is the [Linux handler](https://github.com/torvalds/linux/blob/master/arch/riscv/kernel/entry.S), 
+and the current implementation does not even re-enable interrupts while in 
+handler mode;
+the microcontroller profile
+automatically performs the stacking/unstacking, allowing all application
+interrupt handlers to be written as C/C++ functions, with minimum latency.
 
 Other issues with the privileged specs and the improvements provided by the
 microcontroller profile:
