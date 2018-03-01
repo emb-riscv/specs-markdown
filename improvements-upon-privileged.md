@@ -48,9 +48,9 @@ that do not implement a virtual memory system**.
 
 ## Improvements upon RISC-V privileged
 
-The main 'pain-point" with the current RISC-V privileged specs
+The main 'pain-point' with the current RISC-V privileged specs
 is the mechanism to handle interrupts, which is not suitable for real-time, 
-low power, bare metal applications.
+low power, bare-metal embedded applications.
 
 The following issues were identified:
 
@@ -223,7 +223,7 @@ This will probably require several steps, but the main ones are:
 - acknowledge that microcontroller devices have different requirements 
 compared to systems running Unix-like operating systems
 - acknowledge that the solutions provided by the current privileged mode 
-specs are not optimal for real-time low-power bare metal applications
+specs are not optimal for real-time, low power, bare-metal embedded applications
 - acknowledge the need for changes in the current specs 
 - relax the requirements for the privileged specs
 - create new specs for the microcontroller profile
