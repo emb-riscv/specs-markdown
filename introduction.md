@@ -61,7 +61,7 @@ be a hart with ID=0, which will have slightly more duties, for example to proces
 the NMIs. 
 
 To help applications auto-configure themselves, the largest hart ID is stored in 
-a register in the Device Control Bloc (`dcb.hartidlast`).
+a register in the Device Control Bloc (`dcb.hartidmax`).
 
 ### Core
 
