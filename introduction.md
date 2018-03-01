@@ -10,8 +10,9 @@ instruction set, that makes writing embedded software **easier** and **more prod
 And... enjoy the process!
 
 In technical terms, the mission statement can be rephrased as: define a set of 
-specifications for RISC-V microcontrollers intended for **real-time**, **low power**, 
-**bare metal** embedded systems. Favour **C/C++** multi-threaded **RTOS** systems.
+specifications for RISC-V microcontrollers intended for embedded **real-time** 
+/ **low power** / **IoT** systems that do not require an operating system. 
+Favour **C/C++** multi-threaded **RTOS** systems.
 
 ## Limitations
 
