@@ -118,9 +118,11 @@ This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
-Proposal [PA]: truncation of priority bits: should be done at the
- least-significant end, to avoid the kind of
- priority inversion.
+> <sup>[PA]: the truncation of priority bits should be done at the
+ least-significant end, to avoid
+ priority inversion. [ilg] this might be done for example by moving the bits to the
+ high end of the register, but this requires later handling the priority as 
+ word/double word.<sup>
 
 ## Interrupt Priority Threshold Increase (`ipriothinc`)
 
