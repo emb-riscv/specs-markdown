@@ -139,6 +139,60 @@ So this concern is not realistic, and not accepting a distinct microcontroller
 profile, optimised for real-time applications simply for maintaining compatibility 
 with the privileged specs is not a beneficial approach.
 
+## Automatic stacking/unstacking is evil
+
+> "Automatic stacking/unstacking is fine for Cortex-M, but it is 
+very objectionable for 
+RISC-V. The difference is in ARM's MOVEM instruction. A Cortex-M 
+already has the hardware to move multiple words to/from the stack 
+because it has to implement the MOVEM instruction anyway. So doing 
+this specially on trap entry/exit is a small addition to what is 
+already required to execute the user instruction set. The story for 
+RISC-V is different, as it has no MOVEM-like instruction. Therefore, 
+having the hardware automatically push/pop a collection of registers on 
+trap entry/exit is a larger addition for RISC-V than it was for ARM."
+
+Well, that's a point of view. However, it must be noted that even the
+tiny Cortex-M0, so economical in terms of transistors, decided to
+do automatic stacking/unstacking, so the added complexity might not 
+be that high.
+
+Not to mention another detail: Cortex-M has 16 registers, and the
+EABI requires R0, R1, R2, R3, R12, R14, PC and xPSR
+to be stacked/unstacked automatically. On the other hand,
+the LDM/STM instructions, probably due to to the tight encoding, 
+are able to move only half of them,
+(R0-R7), so the logic to do the stacking/unstacking is
+definitely more capable than required by the instruction set.
+It is not by accident that Cortex-M has automatic stacking/unstacking 
+simply because support for LDM/STM was present anyway, it is
+by design. As an exercise of reversed logic, 
+it might also be argued that Cortex-M has the LDM/STM instructions 
+because the logic for moving multiple words was already
+available from automatic stacking/unstacking.
+
+Also RISC-V having no MOVEM-like instructions may save a few 
+transistors, but otherwise it is not exactly a feature, 
+it simply makes saving contexts in multi-threaded environments more
+complicated and probably less efficient.
+
+## Automatic stacking/unstacking should be replaced by compiler attribute
+
+> "Better to have a “handler” function attribute that causes the compiler 
+to save only and exactly the registers the function modifies. If a handler 
+function calls a regular C function then it needs to save all the volatile 
+registers first.
+
+Well, yes, it is possible to imagine interrupt handles incrementing a 
+variable and 
+returning, but this is rare, by far the biggest majority of interrupt 
+handlers call C/C++ functions to perform system services, like posting 
+a semaphore, or any other synchronization mechanism. 
+
+So, by first saving a few registers and then saving all those required 
+by the ABI, the result is that more registers needs to be saved, and 
+with a further negative impact on latency. 
+
 ### Automatic stacking/unstacking the interrupt context increases latency
 
 The current RISC-V ABI requires the caller to save the following registers: 
@@ -171,6 +225,20 @@ designed for user mode Unix applications.
 
 The solution is a **separate Embedded ABI (EABI)**, optimised for embedded real-time 
 applications, with a smaller caller register set.
+
+### Assembly interrupt handlers are ok, they reside in the system part
+
+> "Why insist on having the interrupt handlers written in C, when they can be very well
+written in assembly, since they reside in the system part, written by the system
+programmers, not by the application programmer."
+
+Well, this might be the case for GNU/Linux, where the kernel and the modules are 
+indeed written by system gurus, but in embedded bare-metal applications the
+interrupt handlers are highly application specific and cannot be part of
+the RTOS or any drivers/libraries, so the application programmer must 
+write them, not someone else, thus the need for the interrupt handlers to be
+as easy to use as possible, the best choice being to have them defined as plain 
+C/C++ functions.
 
 ### CSRs cannot be memory-mapped
 
