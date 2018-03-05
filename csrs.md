@@ -118,6 +118,10 @@ This CSR is specific to the RISC-V microcontroller profile.
 
 TODO: allocate a number for it.
 
+Proposal [PA]: truncation of priority bits: should be done at the
+ least-significant end, to avoid the kind of
+ priority inversion.
+
 ## Interrupt Priority Threshold Increase (`ipriothinc`)
 
 The `ipriothinc` CSR behaves like an xlen-bits read/write register, but in fact uses the
