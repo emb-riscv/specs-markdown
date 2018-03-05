@@ -18,7 +18,7 @@ memory areas, or both shared and specific areas.
 
 The system control area is a slice of 256 MiB at the end of the memory space. This area 
 must have the execute permissions removed, and attempts to execute code from it must trigger 
-exceptions (Which one?)
+an exceptions (instruction access fault).
 
 For 32-bits devices, the system control area is **0xF0000000-0xFFFFFFFF**.
 
@@ -44,3 +44,8 @@ thus each hart can access only its own hart control block.
 Same for the Hart Interrupt Controller.
 
 (the addresses are preliminary, need more work to find a solution easy to decode)
+
+
+TODO [PA]: reserving space in the system control area
+for debug program buffer, in case an implementation chooses to
+make the buffer memory mapped.
