@@ -178,7 +178,10 @@ the main stack can descend.
 If an operation using the main stack pointer attempts to write to an address below 
 the limit, an exception is triggered and the operation is not performed.
 
-This CSR is specific to the RISC-V microcontroller profile.
+This CSR is specific to the RISC-V microcontroller profile. 
+
+The `spmlimit` CSR is optional for the ES (small) sub-profile; in this case it 
+must always read zero.
 
 TODO: allocate a number for it.
 
@@ -216,6 +219,9 @@ If an operation using the thread stack pointer attempts to write to an address b
 the limit, an exception is triggered and the operation is not performed.
 
 This CSR is specific to the RISC-V microcontroller profile.
+
+The `sptlimit` CSR is optional for the ES (small) sub-profile; in this case it 
+must always read zero.
 
 TODO: allocate a number for it.
 
