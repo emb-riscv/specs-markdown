@@ -130,6 +130,12 @@ be at least 3 (i.e. at least 8 priority levels).
   recommended that software handling priorities know about the number of bits 
   and use asserts to validate the priority values.</sup>
 
+> <sup>[PA]: the truncation of priority bits should be done at the
+ least-significant end, to avoid the kind of
+ priority inversion. [ilg] this translates into moving the bits to the other 
+ end of the word/register, and possibly requiring byte/half-word accesses 
+ to the NIC.<sup>
+
 ### Interrupt preemption and nesting
 
 If an hart is executing an interrupt handler and a higher priority interrupt 
