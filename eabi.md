@@ -28,7 +28,7 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 | `x2` | `sp` | Stack pointer |  | * |
 | `x3` | `gp` | Global pointer |  |  |
 | `x4` | `tp` | Thread pointer |  |  |
-| `x5` | **`sl`** | **Stack limit** |  | * |
+| `x5` | `t0`/**`sl`** | Temporary/**Stack limit** |  | * |
 | `x6–x7` | `t1,t2` | Temporaries | | * |
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
@@ -46,13 +46,19 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 | `f16–f31` | `fs0-fs15` | FP saved registers |  | * |
 
 > <sup>To simplify the context push/pop code, 
-the floating point registers were reordered, to group
-all the caller register in one half of the set and the callee 
-saved registers in the other half.</sup>
+  the floating point registers were reordered, to group
+  all the caller register in one half of the set and the callee 
+  saved registers in the other half.</sup>
 
-> <sup>It is not mandatory for the stack limit to be a general register,
-  it can be a CSR as well, but in this case it must be separately
+> <sup>Having the stack limit exposed as a general register
+  is only a proposal, but 
+  it can remain a CSR only as well, but in this case it must be 
+  separately
   saved during RTOS context switches.</sup>
+  
+> <sup>[BH] I don’t like the stack limit being in a register.
+  Much better in a CSR. Harder to corrupt by accident.
+  [ilg] Agree.</sup>
 
 ### RV32E
 
@@ -63,7 +69,7 @@ saved registers in the other half.</sup>
 | `x2` | `sp` | Stack pointer |  | * |
 | `x3` | `gp` | Global pointer |  |  |
 | `x4` | `tp` | Thread pointer |  |  |
-| `x5` | **`sl`** | **Stack limit** |  | * |
+| `x5` | `t0`/**`sl`** | Temporary/**Stack limit** |  | * |
 | `x6–x7` | `t1,t2` | Temporaries |  | * |
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
