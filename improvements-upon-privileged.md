@@ -139,7 +139,7 @@ So this concern is not realistic, and not accepting a distinct microcontroller
 profile, optimised for real-time applications simply for maintaining compatibility 
 with the privileged specs is not a beneficial approach.
 
-## Automatic stacking/unstacking is evil
+### Automatic stacking/unstacking is evil
 
 > "Automatic stacking/unstacking is fine for Cortex-M, but it is 
 very objectionable for 
@@ -176,7 +176,7 @@ transistors, but otherwise it is not exactly a feature,
 it simply makes saving contexts in multi-threaded environments more
 complicated and probably less efficient.
 
-## Automatic stacking/unstacking should be replaced by compiler attribute
+### Automatic stacking/unstacking should be replaced by compiler attribute
 
 > "Better to have a “handler” function attribute that causes the compiler 
 to save only and exactly the registers the function modifies. If a handler 
@@ -278,6 +278,16 @@ perfectly acceptable.
 Plus that in the microcontroller profile there are _no_ hardware security 
 boundaries, so the risk of attacks somehow exploiting the CSR-as-MMIO is a 
 non-issue. 
+
+### The hardware stack limit register is expensive
+
+> "The stack limit register needs to be read and compared on every 
+store via the stack register so it should have dedicated read circuit 
+and comparator.
+
+Yes, it is a small price to pay, but by far the most common cause of crash 
+in a multi-threaded device is stack overflow, so detecting this exception
+should be worth the extra price. 
 
 ## Proposed steps to change the current RISC-V specs
 
