@@ -52,7 +52,8 @@ The main 'pain-point' with the current RISC-V privileged specs
 is the mechanism to handle interrupts, which is not suitable for real-time, 
 low power, bare-metal embedded applications.
 
-The following issues were identified:
+The following issues were identified in the current RISC-V privileged specs when 
+used for bare-metal applications:
 
 | RISC-V Privileged | RISC-V Microcontroller |
 |-------------------|------------------------|
