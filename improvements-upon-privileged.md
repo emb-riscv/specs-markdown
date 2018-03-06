@@ -108,16 +108,16 @@ RISC-V is different, as it has no MOVEM-like instruction. Therefore,
 having the hardware automatically push/pop a collection of registers on 
 trap entry/exit is a larger addition for RISC-V than it was for ARM."
 
-Well, that's a point of view. However, it must be noted that even the
-tiny Cortex-M0, so economical in terms of transistors, decided to
-do automatic stacking/unstacking, so the added complexity might not 
+Well, that's a point of view. However, it must be noted that even for 
+the tiny Cortex-M0, so economical in terms of transistors, ARM decided 
+to do automatic stacking/unstacking, so the added complexity might not 
 be that high.
 
 Not to mention another detail: Cortex-M has 16 registers, and the
-EABI requires R0, R1, R2, R3, R12, R14, PC and xPSR
+EABI requires R0-R3, R12, R14, PC and xPSR
 to be stacked/unstacked automatically. On the other hand,
 the LDM/STM instructions, probably due to to the tight encoding, 
-are able to move only half of them,
+are able to move only half of the registers,
 (R0-R7), so the logic to do the stacking/unstacking is
 definitely more capable than required by the instruction set.
 It is not by accident that Cortex-M has automatic stacking/unstacking 
@@ -125,29 +125,12 @@ simply because support for LDM/STM was present anyway, it is
 by design. As an exercise of reversed logic, 
 it might also be argued that Cortex-M has the LDM/STM instructions 
 because the logic for moving multiple words was already
-available from automatic stacking/unstacking.
+available from the automatic stacking/unstacking mechanism.
 
 Also RISC-V having no MOVEM-like instructions may save a few 
-transistors, but otherwise it is not exactly a feature, 
+transistors, but otherwise this is not exactly a feature, 
 it simply makes saving contexts in multi-threaded environments more
-complicated and probably less efficient.
-
-### Automatic stacking/unstacking should be replaced by compiler attribute
-
-> "Better to have a “handler” function attribute that causes the compiler 
-to save only and exactly the registers the function modifies. If a handler 
-function calls a regular C function then it needs to save all the volatile 
-registers first.
-
-Well, yes, it is possible to imagine interrupt handles incrementing a 
-variable and 
-returning, but this is rare, by far the biggest majority of interrupt 
-handlers call C/C++ functions to perform system services, like posting 
-a semaphore, or any other synchronization mechanism. 
-
-So, by first saving a few registers and then saving all those required 
-by the ABI, the result is that more registers needs to be saved, and 
-with a further negative impact on latency. 
+complicated and possibly less efficient.
 
 ### Automatic stacking/unstacking the interrupt context increases latency
 
@@ -182,31 +165,54 @@ designed for user mode Unix applications.
 The solution is a **separate Embedded ABI (EABI)**, optimised for embedded real-time 
 applications, with a smaller caller register set.
 
+### Automatic stacking/unstacking should be replaced by compiler attribute
+
+> "Better to have a “handler” function attribute that causes the compiler 
+to save only and exactly the registers the function modifies. If a handler 
+function calls a regular C function then it needs to save all the volatile 
+registers first.
+
+Well, yes, as argumented before, for very simple applications 
+it is possible to imagine interrupt handlers incrementing a 
+variable and 
+returning, but this is rare, by far the biggest majority of interrupt 
+handlers call C/C++ functions to perform system services, like posting 
+a semaphore, or any other synchronization mechanism. 
+
+So, by first saving a few registers and then saving all those required 
+by the ABI, the result is that more registers needs to be saved, and 
+further worsening the latency. 
+
 ### Assembly interrupt handlers are ok, they reside in the system part
 
 > "Why insist on having the interrupt handlers written in C, when they can be very well
 written in assembly, since they reside in the system part, written by the system
 programmers, not by the application programmer."
 
-Well, this might be the case for GNU/Linux, where the kernel and the modules are 
+Well, this might be the case for Linux, where the kernel and the modules are 
 indeed written by system gurus, but in embedded bare-metal applications the
-interrupt handlers are highly application specific and cannot be part of
-the RTOS or any drivers/libraries, so the application programmer must 
+interrupt handlers are very application specific and cannot be part of
+the RTOS or drivers/libraries, so it is the application programmer who must 
 write them, not someone else, thus the need for the interrupt handlers to be
-as easy to use as possible, the best choice being to have them defined as plain 
+as easy to write as possible, the best choice being to have them defined as plain 
 C/C++ functions.
 
 ### CSRs cannot be memory-mapped
 
-Another almost 'religious' issue is related to accessing the system registers. With 
-the exception of a very limited set of special cases, most industry standard 
+Another almost 'religious' RISC-V issue is related to accessing the system registers. 
+Before a more elaborate explanation, those who claim this should remember that 
+the current privileged specs moved `mtime` and `mtimecmp` from CSRs to 
+memory mapped, and the PLIC specs require all registers to be memory mapped.
+
+Generally, with 
+the exception of a very limited set of special cases, industry standard 
 architectures map most of the system peripherals and registers to a memory area. 
 Instead, the 
-RISC-V ISA has several special instructions allowing to address 4096 per-hart 
+RISC-V ISA defined several special instructions allowing to address 4096 per-hart 
 registers.
 
 It is generally agreed that for privileged mode devices, this mechanism has several 
-advantages (like security). Unfortunately, the RISC-V privileged specs abused this 
+advantages (like security, speed). Unfortunately, the RISC-V privileged specs abused this 
 mechanism, and now there are several hundred registers defined in this proprietary 
 space, some of them even read-only, and obviously creating no security threads (like 
 `mvendorid`, `marchid`, etc).
@@ -214,8 +220,8 @@ space, some of them even read-only, and obviously creating no security threads (
 This mechanism of accessing the system registers has two main disadvantages:
 
 - requires assembly code to access each individual register 
-- is not supported by current development tools, debuggers have no ways of accessing 
-these registers, IDEs have no special views for them, etc.
+- it is not supported by current development tools (debuggers have no ways of accessing 
+these registers, IDEs have no special views for them, etc).
 
 Mapping system registers in the memory space is perfectly possible, and the RISC-V 
 privileged specs even mandates for some registers like the `mtime` and `mtimecmp`, 
@@ -241,7 +247,7 @@ non-issue.
 store via the stack register so it should have dedicated read circuit 
 and comparator.
 
-Yes, it is a small price to pay, but by far the most common cause of crash 
+Yes, it is a small price to pay, but by far the most common cause of crashes 
 in a multi-threaded device is stack overflow, so detecting this exception
 should be worth the extra price. 
 
