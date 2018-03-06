@@ -96,6 +96,16 @@ So this concern is not realistic, and not accepting a distinct microcontroller
 profile, optimised for real-time applications simply for maintaining compatibility 
 with the privileged specs is not a beneficial approach.
 
+### No need to, everything will run Linux in the future
+
+> "In the future everything will run Linux, so defining separate non-Linux profiles 
+is a futile exercise."
+
+Yes. Sure. Eventually. No doubt about it. When waiting long enough many things can happen. 
+
+However, for those who are not ready to wait for kingdom come, having simpler
+devices for critical real-time applications is a requirement for today.
+
 ### Automatic stacking/unstacking is evil
 
 > "Automatic stacking/unstacking is fine for Cortex-M, but it is 
