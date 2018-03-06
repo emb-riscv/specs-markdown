@@ -54,64 +54,20 @@ low power, bare-metal embedded applications.
 
 The following issues were identified:
 
-- handlers run with interrupts disabled; low priority interrupts that take
-a long time to complete may
-delay high priority interrupts, affecting real-time capabilities; the
-microcontroller profile allows nesting, with high priority interrupts
-preempting low priority ones and being processed as fast as possible;
-- there is only a single trap handler, serving all interrupts and exceptions
-(the so called 'vectored' mode is so complicated to use that it is not even 
-worth mentioning); the microcontroller profile directly dispatches interrupts
-to separate handlers, via a simple array of pointers, easy to define in C/C++;
-- the interrupt code must be written in assembly, to perform the low level
-stacking/unstacking and return from exception; this code **is** complicated,
-a good example is the [Linux handler](https://github.com/torvalds/linux/blob/master/arch/riscv/kernel/entry.S), 
-and the current implementation does not even re-enable interrupts while in 
-handler mode;
-the microcontroller profile
-automatically performs the stacking/unstacking, allowing all application
-interrupt handlers to be written as C/C++ functions, with minimum latency.
-
-Other issues with the privileged specs and the improvements provided by the
-microcontroller profile:
-
-- the current ISA Volume I manual defines a common POSIX ABI to be used by 
-all devices, but his ABI requires the caller to save a lot of registers,
-making interrupt stacking/unstacking very expensive and increasing latency; 
-the microcontroller profile defines a lighter Embedded ABI, reducing
-latency;
-- the privileged profile defines a few hundred CSRs, and encourages 
-implementation to define even more custom CSRs; current debuggers do not
-have support for proprietary mechanisms like CSRs, and viewing/changing
-these registers requires unusual hacks; the microcontroller profile 
-uses a very limited set of CSRs and favours the use of memory mapped 
-registers, which are very well supported by debuggers/IDEs;
-- there is no separate stack for interrupts, all threads must reserve the
-additional requirements of all interrupts; the microcontroller profile 
-add a shadow thread stack pointer, improving RTOS implementation and 
-reducing tread stack 
-requirements for RTOS multi-threaded applications;
-- one of the common reason of crashes during embedded systems development 
-is one of the threads running out of space; the privileged profile does
-not provide a standard way of detecting stack overruns;
-the microcontroller profile adds a stack limit register and stack 
-overruns trigger exceptions;
-- the system clock runs from the low frequency real-time clock, which
-has low resolution and, at common 32.768 Hz frequencies, do not allow
-accurate 1000 Hz scheduler clocks; the microcontroller profile defines
-separate low-power real-time clock and high accuracy system clock, 
-improving both general clock resolution and scheduler clock accuracy;
-- there is no explicit mechanism to trigger
-and implement context switches in a multi-threaded RTOS; the microcontroller 
-profile adds a dedicated interrupt, guaranteed with the lowest
-priority, to be used for all context switches, relieving all
-other interrupt handlers from this duty;
-- the microcontroller profile adds an architecture device reset mechanism;
-- the microcontroller profile adds an architecture resumable NMI;
-- the startup code also requires some assembly code, to set the
-stack and the `gp` register; the microcontroller profile adds a
-simplified device startup code, based on a table of standard C/C++ 
-pointers, requiring no assembly code at all.
+| RISC-V Privileged | RISC-V Microcontroller |
+|-------------------|------------------------|
+| Handlers run with interrupts disabled; low priority interrupts that take a long time to complete may delay high priority interrupts, affecting real-time capabilities. | The microcontroller profile allows nesting; high priority interrupts preempt low priority ones, being processed as fast as possible. |
+| There is only a single trap handler, serving all interrupts and exceptions (the so called 'vectored' mode is so complicated to use that it is not even worth mentioning). | The microcontroller profile has an advanced vectored mode; interrupts are dispatched to separate handlers, via a simple array of pointers, easy to define in C/C++. |
+| The interrupt code must be written in assembly, to perform the low level stacking/unstacking and return from exception; this code **is** complicated, a good example is the [Linux handler](https://github.com/torvalds/linux/blob/master/arch/riscv/kernel/entry.S), and the current implementation does not even re-enable interrupts while in handler mode. | The microcontroller profile automatically performs the stacking/unstacking, allowing all application interrupt handlers to be written as C/C++ functions, with minimum latency. |
+| The current ISA Volume I manual defines a common POSIX ABI to be used by all devices, but this ABI requires the caller to save a lot of registers, making interrupt stacking/unstacking very expensive and increasing latency. | Better adapted to real-time, the microcontroller profile defines a lighter Embedded ABI, reducing latency. |
+| The privileged profile defines a few hundred CSRs, and encourages implementation to define even more custom CSRs; current debuggers do not have support for proprietary mechanisms like CSRs, and viewing/changing these registers requires unusual hacks. | The microcontroller profile uses a very limited set of CSRs and favours the use of memory mapped registers, which are very well supported by debuggers/IDEs. |
+| There is no separate stack for interrupts, and since interrupts can occur on any thread stack, the additional memory requirements of all interrupts must be added to all trhread stacks, wasting precious RAM. | The microcontroller profile adds a shadow thread stack pointer, separate from the main stack used by the interrupts, improving RTOS implementation and reducing tread stack requirements for RTOS multi-threaded applications. |
+| A common reason of crashes during embedded systems development is one of the threads running out of space; the specs do not provide a standard way of detecting stack overflows. | The microcontroller profile adds a stack limit register and stack overflows trigger exceptions. |
+| The system clock runs from the low frequency real-time clock, which has low resolution and, at common 32.768 Hz frequencies, does not allow accurate 1000 Hz scheduler clocks. | The microcontroller profile defines separate low-power real-time clock and high accuracy system clock, improving both general clock resolution and scheduler clock accuracy. |
+| There is no explicit mechanism to trigger and implement context switches in a multi-threaded RTOS. | The microcontroller profile adds a dedicated interrupt, guaranteed with the lowest priority, to be used for all context switches, relieving all other interrupt handlers from this duty. |
+|| The microcontroller profile adds an architecture device reset mechanism. |
+|| The microcontroller profile adds an architecture resumable NMI. |
+| The startup code also requires some assembly code, to set the stack pointer and the `gp` register. | The microcontroller profile adds a simplified device startup code, based on a table of standard C/C++  pointers, requiring no assembly code at all. |
 
 ## Criticism
 
