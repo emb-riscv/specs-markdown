@@ -184,7 +184,7 @@ So, by first saving a few registers and then saving all those required
 by the ABI, the result is that more registers needs to be saved, and 
 further worsening the latency. 
 
-### Assembly interrupt handlers are ok, they reside in the system part
+### Assembly interrupt handlers should be ok, they reside in the system part
 
 > "Why insist on having the interrupt handlers written in C, when they can be very well
 written in assembly, since they reside in the system part, written by the system
