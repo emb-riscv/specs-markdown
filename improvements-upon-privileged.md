@@ -199,7 +199,7 @@ to save only and exactly the registers the function modifies. If a handler
 function calls a regular C function then it needs to save all the volatile 
 registers first.
 
-Well, yes, as argumented before, for very simple applications 
+Well, yes, as argued before, for very simple applications 
 it is possible to imagine interrupt handlers incrementing a 
 variable and 
 returning, but this is rare, by far the biggest majority of interrupt 
@@ -362,7 +362,7 @@ it was observed for more than 10 years, and the Cortex-M market share is
 expected to continue to increase in the years to come.
 
 ARM tried to sell licenses for microcontrollers even before the Cortex-M family
-was created, but with very limitted success. The devices were very similar to
+was created, but with very limited success. The devices were very similar to
 their application cores, and used the same solutions, for example a single 
 interrupt handler, and lots of assembly code required to start and make use of 
 core.
@@ -377,7 +377,7 @@ C application programmers to fully take control of their applications.
 
 This was probably true 10-15 years ago, but today it is no longer the case. 
 Not only the industry migrated to 32-bits cores, but the ecosystems around 
-Cortex-M and the ease of use made most of the other cores irelevant.
+Cortex-M and the ease of use made most of the other cores irrelevant.
 
 There is also another fact to be noted: according to several studies, the 
 world wide population of programmers is doubling every few years (let's 
@@ -394,7 +394,7 @@ asking them to do so will obviously be seen as a major step backward.
 possibly for multi-core versions that can handle real-time tasks on one
 core and network latency on the other."
 
-Yes, multi-hart devices would be excelent for hard real-time applications,
+Yes, multi-hart devices would be excellent for hard real-time applications,
 by allocating separate harts for each critical task,
 but with nested, pre-emptive high priority interrupts, even a single hart device
 can handle multiple tasks very well, and if the real-time tasks are driven by ISRs,
@@ -474,7 +474,7 @@ operating systems.
 Apart from relaxing the need for the privileged specs, the instruction set defined 
 by Volume I is generally acceptable for microcontroller devices.
 
-The only notable exception is in Chaper 2.8, the `rdcycle`, `rdtime` and `rdinstret`
+The only notable exception is in Chapter 2.8, the `rdcycle`, `rdtime` and `rdinstret`
 which should be moved to Volume II.
 
 Related to these instructions, the list of CSRs defined in Table 19.3 should be 

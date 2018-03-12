@@ -22,5 +22,5 @@ why the new solution is more efficient and/or easier to use than existing
 solutions.
 
 Please don't forget that the mission statement is to "define a modern 
-C/C++ friendly architecture", so solutions that cannot be expresed in
+C/C++ friendly architecture", so solutions that cannot be expressed in
 C/C++ need a very good argumentation to be seriously considered.

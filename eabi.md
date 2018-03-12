@@ -21,7 +21,7 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 
 ### RV32I/RV64I
 
-| Register | ABI Name | Description | Caller | Calee |
+| Register | ABI Name | Description | Caller | Callee |
 |:---------|:---------|:------------|--------|-------|
 | `x0` | `zero` | Hard-wired zero |  |  |
 | `x1` | `ra` | Return address | * |  |
@@ -56,13 +56,13 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
   separately
   saved during RTOS context switches.</sup>
   
-> <sup>[BH] I don’t like the stack limit being in a register.
+> <sup>[BH] I don't like the stack limit being in a register.
   Much better in a CSR. Harder to corrupt by accident.
   [ilg] Agree.</sup>
 
 ### RV32E
 
-| Register | ABI Name | Description | Caller | Calee |
+| Register | ABI Name | Description | Caller | Callee |
 |:---------|:---------|:------------|--------|-------|
 | `x0` | `zero` | Hard-wired zero |  |  |
 | `x1` | `ra` | Return address | * |  |
@@ -81,7 +81,7 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 
 ## RISC-V Linux ABI
 
-| Register | ABI Name | Description | Caller | Calee |
+| Register | ABI Name | Description | Caller | Callee |
 |:---------|:---------|:------------|--------|-------|
 | `x0` | `zero` | Hard-wired zero |  |  |
 | `x1` | `ra` | Return address | * |  |
