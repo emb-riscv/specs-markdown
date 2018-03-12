@@ -347,7 +347,7 @@ attributes/pragmas.
 > "Arguments like 'ARM does this' are very weak for a feature in RISC-V"
 
 Well, the creators of the RISC-V instruction set probably have all reasons to be 
-proud on their design, and many in the academia may consider that application 
+proud of their design, and many in the academia may consider that application 
 class devices based on RISC-V may very well make ARM similar devices irrelevant,
 but in the embedded space, ARM Cortex-M **is** the industry standard, and 
 disregarding it is not beneficial.
