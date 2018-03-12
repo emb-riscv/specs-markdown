@@ -417,7 +417,8 @@ it should be noted that 64-bits devices bring not only a wider memory
 space, but also 64-bits registers, and native atomic 64-bits accesses.
 
 Applications with lots of integer arithmetic may benefit from 64-bits
-cores.
+cores, and, indirectly, applications manupulating double floating point
+numbers may also benefit.
 
 Also applications with large and fast timers benefit from atomic 64-bits
 accesses, which otherwise require a lot of juggling on a 32-bits platform
