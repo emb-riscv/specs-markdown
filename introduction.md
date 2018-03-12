@@ -46,13 +46,13 @@ Cortex-M3/M4)
 One of the mantras used during the RISC-V design was "if it can be done
 in software, it should not be done in hardware."
 
-The microcontrller profile reconsidered the implementation of the
-core features, like stack handling, and pushed then back to hardware
+The microcontroller profile reconsidered the implementation of some
+core features (like stack handling), and pushed then back to hardware,
 where they belong.
 
 Some of the benefits are:
 
-- best interrupts latency, more appropriate for real-time applications
+- best interrupt latency, more appropriate for real-time applications
 - improved robustness for multi-threaded applications
 - much easier to use directly in C/C++
 
