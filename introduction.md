@@ -14,6 +14,10 @@ specifications for **RISC-V microcontrollers** intended for **embedded** **real-
 / **low power** / **IoT** applications that do not require an operating system. 
 Favour **C/C++** multi-threaded **RTOS** systems.
 
+A secondary goal is to improve the RISC-V microcontroller profile to the point where 
+it can be adopted by the RISC-V foundation as a alternate standard for microcontroller
+devices.
+
 ## Limitations
 
 These specifications intentionally **do not** include application class devices which 
