@@ -102,7 +102,7 @@ assignment works anywhere else in C. [ilg] C programmers are very much used
   operators can be redefined, so they can implement any semantics is 
   required. </sup>
 
-### Usage
+## Usage
 
 Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by writing 1 in the `status.clearenabled` bit. To be effective, interrupts must also have non-zero priorities.
 
@@ -127,3 +127,26 @@ if (hcb.interrupts[7].status & INTERRUPTS_STATUS_PENDING) {
   // ...
 }
 ```
+
+## Alternate proposal
+
+[JB] Instead of having an array of interrupt handlers, it might be possible to 
+map all peripheral interrupts to what are currently RISC-V local interrupts, 
+with their static priority mechanism based on interrupt numbers. 
+
+If multiple 
+peripherals are assigned to the same vector, then the ISR for that 
+vector must poll each of the peripherals assigned to that vector to 
+determine the cause of the interrupt. 
+
+This also limits interrupt nesting, since only a higher-priority 
+interrupt (or an exception) can interrupt an ISR, there can be at most 
+2\*PRIORITY_LEVELS nested interrupts, if every ISR is interrupted in an 
+exception handler and exception handlers do not themselves raise 
+exceptions. 
+
+> <sup>[ilg] The only advantage to be noted is that it limits nesting. The disadvantages are:</sup>
+> <sup>- increased software complexity</sup>
+> <sup>- increased latency</sup>
+> <sup>- more complicated to maintain, changing the priority in the first case requires only a write to the priority register, while in the second case it is also necessary to move the test and the call from one intermediate handler to the other</sup>
+> <sup>- possibile out-of-sync cases, when the test is not in the right handler.</sup>
