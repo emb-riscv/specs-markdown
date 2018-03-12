@@ -25,7 +25,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Device Watchdog Timer (`wdog`)](watchdog-timer.md)
 * [Embedded ABI (EABI)](eabi.md)
 * [RTOS Support Features](rtos-support-features.md)
-* [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md)
+* [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md) <--- Read Me First!
 * [Appendix B: History](history.md)
 * [Appendix C: Contributing](contributing.md)
 
