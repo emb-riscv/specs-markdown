@@ -50,13 +50,13 @@ microcontrollers are devices
 that do not implement a virtual memory system or supervisor modes** and are 
 intended to run single process multi-threaded applications.
 
-> <sup>[JB] Two more criteria may be used 
-for dividing microcontrollers and application processors: pipeline 
-complexity and memory latency. Microcontrollers use simpler, in-order 
-pipelines and have memory subsystems that are tightly synchronized to 
-the execution pipeline. ... Out-of-order and parallel 
-execution are becoming common features in application processors, but 
-are not used in microcontrollers, since the latter must have predictable 
+> <sup>[JB] Two more criteria may be used
+for dividing microcontrollers and application processors: pipeline
+complexity and memory latency. Microcontrollers use simpler, in-order
+pipelines and have memory subsystems that are tightly synchronized to
+the execution pipeline. ... Out-of-order and parallel
+execution are becoming common features in application processors, but
+are not used in microcontrollers, since the latter must have predictable
 execution timing. [ilg] The pipeline complexity and memory latency should
   be implementation specific. Microcontrollers intended for applications that
   need predictable execution timings may decide not to implement 
@@ -66,10 +66,10 @@ execution timing. [ilg] The pipeline complexity and memory latency should
 ## Improvements upon RISC-V privileged
 
 The main 'pain-point' with the current RISC-V privileged specs
-is the mechanism to handle interrupts, which is not suitable for real-time, 
+is the mechanism to handle interrupts, which is not suitable for real-time,
 low power, bare-metal embedded applications.
 
-The following issues were identified in the current RISC-V privileged specs when 
+The following issues were identified in the current RISC-V privileged specs when
 used for bare-metal applications:
 
 | RISC-V Privileged | RISC-V Microcontroller |
@@ -352,14 +352,14 @@ class devices based on RISC-V may very well make ARM similar devices irrelevant,
 but in the embedded space, ARM Cortex-M **is** the industry standard, and 
 disregarding it is not beneficial.
 
-Except the auto industry, which is more conservative, where old proprietary 
-cores still have a significant market share (but losing it), and some very 
-cost driven applications, 
-where 8-bit microcontrollers are considered still good enough, the majority of the 
-silicon vendors 
-now sell microcontrollers based on Cortex-M cores; the trend is clear, 
+Except the auto industry, which is more conservative, where old proprietary
+cores still have a significant market share (but losing it), and some very
+cost driven applications,
+where 8-bit microcontrollers are considered still good enough, the majority of the
+silicon vendors
+now sell microcontrollers based on Cortex-M cores; the trend is clear,
 it was observed for more than 10 years, and the Cortex-M market share is
-expected to continue to increase in the years to come. 
+expected to continue to increase in the years to come.
 
 ARM tried to sell licenses for microcontrollers even before the Cortex-M family
 was created, but with very limitted success. The devices were very similar to
@@ -373,17 +373,32 @@ probably is the ease of use, and the C-friendliness, by design.
 This lessened the need for a C system programmer to act as guru, and allowed
 C application programmers to fully take control of their applications.
 
+> "RISC-V microcontrollers should compare to PIC or AVR devices"
+
+This was probably true 10-15 years ago, but today it is no longer the case. 
+Not only the industry migrated to 32-bits cores, but the ecosystems around 
+Cortex-M and the ease of use made most of the other cores irelevant.
+
+There is also another fact to be noted: according to several studies, the 
+world wide population of programmers is doubling every few years (let's 
+say N, less than 10). Assuming a constant share for the embedded programmers, 
+statistically half of them have less than N/2 years of experience, and most 
+of these new (relatively inexperienced) programmers met Cortex-M as their 
+first architecture (which is already 14 years old!). They may have heard of
+PIC and AVR, but never had to write assembly interrupt handlers, and
+asking them to do so will obviously be seen as a major step backward.
+
 ### Microcontrollers should not be on networks
 
-> "Generally, microcontrollers should probably not be on networks, except 
-possibly for multi-core versions that can handle real-time tasks on one 
+> "Generally, microcontrollers should probably not be on networks, except
+possibly for multi-core versions that can handle real-time tasks on one
 core and network latency on the other."
 
 Yes, multi-hart devices would be excelent for hard real-time applications,
-by allocating separate harts for each critical task, 
-but with nested, pre-emptive high priority interrupts, even a single hart device  
-can handle multiple tasks very well, and if the real-time tasks are driven by ISRs, 
-then the network stack can run at a lower priority. 
+by allocating separate harts for each critical task,
+but with nested, pre-emptive high priority interrupts, even a single hart device
+can handle multiple tasks very well, and if the real-time tasks are driven by ISRs,
+then the network stack can run at a lower priority.
 
 ## Proposed steps to change the current RISC-V specs
 
