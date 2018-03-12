@@ -31,20 +31,24 @@ while executing interrupt handlers**. This may be acceptable for general purpose
 Linux kernels, but for hard real-time systems this is generally a no-go, since 
 **interrupt latency** may end up well above tolerable limits.
 
-### The virtual memory dividing line
+### The dividing line
 
 Currently there is no clear understanding where the dividing line between RISC-V 
 general purpose and microcontroller devices should be. 
 
 One possible approach is to start by defining what microcontroller devices are not: 
-they definitely are not expected to run Unix-like operating systems. Although some 
+they definitely are not expected to run multi-process applications on top of 
+Unix-like operating systems. Although some 
 projects try to challenge this, it is generally agreed that **Unix-like operating 
-systems DO need virtual memory to operate properly**.
+systems DO need virtual memory and supervisor modes** to properly run multi-process 
+applications.
 
 After long considerations, the conclusion was that the common and logical dividing 
-line between the RISC-V privileged profile and a possible RISC-V microcontroller 
-profile is the use of virtual memory; as such, **RISC-V microcontrollers are devices 
-that do not implement a virtual memory system**.
+line between the RISC-V privileged profile and a RISC-V microcontroller 
+profile is the use of virtual memory and supervisor modes; as such, **RISC-V 
+microcontrollers are devices 
+that do not implement a virtual memory system or supervisor modes** and are 
+intended to run single process multi-threaded applications.
 
 ## Improvements upon RISC-V privileged
 
