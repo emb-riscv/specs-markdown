@@ -130,9 +130,11 @@ if (hcb.interrupts[7].status & INTERRUPTS_STATUS_PENDING) {
 
 ## Alternate proposal
 
-[JB] Instead of having an array of interrupt handlers, it might be possible to 
-map all peripheral interrupts to what are currently RISC-V local interrupts, 
-with their static priority mechanism based on interrupt numbers. 
+[JB] Each hart has a fixed set of interrupt vectors. For each interrupt 
+source, a register exists that defines which vector receives interrupts 
+from that source. Effectively, the hart has some number of IRQ lines 
+and interrupt sources are assigned manually to IRQ lines. The IRQ lines 
+have a fixed priority, based on the interrupt number. 
 
 If multiple 
 peripherals are assigned to the same vector, then the ISR for that 
