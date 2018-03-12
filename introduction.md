@@ -41,6 +41,21 @@ Cortex-M3/M4)
 **high end**, multi-hart, 32/64-bits, atomics, possibly with floating point
 (intended to support hard real-time, high performance applications)
 
+## Benefits
+
+One of the mantras used during the RISC-V design was "if it can be done
+in software, it should not be done in hardware."
+
+The microcontrller profile reconsidered the implementation of the
+core features, like stack handling, and pushed then back to hardware
+where they belong.
+
+Some of the benefits are:
+
+- best interrupts latency, more appropriate for real-time applications
+- improved robustness for multi-threaded applications
+- much easier to use directly in C/C++
+
 ## Definitions
 
 ### Hart
