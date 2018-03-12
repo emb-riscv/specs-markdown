@@ -400,6 +400,30 @@ but with nested, pre-emptive high priority interrupts, even a single hart device
 can handle multiple tasks very well, and if the real-time tasks are driven by ISRs,
 then the network stack can run at a lower priority.
 
+### 64-bits microcontrollers will never be needed
+
+> "Why 64-bit? Any system big enough to need more
+than 32-bit addressing is probably already running an operating system
+like Linux."
+
+That's a good question. By the time 8051 was king, many questioned
+why would someone think of 16-bit microcontrollers. While some were
+debating this, vendors gradually offered devices with 12 address
+bits, then 16 bits, even 24 bits. Cortex-M came boldly and provided
+32-bits registers and a large (32-bits) linear address space.
+
+Although a 4 GiB memory space may be enough for most current devices,
+it should be noted that 64-bits devices bring not only a wider memory 
+space, but also 64-bits registers, and native atomic 64-bits accesses.
+
+Applications with lots of integer arithmetic may benefit from 64-bits 
+cores.
+
+Also applications with large and fast timers benefit from atomic 64-bits 
+accesses, which otherwise require a lot of juggling on a 32-bits platform 
+(see the recommended RISC-V mechanism to access the timer registers on 
+a 32-bits device). 
+
 ## Proposed steps to change the current RISC-V specs
 
 It is not realistic to expect a new set of RISC-V microcontroller specs to be 
