@@ -262,6 +262,52 @@ Yes, it is a small price to pay, but by far the most common cause of crashes
 in a multi-threaded device is stack overflow, so detecting this exception
 should be worth the extra price. 
 
+### Microcontrollers do not need privilege levels
+
+> If microcontrollers do not run a kernel, why have privilege levels? 
+
+It is true that microcontrollers do not run a 'unix kernel' (they run a 'scheduler'). 
+But for some security concerned applications, microcontrollers can run the 
+application code in unprivileged mode and the scheduler/drivers in 
+privileged mode. 
+
+ARM Cortex-M devices can run code in unprivileged mode, and new
+Cortex-M23/M33 devices even have a TrustZone security feature.
+Also most of the Cortex-M devices have an MPU, which prevents unprivileged 
+code accessing system memory/registers. 
+
+Using the unprivileged mode is not at all unusual,
+[ARM CMSIS](http://www.keil.com/pack/doc/CMSIS/General/html/index.html), the industry 
+software standard for Cortex-M devices, includes a component called CMSIS RTOS, and 
+the reference implementation is 
+[Keil RTX](http://www.keil.com/pack/doc/CMSIS/RTOS/html/rtxImplementation.html), 
+which by default runs application code in unprivileged mode. 
+
+It is true that, with all ARM marketing, RTX is not the most successful RTOS, 
+but even FreeRTOS has a mode in which the MPU can be activated. 
+
+### C embedded system programmers vs C embedded application programmers
+
+> C embedded systems programmers might be used to accessing peripheral via 
+registers, but C embedded application programmers are used to accessing peripherals 
+via system calls. C embedded system programmers are also used to writing ISRs in assembly.
+
+The distinction between system and application programmers stands perfectly true for 
+Unix-like systems, where a small team of highly experienced system programmers write 
+the low level kernel code and the device drivers, allowing millions of application 
+programmers to access all required resources via system calls, without bothering 
+with details.
+
+However, in the embedded world, this distinction is almost non existent, C embedded 
+programmers are both application and system programmers. On one hand they need 
+full and unlimited control of the hardware, and on the other hand they would 
+like too have access from high level C/C++ code. 
+
+Having to use assembly code is definitely not a joy for modern embedded programmers, 
+especially since Cortex-M came to market in 2004, and allowed to write interrupt 
+handlers directly in C/C++, without any assembly stubs, millicodes or compiler 
+attributes/pragmas.
+
 ## Proposed steps to change the current RISC-V specs
 
 It is not realistic to expect a new set of RISC-V microcontroller specs to be 
