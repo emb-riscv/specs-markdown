@@ -6,4 +6,4 @@ but initially there was no content available.
 
 Work on the first proposal of the specs started in late January 2108, with the
 text formatted as markdown, and the preliminary version 0.1.1 was ready by the 
-end of February 2018, and subbmited to selected readers for feedback.
+end of February 2018, and submitted to selected readers for feedback.
