@@ -224,13 +224,13 @@ write them, not someone else, thus the need for the interrupt handlers to be
 as easy to write as possible, the best choice being to have them defined as plain 
 C/C++ functions.
 
-> interrupt handlers do not need to be entirely in assembler, only 
+> "Interrupt handlers do not need to be entirely in assembler, only 
 the entry/exit millicode needs to be part of the system. That millicode 
 *can* be written by system gurus, while the application ISRs, written by 
 application programmers, are called via the millicode. Unless 
 there is some faster memory access cycle that the hardware can use, 
 automatic context save/restore (presumably in microcode) will be no 
-faster than RISC-V millicode. 
+faster than RISC-V millicode."
 
 Well, reversing the logic, there is no best case scenario when the millicode
 will be faster than the microcode; even when there is no faster memory access 
@@ -342,15 +342,47 @@ especially since Cortex-M came to market in 2004, and allowed to write interrupt
 handlers directly in C/C++, without any assembly stubs, millicodes or compiler 
 attributes/pragmas.
 
+### Comparisons with ARM are meaningless
+
+> "Arguments like 'ARM does this' are very weak for a feature in RISC-V"
+
+Well, the creators of the RISC-V instruction set probably have all reasons to be 
+proud on their design, and many in the academia may consider that application 
+class devices based on RISC-V may very well make ARM similar devices irrelevant,
+but in the embedded space, ARM Cortex-M **is** the industry standard, and 
+disregarding it is not beneficial.
+
+Except the auto industry, which is more conservative, where old proprietary 
+cores still have a significant market share (but losing it), and some very 
+cost driven applications, 
+where 8-bit microcontrollers are considered still good enough, the majority of the 
+silicon vendors 
+now sell microcontrollers based on Cortex-M cores; the trend is clear, 
+it was observed for more than 10 years, and the Cortex-M market share is
+expected to continue to increase in the years to come. 
+
+ARM tried to sell licenses for microcontrollers even before the Cortex-M family
+was created, but with very limitted success. The devices were very similar to
+their application cores, and used the same solutions, for example a single 
+interrupt handler, and lots of assembly code required to start and make use of 
+core.
+
+There may be multiple reasons why Cortex-M was so successful, but the main one
+probably is the ease of use, and the C-friendliness, by design.
+
+This lessened the need for a C system programmer to act as guru, and allowed
+C application programmers to fully take control of their applications.
+
 ### Microcontrollers should not be on networks
 
-> Generally, microcontrollers should probably not be on networks, except 
+> "Generally, microcontrollers should probably not be on networks, except 
 possibly for multi-core versions that can handle real-time tasks on one 
-core and network latency on the other.
+core and network latency on the other."
 
-Yes, multi-hart devices would be excelent for hard real-time applications, 
+Yes, multi-hart devices would be excelent for hard real-time applications,
+by allocating separate harts for each critical task, 
 but with nested, pre-emptive high priority interrupts, even a single hart device  
-can handle all tasks very well, if the real-time tasks are driven by ISRs, 
+can handle multiple tasks very well, and if the real-time tasks are driven by ISRs, 
 then the network stack can run at a lower priority. 
 
 ## Proposed steps to change the current RISC-V specs
