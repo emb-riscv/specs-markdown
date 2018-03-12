@@ -27,6 +27,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [RTOS Support Features](rtos-support-features.md)
 * [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md)
 * [Appendix B: History](history.md)
+* [Appendix C: Contributing](contributing.md)
 
 TODO: 
 
