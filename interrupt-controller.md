@@ -147,8 +147,4 @@ interrupt (or an exception) can interrupt an ISR, there can be at most
 exception handler and exception handlers do not themselves raise 
 exceptions. 
 
-> <sup>[ilg] The only advantage to be noted is that it limits nesting. The disadvantages are:</sup>
-> <sup>- increased software complexity</sup>
-> <sup>- increased latency</sup>
-> <sup>- more complicated to maintain, changing the priority in the first case requires only a write to the priority register, while in the second case it is also necessary to move the test and the call from one intermediate handler to the other</sup>
-> <sup>- possibile out-of-sync cases, when the test is not in the right handler.</sup>
+> <sup>[ilg] The only advantage to be noted is that it limits nesting. The disadvantages are: increased software complexity, increased latency, more complicated to maintain (changing the priority in the first case requires only a write to the priority register, while in the second case it is also necessary to move the test and the call from one intermediate handler to the other), possibile out-of-sync cases, when the test is not in the right handler.</sup>
