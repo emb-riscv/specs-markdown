@@ -2,49 +2,49 @@
 
 ## Overview
 
-The **Device Real-Time Clock** is intended to support the implementation of the ISO/IEC 14882.2011 
-`system_clock` (§ 20.11.7.1) and `steady_clock` (§ 20.11.7.2) classes. Objects of class 
-`system_clock` represent wall clock time from the system-wide real-time clock. Objects of 
-class `steady_clock` represent clocks for which values of the time point never decrease as 
-physical time advances and for which values of time_point advance at a steady rate 
+The **Device Real-Time Clock** is intended to support the implementation of the ISO/IEC 14882.2011
+`system_clock` (§ 20.11.7.1) and `steady_clock` (§ 20.11.7.2) classes. Objects of class
+`system_clock` represent wall clock time from the system-wide real-time clock. Objects of
+class `steady_clock` represent clocks for which values of the time point never decrease as
+physical time advances and for which values of time_point advance at a steady rate
 relative to real time. That is, the clock may not be adjusted.
 
-All harts in a RISC-V device share the same Device Real-Time Clock counter, but each hart may 
+All harts in a RISC-V device share the same Device Real-Time Clock counter, but each hart may
 have its own comparator.
 
 Even when the device is halted in Debug state, the clock counter continues to be incremented.
 
-The real-time clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V privileged specs, 
+The real-time clock is inspired by the `mtime`/`mtimecmp` definitions in the RISC-V privileged specs,
 but it differs by having a control register and not being intended to drive the scheduler clock.
 
 ## Power domain
 
-To support full functionality, the real-time clock should run even when the 
-rest of system is powered down, so it must be located in a different frequency/voltage 
+To support full functionality, the real-time clock should run even when the
+rest of system is powered down, so it must be located in a different frequency/voltage
 domain from the cores.
 
 ## Clock input
 
 The real-time clock input frequency is fixed to a device or application specific value.
 
-To support low-power devices, the real-time clock input should be a low frequency oscillator; the actual 
-source is implementation specific. 
+To support low-power devices, the real-time clock input should be a low frequency oscillator; the actual
+source is implementation specific.
 
 > <sup>Common implementations use a 32.678 Hz quartz or oscillator.
-  Low frequency internal RC oscillators (for example 40 kHz) can also be used, but the application 
-  must calibrate the frequency using a higher accuracy source. With a typical 32 kHz input, 
-  the clock resolution 
+  Low frequency internal RC oscillators (for example 40 kHz) can also be used, but the application
+  must calibrate the frequency using a higher accuracy source. With a typical 32 kHz input,
+  the clock resolution
   is about 30 µS and it takes about 17 million years to overflow. </sup>
 
-> <sup>The real-time clock is usually not suitable to drive the RTOS tick timer, since either 
-  it is not accurate enough, or its frequency does not allow the common 1000 Hz scheduler rate; 
+> <sup>The real-time clock is usually not suitable to drive the RTOS tick timer, since either
+  it is not accurate enough, or its frequency does not allow the common 1000 Hz scheduler rate;
   use the system clock instead.</sup>
 
 ## Memory map
 
 RV64 devices
 
-| Offset | Name | Width | Type | Reset | Description | 
+| Offset | Name | Width | Type | Reset | Description |
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `ctrl` | 32b | rw | 0x00000003 | Control and status register. |
 | 0x0008 | `cnt` | 64b | ro | Undefined | RTC timer counter. |
@@ -52,7 +52,7 @@ RV64 devices
 
 RV32 devices
 
-| Offset | Name | Width | Type | Reset | Description | 
+| Offset | Name | Width | Type | Reset | Description |
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `ctrl` | 32b | rw | 0x00000003 | Control and status register. |
 | 0x0008 | `cntl` | 32b | ro | Undefined | Low word of RTC counter. |
@@ -79,24 +79,24 @@ By default, the RTC starts disabled; software must enable it during startup.
 
 The real-time clock time point register is a 64-bit counter, common on all RV32 and RV64 devices.
 
-To guarantee the steadiness characteristic of the clock, the register is read-only. 
+To guarantee the steadiness characteristic of the clock, the register is read-only.
 
-RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
+RV64 devices expose a single 64-bits register, accessible with 64-bits instructions.
 RV32 devices exposes separate high/low 32-bits registers.
 
 ## The clock comparator register
 
 In addition to keeping track of time, the real-time clock can also be used to
-trigger periodic interrupts. Low-power devices 
-can use the real-time clock to wakeup the entire RISC-V device from implementation 
+trigger periodic interrupts. Low-power devices
+can use the real-time clock to wakeup the entire RISC-V device from implementation
 specific sleep modes.
 
-The comparator register causes a `rtclock_cmp` interrupt to be posted when the 
-counter register 
+The comparator register causes a `rtclock_cmp` interrupt to be posted when the
+counter register
 contains a value greater than or equal to the value in the comparator register.
 The interrupt remains posted until it is cleared by writing to the comparator register.
 
-RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
+RV64 devices expose a single 64-bits register, accessible with 64-bits instructions.
 RV32 devices exposes separate high/low 32-bits registers.
 
 ## Usage
@@ -106,8 +106,8 @@ The memory mapped registers are available via a set of structures, directly avai
 RV64 devices:
 
 - `rtclock.ctrl`
-- `rtclock.cnt` 
-- `hcb.rtclockcmp` 
+- `rtclock.cnt`
+- `hcb.rtclockcmp`
 
 RV32 devices:
 
@@ -118,7 +118,7 @@ RV32 devices:
 - `hcb.rtclockcmph`
 
 ```c
-uint64_t 
+uint64_t
 riscv_rtclock_read_cnt(void)
 {
 #if __riscv_xlen == 32
@@ -138,7 +138,7 @@ riscv_rtclock_read_cnt(void)
 #endif
 }
 
-uint64_t 
+uint64_t
 riscv_rtclock_read_cmp(void)
 {
 #if __riscv_xlen == 32
@@ -148,7 +148,7 @@ riscv_rtclock_read_cmp(void)
 #endif
 }
 
-void 
+void
 riscv_rtclock_write_cmp(uint64_t value)
 {
 #if __riscv_xlen == 32

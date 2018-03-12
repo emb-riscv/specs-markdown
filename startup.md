@@ -1,15 +1,15 @@
 # Device startup
 
-After reset, all harts in a RISC-V microcontroller start executing code, identified by a 
+After reset, all harts in a RISC-V microcontroller start executing code, identified by a
 per-hart **startup block**.
 
-The location of the hart startup block is implementation specific. The typical 
-configuration with a single hart has the startup block located at the beginning 
+The location of the hart startup block is implementation specific. The typical
+configuration with a single hart has the startup block located at the beginning
 of the memory space (usually address 0x00000000).
 
-If multiple harts share a memory area to fetch code (like a flash area), the 
-startup blocks are organised as an array located at the beginning of the shared 
-memory area. If different harts have different memory areas, the startup blocks 
+If multiple harts share a memory area to fetch code (like a flash area), the
+startup blocks are organised as an array located at the beginning of the shared
+memory area. If different harts have different memory areas, the startup blocks
 are located at the beginning of each area.
 
 For a RISC-V hart, the minimum information required to start a hart is:
@@ -23,12 +23,12 @@ All pointers are xlen bits.
 
 For further extensions, a few words at the end of the startup area are reserved.
 
-> <sup>The pointer to the exception table must be known by the hart before entering 
+> <sup>The pointer to the exception table must be known by the hart before entering
   the startup code, to catch possible execution faults in the startup code.</sup>
 
 ## Usage
 
-With the above definition of a startup block, there is no need for any assembly 
+With the above definition of a startup block, there is no need for any assembly
 instructions, the entire startup code can be written in C/C++.
 
 ```c
@@ -80,28 +80,28 @@ hart1_startup(void)
 
 ### Prerequisites
 
-The linker script must allocate the `.startup_blocks` section at the implementation 
+The linker script must allocate the `.startup_blocks` section at the implementation
 specific address (usually 0x00000000).
 
 ## Implementation
 
 TODO: define a format to express the pseudocode. Possibly Scala?
 
-After reset, each hart will execute the following code, with 
+After reset, each hart will execute the following code, with
 
 ```
-start_hart(int hid) 
+start_hart(int hid)
 {
   // Identify the per-hart startup block.
   addr = (word_size * 8) * hid;
-  
+
   // Clear all hart registers.
   hart[hid].x0 = 0;
   hart[hid].x1 = 0;
   // ...
   // Store the exception pointer in the hart specific register.
   hart[hid].excvta = *(addr + word_size * 3);
-  
+
   // Load global pointer.
   hart[hid].gp = *(addr + word_size * 2);
   // Load main stack pointer.

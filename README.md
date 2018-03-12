@@ -29,7 +29,7 @@ Warning: This draft specification is in a preliminary phase and may change at an
 * [Appendix B: History](history.md)
 * [Appendix C: Contributing](contributing.md)
 
-TODO: 
+TODO:
 
 - add MPU definitions
 - add more details about the restrictions in user mode.

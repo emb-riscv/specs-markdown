@@ -1,13 +1,13 @@
 # The Hart Control Block (HCB)
 
-For uniform access by software, in addition to CSRs, each hart maps its own status registers to the 
+For uniform access by software, in addition to CSRs, each hart maps its own status registers to the
 same address in the memory space.
 
 ## Memory Map
 
 ### RV64 devices
 
-| Offset | Name | Width | Type | Reset | Description | 
+| Offset | Name | Width | Type | Reset | Description |
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `excvta` | 64b | rw | Startup | Exceptions vector table address.  |
 | 0x0008 | `intvta` | 64b | rw | 0x00000000'00000000 | Interrupts vector table address.  |
@@ -20,7 +20,7 @@ same address in the memory space.
 
 ### RV32 devices
 
-| Offset | Name | Width | Type | Reset | Description | 
+| Offset | Name | Width | Type | Reset | Description |
 |:-------|:-----|:------|:-----|:------|-------------|
 | 0x0000 | `excvta` | 32b | rw | Startup | Exceptions vector table address.  |
 | 0x0004 | | | | | Reserved.  |
@@ -40,8 +40,8 @@ same address in the memory space.
 
 ## Exceptions vector table address (`excvta`)
 
-An xlen-bits register that holds the address of the exceptions dispatch table. 
-The table is an array of addresses 
+An xlen-bits register that holds the address of the exceptions dispatch table.
+The table is an array of addresses
 (xlen size elements) pointing to exception handlers (C/C++ functions).
 
 The register is initialised with the value fetched from the hart startup block.
@@ -50,20 +50,20 @@ If not set (i.e. 0x0) and an exception occurs, the behaviour is undefined.
 
 ## Interrupts vector table address (`intvta`)
 
-An xlen-bits register that holds the address of the interrupts dispatch table. 
-The table is an array of addresses 
+An xlen-bits register that holds the address of the interrupts dispatch table.
+The table is an array of addresses
 (xlen size elements) pointing to interrupt handlers (C/C++ functions).
 
-If not set (i.e. 0x0) and an interrupt occurs, an exception is 
+If not set (i.e. 0x0) and an interrupt occurs, an exception is
 triggered (TODO: what exception?).
 
-If the hart does not implement an interrupt controller, writing this register 
-is ignored and reading always returns zero. This mechanism can also be used 
+If the hart does not implement an interrupt controller, writing this register
+is ignored and reading always returns zero. This mechanism can also be used
 to determine at runtime if the hart implements an interrupt controller.
 
 ## The highest interrupt number (`intmax`)
 
-The `intmax` read-only register is 32-bits and reads the highest interrupt number; it is 
+The `intmax` read-only register is 32-bits and reads the highest interrupt number; it is
 useful when iterating the Hart Interrupt Controller array.
 
 ## The system clock comparator
@@ -76,22 +76,22 @@ See the Device Real-Time Clock page.
 
 ## Cycle count
 
-The `cyclecnt` register is 64-bits wide and holds a count of the number of clock cycles 
-executed by the core on which the hart is running (not the hart itself!) from an 
-arbitrary start time in the past. In practice, the underlying 64-bit counter should never 
+The `cyclecnt` register is 64-bits wide and holds a count of the number of clock cycles
+executed by the core on which the hart is running (not the hart itself!) from an
+arbitrary start time in the past. In practice, the underlying 64-bit counter should never
 overflow between two samples. The rate at which the cycle counter advances will depend
-on the implementation and operating environment. The execution environment 
-should provide a means to determine the current rate (cycles/second) at which 
+on the implementation and operating environment. The execution environment
+should provide a means to determine the current rate (cycles/second) at which
 the cycle counter is incrementing.
 
-RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
+RV64 devices expose a single 64-bits register, accessible with 64-bits instructions.
 RV32 devices exposes separate high/low 32-bits registers.
 
 ## Instructions count
 
-The `instcnt` register is 64-bits wide and counts the number of instructions executed 
+The `instcnt` register is 64-bits wide and counts the number of instructions executed
 by this hart from some arbitrary start point in the past.
 
-RV64 devices expose a single 64-bits register, accessible with 64-bits instructions. 
+RV64 devices expose a single 64-bits register, accessible with 64-bits instructions.
 RV32 devices exposes separate high/low 32-bits registers.
 

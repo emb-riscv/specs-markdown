@@ -1,11 +1,11 @@
 # Embedded ABI
 
-The current RISC-V privileged ABI requires the caller to save the following registers: 
-`ra`, `t0`, `t1`, `t2`, `a0`, `a1`, `a2`, `a3`, `a4`, `a5`, `a6`, `a7`, `t3`, `t4`, 
-`t5`, `t6`. This amounts 
+The current RISC-V privileged ABI requires the caller to save the following registers:
+`ra`, `t0`, `t1`, `t2`, `a0`, `a1`, `a2`, `a3`, `a4`, `a5`, `a6`, `a7`, `t3`, `t4`,
+`t5`, `t6`. This amounts
 to 16 registers. If floating point is used, 20 more registers must be saved.
 
-In order to be able to call a C/C++ function from the interrupt handler, all 
+In order to be able to call a C/C++ function from the interrupt handler, all
 these registers must be saved when entering interrupts, which impacts the
 interrupt latency.
 
@@ -45,17 +45,17 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 | `f8–f15` | `ft0-ft7` | FP temporaries | * |  |
 | `f16–f31` | `fs0-fs15` | FP saved registers |  | * |
 
-> <sup>To simplify the context push/pop code, 
+> <sup>To simplify the context push/pop code,
   the floating point registers were reordered, to group
-  all the caller register in one half of the set and the callee 
+  all the caller register in one half of the set and the callee
   saved registers in the other half.</sup>
 
 > <sup>Having the stack limit exposed as a general register
-  is only a proposal, but 
-  it can remain a CSR only as well, but in this case it must be 
+  is only a proposal, but
+  it can remain a CSR only as well, but in this case it must be
   separately
   saved during RTOS context switches.</sup>
-  
+
 > <sup>[BH] I don't like the stack limit being in a register.
   Much better in a CSR. Harder to corrupt by accident.
   [ilg] Agree.</sup>
