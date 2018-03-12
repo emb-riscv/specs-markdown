@@ -50,7 +50,7 @@ microcontrollers are devices
 that do not implement a virtual memory system or supervisor modes** and are 
 intended to run single process multi-threaded applications.
 
-> <sup>[JB] two more criteria 
+> <sup>[JB] Two more criteria may be used 
 for dividing microcontrollers and application processors: pipeline 
 complexity and memory latency. Microcontrollers use simpler, in-order 
 pipelines and have memory subsystems that are tightly synchronized to 
@@ -118,9 +118,9 @@ with the privileged specs is not a beneficial approach.
 > "In the future everything will run Linux, so defining separate non-Linux profiles 
 is a futile exercise."
 
-Yes. Sure. Eventually. No doubt about it. When waiting long enough many things can happen. 
+Yes. Sure. Eventually. No doubt about it. When waiting long enough many marvellous things can happen. 
 
-However, for those who are not ready to wait for kingdom come, having simpler
+However, for those who are not ready to wait for the kingdom come, having simpler
 devices for critical real-time applications is a requirement for today.
 
 ### Automatic stacking/unstacking is evil
@@ -167,8 +167,9 @@ The current RISC-V ABI requires the caller to save the following registers:
 `t4`, `t5`, `t6`. This amounts to 16 registers. If floating point is used, 20 
 more registers must be saved.
 
-The current RISC-V privileged specs do not require the core to save any registers 
-on the stack, delegating this to the trap handler.
+The current RISC-V privileged specs do not define a hardware stack and do not 
+require the core to save any registers 
+on the stack, delegating this to the assembly trap handler.
 
 Some voices claim that this strategy allows the application to have a highly optimised 
 assembly trap handler, and as such avoid pushing all registers.
@@ -180,15 +181,13 @@ posting to a semaphore), and at this point the entire ABI caller register set mu
 pushed onto the stack, and popped after the C function returns. 
 
 The result of this strategy is that the assembly trap handler will initially save a 
-small number of registers (those known to be used by the handler), then save the full 
-set.
-
-By automatically saving the full ABI caller register set in hardware, the total number 
-of register is smaller, and the latency is minimal.
+small number of registers (those known to be used by the handler), then save the rest 
+of the register set to prepare for the C call, so the full register set must be 
+saved anyway.
 
 For the current ABI this still means 20 registers, which is a lot. The real problem 
-here is not the decision to save them automatically, but the current ABI which is 
-designed for user mode Unix applications.
+here is not the decision to save them automatically (which greatly simplifies the 
+software), but the current ABI which is designed for user mode Unix applications.
 
 The solution is a **separate Embedded ABI (EABI)**, optimised for embedded real-time 
 applications, with a smaller caller register set.
@@ -225,6 +224,21 @@ write them, not someone else, thus the need for the interrupt handlers to be
 as easy to write as possible, the best choice being to have them defined as plain 
 C/C++ functions.
 
+> interrupt handlers do not need to be entirely in assembler, only 
+the entry/exit millicode needs to be part of the system. That millicode 
+*can* be written by system gurus, while the application ISRs, written by 
+application programmers, are called via the millicode. Unless 
+there is some faster memory access cycle that the hardware can use, 
+automatic context save/restore (presumably in microcode) will be no 
+faster than RISC-V millicode. 
+
+Well, reversing the logic, there is no best case scenario when the millicode
+will be faster than the microcode; even when there is no faster memory access 
+for the microcode, the millicode will still have to make a call to the actual
+interrupt handler so the total timing cannot be better. The main difference 
+is the ease of use, the application programmer will no longer need any guru to
+write the millicode.
+
 ### CSRs cannot be memory-mapped
 
 Another almost 'religious' RISC-V issue is related to accessing the system registers. 
@@ -239,13 +253,15 @@ Instead, the
 RISC-V ISA defined several special instructions allowing to address 4096 per-hart 
 registers.
 
-It is generally agreed that for privileged mode devices, this mechanism has several 
-advantages (like security, speed). Unfortunately, the RISC-V privileged specs abused this 
+It is generally agreed that for application class devices, with complex out-of-order 
+pipelines, the current mechanism has several 
+advantages. Unfortunately, the RISC-V privileged specs abused this 
 mechanism, and now there are several hundred registers defined in this proprietary 
 space, some of them even read-only, and obviously creating no security threads (like 
 `mvendorid`, `marchid`, etc).
 
-This mechanism of accessing the system registers has two main disadvantages:
+From the point of view of a microcontroller profile, this mechanism of accessing 
+the system registers has two main disadvantages:
 
 - requires assembly code to access each individual register 
 - it is not supported by current development tools (debuggers have no ways of accessing 
@@ -258,7 +274,8 @@ not to mention the PLIC, to be memory mapped.
 However, from a technical point of view, for virtual memory systems, accessing system 
 registers from code running in user mode requires 'punching' some holes into the 
 virtual memory space to reach the special memory mapped registers, which adds some 
-complexity. But, since the specs require this mechanism for `mtime` and `mtimecmp`,
+complexity, and may cause havoc to the pipelines. But, since the specs require this 
+mechanism for `mtime` and `mtimecmp`,
 it no longer matters if there are two or more such memory mapped registers.
 
 Fortunately, microcontrollers running without a MMU do not have this problem, 
@@ -370,10 +387,11 @@ to run existing popular operating systems, and so embodies the conventional
 level-based protection model. Alternate privileged specifications could embody 
 other more flexible protection-domain models."_
 
-So, at least in theory, there should be possible to extend the specs, but in 
+So, at least in theory, it should be possible to extend the specs, but in 
 practice it is not clear how exactly this can be done. Ideally, **the Volume 
 I should not explicitly refer to Volume II**, or should refer to it as optional, 
-leaving room for a complementary specification for microcontroller devices.
+leaving room for a complementary specification for other classes of devices,
+including microcontroller devices.
 
 As a parenthesis, the RISC-V ISA specs provide a very high degree of flexibility 
 allowing for custom extensions for the instruction set, but they are still very 
@@ -385,15 +403,19 @@ operating systems.
 Apart from relaxing the need for the privileged specs, the instruction set defined 
 by Volume I is generally acceptable for microcontroller devices.
 
-The only notable exception is the list of mandatory CSRs, which should be moved to 
-Volume II, allowing for microcontrollers to define a more efficient set of mandatory 
-registers.
+The only notable exception is in Chaper 2.8, the `rdcycle`, `rdtime` and `rdinstret`
+which should be moved to Volume II.
+
+Related to these instructions, the list of CSRs defined in Table 19.3 should be 
+shortened, by moving the `cycle`, `time` and `instret` to Volume II, allowing for 
+microcontrollers to define a more efficient set of mandatory registers.
 
 ### Remove the POSIX ABI from Volume I
 
 Another important issue with the current specs is the mandatory use of the POSIX ABI, 
 which is too expensive for real-time devices.
 
-The solution is to move it to Volume II, and allow a microcontroller profile to define 
+The solution is to move it either to Volume II, or to a separate assembly 
+programmer's handbook, and allow a microcontroller profile to define 
 an EABI, (Embedded ABI), as a lighter version of the POSIX ABI.
 
