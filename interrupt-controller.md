@@ -93,6 +93,15 @@ The `status` register has the following content:
   set pending, clear pending, active bits. It was considered that the packed solution
   is easier to use in software.</sup>
   
+> <sup>[JB] Why use separate bits for enabling and disabling interrupts? Why not 
+use the same write-1-to-enable and write-0-to-clear? ... it is not the way 
+assignment works anywhere else in C. [ilg] C programmers are very much used 
+  to different semantics when accessing peripheral registers, actually most 
+  real peripherals in modern devices use write-1-to-set/clear bits, so this 
+  not surprise anybody. As for keeping the language semantics, in C++ all 
+  operators can be redefined, so they can implement any semantics is 
+  required. </sup>
+
 ### Usage
 
 Individual interrupts are enabled by setting the `status.enabled` bit and are disabled by writing 1 in the `status.clearenabled` bit. To be effective, interrupts must also have non-zero priorities.
