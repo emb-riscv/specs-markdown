@@ -312,6 +312,17 @@ especially since Cortex-M came to market in 2004, and allowed to write interrupt
 handlers directly in C/C++, without any assembly stubs, millicodes or compiler 
 attributes/pragmas.
 
+### Microcontrollers should not be on networks
+
+> Generally, microcontrollers should probably not be on networks, except 
+possibly for multi-core versions that can handle real-time tasks on one 
+core and network latency on the other.
+
+Yes, multi-hart devices would be excelent for hard real-time applications, 
+but with nested, pre-emptive high priority interrupts, even a single hart device  
+can handle all tasks very well, if the real-time tasks are driven by ISRs, 
+then the network stack can run at a lower priority. 
+
 ## Proposed steps to change the current RISC-V specs
 
 It is not realistic to expect a new set of RISC-V microcontroller specs to be 
