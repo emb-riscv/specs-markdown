@@ -33,12 +33,12 @@ Since there are many microcontroller configurations, 3 classes were identified:
 **low end**, single hart,
 32-bits, no floating point, no unprivileged mode (intended to support legacy PIC & AVR class
 applications; comparable with Cortex-M0)
-- **EM** (embedded medium) **EM-RV32IM[F[D]]C**/**EM-RV64IM[F[D]]C**:
+- **EM** (embedded medium) **EM-RV32IM[F[D]]C** / **EM-RV64IM[F[D]]C**:
 **regular**, single hart, 32/64-bits, possibly with floating point
 (intended to support common multi-threaded applications; comparable with
 Cortex-M3/M4)
-- **EL** (embedded large) **EL-RV32IMA[F[D]]C**/**EL-RV64IMA[F[D]]C**:
-**high end**, multi-hart, 32/64-bits, atomics, possibly with floating point
+- **EL** (embedded large) **EL-RV32IMA[F[D]]C** / **EL-RV64IMA[F[D]]C**:
+**high end**, multi-hart/multi-core, 32/64-bits, atomics, possibly with floating point
 (intended to support hard real-time, high performance applications)
 
 ## Benefits
