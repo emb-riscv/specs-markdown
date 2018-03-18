@@ -299,12 +299,12 @@ The reason for prefering CSRs vs memory mapped registers is speed; accessing CSR
 ```
 f(riscv_csr_read_mstatus(), SYSPERIPH->cmd); 
 
-20400238:	30002573          	csrr	a0,mstatus 
+20400238:	30002573           csrr	a0,mstatus 
 
-2040023c:	f00007b7          	lui	a5,0xf0000 
+2040023c:	f00007b7           lui	a5,0xf0000 
 20400240:	43cc               lw	a1,4(a5) 
 
-20400242:	307000ef          	jal	ra,20400d48 <f(unsigned long, unsigned long)> 
+20400242:	307000ef           jal	ra,20400d48 <f(unsigned long, unsigned long)> 
 ```
 
 For this reason, all registers needed in interrupt critical sections and context switches should be accessed with CSR instructions, while all other non critical registers can be memory mapped. 
