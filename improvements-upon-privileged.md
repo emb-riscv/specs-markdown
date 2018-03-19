@@ -45,7 +45,7 @@ applications.
 
 After long considerations, the conclusion was that the common and logical dividing
 line between the RISC-V privileged profile and a RISC-V microcontroller
-profile is the capability of running full blown operating system, that use virtual 
+profile is the capability to run a full-blown operating system, that uses virtual 
 memory and supervisor modes (like Unix and derivatives); as such, **RISC-V
 microcontrollers are devices
 that do not implement a virtual memory system or supervisor modes** and are
