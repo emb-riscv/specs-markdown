@@ -62,7 +62,7 @@ are not used in microcontrollers, since the latter must have predictable
 execution timing. [ilg] The pipeline complexity and memory latency should
   be implementation specific. Microcontrollers intended for applications that
   need predictable execution timings may decide not to implement
-  out-of-order and parallel execution.
+  out-of-order and parallel execution, or allow to disable them at run time.
 </sup>
 
 ## Improvements upon RISC-V privileged
