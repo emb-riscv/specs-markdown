@@ -45,10 +45,12 @@ applications.
 
 After long considerations, the conclusion was that the common and logical dividing
 line between the RISC-V privileged profile and a RISC-V microcontroller
-profile is the use of virtual memory and supervisor modes; as such, **RISC-V
+profile is the capability of running full blown operating system, that use virtual 
+memory and supervisor modes (like Unix and derivatives); as such, **RISC-V
 microcontrollers are devices
 that do not implement a virtual memory system or supervisor modes** and are
-intended to run single process multi-threaded applications.
+intended to run single process multi-threaded applications only (and are not 
+intended to run Unix-like systems).
 
 > <sup>[JB] Two more criteria may be used
 for dividing microcontrollers and application processors: pipeline
