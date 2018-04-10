@@ -50,6 +50,8 @@ The microcontroller profile reconsidered the implementation of some
 core features (like stack handling), and pushed them back to hardware,
 where they belong.
 
+
+
 Some of the benefits are:
 
 - best interrupt latency, more appropriate for real-time applications
@@ -58,7 +60,7 @@ Some of the benefits are:
 
 > <sup>The RISC-V microcontroller profile is created with developers in 
   mind, to make developpers happy. Happy developers write better 
-  applications, making final users happy as well.</sup>
+  applications, making final users happy as well.</sup> 
   
 ## Definitions
 
