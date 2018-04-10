@@ -56,6 +56,10 @@ Some of the benefits are:
 - improved robustness for multi-threaded applications
 - much easier to use directly in C/C++
 
+> <sup>The RISC-V microcontroller profile is created with developers in 
+  mind, to make developpers happy. Happy developers write better 
+  applications, making final users happy as well.</sup>
+  
 ## Definitions
 
 ### Hart
