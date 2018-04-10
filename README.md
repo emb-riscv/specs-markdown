@@ -10,6 +10,10 @@ Editors:
 Warning: This draft specification is in a preliminary phase and may change at any time. For the moment it is more like a wish list than a real specs document.
 
 
+## Motto 
+
+_"People are more expensive than transistors"._
+
 ## Table of Contents
 
 * [Introduction](introduction.md)
