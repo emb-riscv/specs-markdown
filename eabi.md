@@ -106,7 +106,7 @@ Currently defined in Chapter 20, RISC-V Assembly Programmer’s Handbook, of the
 | `f18–f27` | `fs2-fs11` | FP saved registers |  | * |
 | `f28–f31` | `ft8-ft11` | FP temporaries | * |  |
 
-## RISC-V RB32E ABI
+## RISC-V RV32E ABI
 
 Currently defined in the [RISC-V ELF psABI](https://github.com/riscv/riscv-elf-psabi-doc/blob/master/riscv-elf.md#-rv32e-calling-convention).
 
