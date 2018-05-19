@@ -28,17 +28,17 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 | `x2` | `sp` | Stack pointer |  | * |
 | `x3` | `gp` | Global pointer |  |  |
 | `x4` | `tp` | Thread pointer |  |  |
-| `x5` | `t0`/**`sl`** | Temporary/**Stack limit** |  | * |
-| `x6–x7` | `t1,t2` | Temporaries | | * |
+| `x5` | `t0`/**`sl`** | Temporary/**Stack limit** | ? | ? |
+| `x6–x7` | `t1,t2` | Temporaries | ? | ? |
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
 | `x10,x11` | `a0,a1` | Function arguments/return values | * |  |
 | `x12,x13` | `a2,a3` | Function arguments | * |  |
 | `x14,x15` | `a4,a5` | Function arguments | * |  |
 |||||
-| `x16–x17` | ?? | Temporaries? |  | * |
+| `x16–x17` | ?? | Temporaries? | ? | ? |
 | `x18–x27` | `s2-s11` | Saved registers |  | * |
-| `x28–x31` | `t3-t6` | Temporaries |  | * |
+| `x28–x31` | `t3-t6` | Temporaries | ? | ? |
 |||||
 | `f0–f1` | `fa0-fa1` | FP arguments/return values | * |  |
 | `f2–f7` | `fa2-fa7` | FP arguments | * |  |
@@ -69,8 +69,8 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 | `x2` | `sp` | Stack pointer |  | * |
 | `x3` | `gp` | Global pointer |  |  |
 | `x4` | `tp` | Thread pointer |  |  |
-| `x5` | `t0`/**`sl`** | Temporary/**Stack limit** |  | * |
-| `x6–x7` | `t1,t2` | Temporaries |  | * |
+| `x5` | `t0`/**`sl`** | Temporary/**Stack limit** | ? | ? |
+| `x6–x7` | `t1,t2` | Temporaries | ? | ? |
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
 | `x10,x11` | `a0,a1` | Function arguments/return values | * |  |
@@ -79,7 +79,9 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 
 ## References
 
-## RISC-V Linux ABI
+## RISC-V POSIX ABI
+
+Currently defined in Chapter 20, RISC-V Assembly Programmer’s Handbook, of the "The RISC-V Instruction Set Manual Volume I: User-Level ISA, Document Version 2.2".
 
 | Register | ABI Name | Description | Caller | Callee |
 |:---------|:---------|:------------|--------|-------|
@@ -104,8 +106,28 @@ TODO: Check if it is ok to use x5 for the stack limit. In Volume I, 2.5, it is m
 | `f18–f27` | `fs2-fs11` | FP saved registers |  | * |
 | `f28–f31` | `ft8-ft11` | FP temporaries | * |  |
 
+## RISC-V RB32E ABI
+
+Currently defined in the [RISC-V ELF psABI](https://github.com/riscv/riscv-elf-psabi-doc/blob/master/riscv-elf.md#-rv32e-calling-convention).
+
+| Register | ABI Name | Description | Caller | Callee |
+|:---------|:---------|:------------|--------|-------|
+| `x0` | `zero` | Hard-wired zero |  |  |
+| `x1` | `ra` | Return address | * |  |
+| `x2` | `sp` | Stack pointer |  | * |
+| `x3` | `gp` | Global pointer |  |  |
+| `x4` | `tp` | Thread pointer |  |  |
+| `x5` | `t0` | Temporary/alternate link register | * |  |
+| `x6–x7` | `t1-t2` | Temporaries | * |  |
+| `x8` | `s0/fp` | Saved register/frame pointer |  | * |
+| `x9` | `s1` | Saved register |  | * |
+| `x10–x11` | `a0-a1` | Function arguments/return values | * |  |
+| `x12–x15` | `a2-a5` | Function arguments | * |  |
+
 ## Links
 
 - [Application Binary Interface for
 the ARM® Architecture](http://infocenter.arm.com/help/topic/com.arm.doc.ihi0036b/IHI0036B_bsabi.pdf)
 - [Procedure Call Standard for the ARM® Architecture](http://infocenter.arm.com/help/topic/com.arm.doc.ihi0042f/IHI0042F_aapcs.pdf)
+- [RISC-V ELF psABI](https://github.com/riscv/riscv-elf-psabi-doc/blob/master/riscv-elf.md)
+
