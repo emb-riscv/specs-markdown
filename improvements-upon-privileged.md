@@ -219,19 +219,20 @@ further worsening the latency.
 No, adding an attribute is only a minor nuisance and a possible reason 
 for incompatibilities between compilers.
 
-The question is interesting, because it expects microcontrollers to
+However, the question is interesting, because it reveals a common mistake,
+it expects microcontrollers to
 share the same behaviour with general purpose application devices.
 
 Unfortunately this is not the case, one major difference is that
 microcontrollers have lots of peripherals, each with one or more 
-interrupts, thus an embedded application, with or without an RTOS,
+interrupts; thus, an embedded application, with or without an RTOS,
 is mainly interrupt driven. 
 
 And with the advent of fast devices, like USB, or QSPI, possibly with
 DMAs, the number of interrupts may be quite high, and the total time
 spent in interrupt mode may be significant.
 
-Thus the need for efficiency, which require a carefull design.
+Thus the need for a careful design to tackle efficiency issues.
 
 The very general case is with a sequence of interrupts of decreasing 
 priorities, that most probably trigger a context switch, on a machine 
@@ -246,7 +247,7 @@ when an interrupt with a priority higher than the threshold occurs, is:
 other C/C++ functions and finally returns
 - possibly enter other handlers for interrupts with lower or similar 
 priorities, that occur while in interrupt mode
-- enter `contex_switch` handler (lowest possible priority)
+- enter `context_switch` handler (lowest possible priority)
   - save the rest of the general registers
   - save the SP in the current thread control block
   - select the top priority thread
@@ -277,7 +278,7 @@ priority that occur while in interrupt mode, each of them doing
   - call the C/C++ functions and return
   - restore 16 general registers and 20 FP registers
   - exit decorated handler
-- process the contex_switch interrupt (lowest possible priority)
+- process the context_switch interrupt (lowest possible priority)
   - enter naked handler
   - save 32 general registers and 32 FP registers
   - save the SP in the current thread control block
