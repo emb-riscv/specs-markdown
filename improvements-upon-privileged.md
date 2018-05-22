@@ -219,26 +219,38 @@ further worsening the latency.
 No, adding an attribute is only a minor nuisance and a possible reason 
 for incompatibilities between compilers.
 
-But, apart from ease of use, the main problem is efficiency.
+The question is interesting, because it expects microcontrollers to
+share the same behaviour with general purpose application devices.
 
-The fully general case is with a sequence of interrupts of decreasing 
+Unfortunately this is not the case, one major difference is that
+microcontrollers have lots of peripherals, each with one or more 
+interrupts, thus an embedded application, with or without an RTOS,
+is mainly interrupt driven. 
+
+And with the advent of fast devices, like USB, or QSPI, possibly with
+DMAs, the number of interrupts may be quite high, and the total time
+spent in interrupt mode may be significant.
+
+Thus the need for efficiency, which require a carefull design.
+
+The very general case is with a sequence of interrupts of decreasing 
 priorities, that most probably trigger a context switch, on a machine 
 with hardware floating point.
 
-With hardware stacking/unstacking and lazy FP, the desired behaviour 
-when an interrupt with a priority higher than the threshold is:
+With hardware stacking/unstacking and lazy FP, the expected behaviour 
+when an interrupt with a priority higher than the threshold occurs, is:
 
 - reserve space for the FP registers, but do not save them
-- save ABI caller registers
+- save the ABI caller registers
 - enter handler for top priority interrupt, which calls
 other C/C++ functions and finally returns
 - possibly enter other handlers for interrupts with lower or similar 
-priority that occur while in interrupt mode
-- enter contex_switch handler (lowest possible priority)
+priorities, that occur while in interrupt mode
+- enter `contex_switch` handler (lowest possible priority)
   - save the rest of the general registers
   - save the SP in the current thread control block
   - select the top priority thread
-  - load SP from the new thread control block
+  - load the SP from the new thread control block
   - restore the rest of the general registers
   - return from the handler
  - restore the ABI caller registers
@@ -283,6 +295,9 @@ saved again.
 It might be possible to somehow further optimise this mechanism,
 but I seriously doubt that it can be more efficient than the hardware
 stacking/unstacking, with tail chaining and lazy FP.
+
+Challenge: find a solution most efficient than the current proposal,
+in terms of time and/or ease of use.
 
 ### Assembly interrupt handlers should be ok, they reside in the system part
 
