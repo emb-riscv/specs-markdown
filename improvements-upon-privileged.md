@@ -206,11 +206,83 @@ it is possible to imagine interrupt handlers incrementing a
 variable and
 returning, but this is rare, by far the biggest majority of interrupt
 handlers call C/C++ functions to perform system services, like posting
-a semaphore, or any other synchronization mechanism.
+a semaphore, pushing to a queue, or any other synchronization mechanism.
 
-So, by first saving a few registers and then saving all those required
-by the ABI, the result is that more registers needs to be saved, and
+So, by using a custom prolog/epilogue which may decide to first save a few 
+registers and then save all those required
+by the ABI, it might end up with more registers that need to be saved, thus
 further worsening the latency.
+
+> "You consider it too much work to add  `__attribute__ ((interrupt))`
+  to appropriate C functions, as on non-Cortex M ARM32, ARM64, x86 etc?"
+  
+No, adding an attribute is only a minor nuisance and a possible reason 
+for incompatibilities between compilers.
+
+But, apart from ease of use, the main problem is efficiency.
+
+The fully general case is with a sequence of interrupts of decreasing 
+priorities, that most probably trigger a context switch, on a machine 
+with hardware floating point.
+
+With hardware stacking/unstacking and lazy FP, the desired behaviour 
+when an interrupt with a priority higher than the threshold is:
+
+- reserve space for the FP registers, but do not save them
+- save ABI caller registers
+- enter handler for top priority interrupt, which calls
+other C/C++ functions and finally returns
+- possibly enter other handlers for interrupts with lower or similar 
+priority that occur while in interrupt mode
+- enter contex_switch handler (lowest possible priority)
+  - save the rest of the general registers
+  - save the SP in the current thread control block
+  - select the top priority thread
+  - load SP from the new thread control block
+  - restore the rest of the general registers
+  - return from the handler
+ - restore the ABI caller registers
+ - return from interrupt in the context of the new thread
+ 
+ If the interrupt routines do not use FP, the FP registers are not saved,
+ having no impact on latency; they will be saved before the first
+ FP instruction is executed.
+ 
+ Without hardware stacking/unstacking, without lazy FP and relying only  
+ on the compiler to save/restore the registers, for the current RISC-V 
+ POSIX ABI, the behaviour is:
+ 
+- process the top priority interrupt
+  - enter decorated handler 
+  - save 16 general registers and 20 FP registers
+  - call the C/C++ functions and return
+  - restore 16 general registers and 20 FP registers
+  - exit decorated handler
+- possibly process other interrupts with lower or similar 
+priority that occur while in interrupt mode, each of them doing
+  - enter decorated handler 
+  - save 16 general registers and 20 FP registers
+  - call the C/C++ functions and return
+  - restore 16 general registers and 20 FP registers
+  - exit decorated handler
+- process the contex_switch interrupt (lowest possible priority)
+  - enter naked handler
+  - save 32 general registers and 32 FP registers
+  - save the SP in the current thread control block
+  - select the top priority thread
+  - load SP from the new thread control block
+  - restore 32 general registers and 32 FP registers
+  - exit named handler
+- return from interrupt in the context of the new thread
+
+As it can be seen, without special precautions, each interrupt
+must save/restore the ABI caller register, even if interrupts 
+are back to back and the restored registers are immediately 
+saved again.
+
+It might be possible to somehow further optimise this mechanism,
+but I seriously doubt that it can be more efficient than the hardware
+stacking/unstacking, with tail chaining and lazy FP.
 
 ### Assembly interrupt handlers should be ok, they reside in the system part
 
@@ -240,6 +312,7 @@ for the microcode, the millicode will still have to make a call to the actual
 interrupt handler so the total timing cannot be better. The main difference
 is the ease of use, the application programmer will no longer need any guru to
 write the millicode.
+
 
 ### CSRs cannot be memory-mapped
 
