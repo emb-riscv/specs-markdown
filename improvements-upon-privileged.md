@@ -289,15 +289,15 @@ priority that occur while in interrupt mode, each of them doing
 - return from interrupt in the context of the new thread
 
 As it can be seen, without special precautions, each interrupt
-must save/restore the ABI caller register, even if interrupts 
-are back to back and the restored registers are immediately 
-saved again.
+must push/pop the ABI caller registers, even if interrupts 
+are back to back and the popped registers are immediately 
+pushed again, possibly several times in a row.
 
 It might be possible to somehow further optimise this mechanism,
 but I seriously doubt that it can be more efficient than the hardware
 stacking/unstacking, with tail chaining and lazy FP.
 
-Challenge: find a solution most efficient than the current proposal,
+Challenge: find a solution more efficient than the current proposal,
 in terms of time and/or ease of use.
 
 ### Assembly interrupt handlers should be ok, they reside in the system part
