@@ -298,7 +298,10 @@ but I seriously doubt that it can be more efficient than the hardware
 stacking/unstacking, with tail chaining and lazy FP.
 
 Challenge: find a solution more efficient than the current proposal,
-in terms of time and/or ease of use.
+in terms of time and/or ease of use. In practical terms, write an
+user interrupt handler that must be able to conditionally perform
+a context switch (sometimes it does, sometimes it does not, depending
+on the peripheral).
 
 ### Assembly interrupt handlers should be ok, they reside in the system part
 
