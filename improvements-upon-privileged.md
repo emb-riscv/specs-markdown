@@ -267,24 +267,24 @@ priorities, that occur while in interrupt mode
  
 - process the top priority interrupt
   - enter decorated handler 
-  - save 16 general registers and 20 FP registers
+  - **save 16 general registers and 20 FP registers**
   - call the C/C++ functions and return
-  - restore 16 general registers and 20 FP registers
+  - **restore 16 general registers and 20 FP registers**
   - exit decorated handler
 - possibly process other interrupts with lower or similar 
-priority that occur while in interrupt mode, each of them doing
+priority that occur while in interrupt mode, each of them doing (**N times**)
   - enter decorated handler 
-  - save 16 general registers and 20 FP registers
+  - **save 16 general registers and 20 FP registers**
   - call the C/C++ functions and return
-  - restore 16 general registers and 20 FP registers
+  - **restore 16 general registers and 20 FP registers**
   - exit decorated handler
 - process the context_switch interrupt (lowest possible priority)
   - enter naked handler
-  - save 32 general registers and 32 FP registers
+  - **save 32 general registers and 32 FP registers**
   - save the SP in the current thread control block
   - select the top priority thread
   - load SP from the new thread control block
-  - restore 32 general registers and 32 FP registers
+  - **restore 32 general registers and 32 FP registers**
   - exit named handler
 - return from interrupt in the context of the new thread
 
