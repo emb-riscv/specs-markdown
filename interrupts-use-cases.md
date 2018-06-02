@@ -90,6 +90,8 @@ The complexity vary from RTOS to RTOS, and in real life it must also include
 some critical sections, but the general framework is highly similar to the
 above; it requires significant changes in the user code and it is not simple.
 
+### Dedicated context switch interrupt
+
 In modern RTOS friendly architectures, the context switch is delegated
 to a single dedicated interrupt, implemented in the system part, such
 that all user interrupt handlers no longer need to worry about this and
@@ -117,6 +119,8 @@ interrupt_handle_context_switch(void)
   restore_context(sp); // Pop all registers from the stack
 }
 ```
+
+### Triggering a context switch
 
 With such a dedicated interrupt, triggering a context switch is as simple 
 as pending a software interrupt:
