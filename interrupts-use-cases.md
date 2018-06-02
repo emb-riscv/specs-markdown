@@ -23,7 +23,7 @@ a sequence of operations performing the following steps:
 - restore the state of the new thread from the selected TCB
 - resume execution in the context of the new thread
 
-### Cooperative vs preemption
+### Cooperative vs preemptive
 
 In a cooperative environment, threads deliberately pass control to other
 threads by explicitly issuing an `yield()` call, or indirectly by calling
