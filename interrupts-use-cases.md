@@ -56,7 +56,7 @@ stack_elem_t*
 static inline __attribute__((naked, always_inline))
 save_context(void)
 {
-  // Assembly code to push all registers onto stack
+  // Assembly code to push all registers onto the thread stack
   // ...
   return sp;
 }
@@ -65,7 +65,7 @@ void
 static inline __attribute__((naked, always_inline))
 restore_context(stack_elem_t* sp)
 {
-  // Assembly code to pop all registers from stack
+  // Assembly code to pop all registers from the thread stack
   // ...
   // Return from interrupt.
 }
@@ -74,24 +74,24 @@ restore_context(stack_elem_t* sp)
 void __attribute__((naked))
 interrupt_handle_xxx(void)
 {
-  stack_elem_t* sp = save_context(); // Push all registers on the stack
+  stack_elem_t* sp = save_context(); // Push all registers onto the thread stack
   
   driver_xyz_interrupt_service_routine();
   
   if (must_switch_context) {
     sp = scheduler_select_next_thread(sp);
   }
-  restore_context(sp); // Pop all registers from the stack
+  restore_context(sp); // Pop all registers from the thread stack
   return_from_interrupt();
 }
 ```
 
-The complexity vary from RTOS to RTOS, and in real life it must also include  
-some critical sections, but the general framework is highly similar to the 
+The complexity vary from RTOS to RTOS, and in real life it must also include
+some critical sections, but the general framework is highly similar to the
 above; it requires significant changes in the user code and it is not simple.
 
 In modern RTOS friendly architectures, the context switch is delegated
-to a single dedicated interrupt, implemented in the system part, such 
+to a single dedicated interrupt, implemented in the system part, such
 that all user interrupt handlers no longer need to worry about this and
 can be written directly in C/C++:
 
