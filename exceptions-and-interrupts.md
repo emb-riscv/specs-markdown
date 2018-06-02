@@ -362,7 +362,7 @@ lazy stacking mechanism.
 
 TODO: define the details.
 
-## Tail channing
+## Tail chainning
 
 When an exception/interrupt takes place while already in handler mode, and the
 priority does not require pre-emption, the new exception/interrupt will enter the
