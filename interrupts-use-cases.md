@@ -26,8 +26,8 @@ a sequence of operations performing the following steps:
 ### Cooperative vs preemptive
 
 In a cooperative environment, threads deliberately pass control to other
-threads by explicitly issuing an `yield()` call, or indirectly by calling
-a system function that internally yields.
+threads either by directly issuing an `yield()` call, or indirectly 
+by calling a system function that internally yields.
 
 In a cooperative environment, user interrupt handlers are regular handlers, 
 they interrupt the current running code (thread or interrupt), 
