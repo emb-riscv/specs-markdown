@@ -110,7 +110,7 @@ void
 __attribute__((naked))
 interrupt_handle_context_switch(void)
 {
-  stack_elem_t* sp = save_context(); // Push all registers on the stack
+  stack_elem_t* sp = save_context(); // Push all registers onto the thread stack
   
   sp = scheduler_select_next_thread(sp);
   
