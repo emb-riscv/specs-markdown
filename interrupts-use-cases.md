@@ -39,7 +39,7 @@ such that the interrupt occurs in the context of one thread but
 returns in the context of another thread.
 
 Traditional interrupt handlers need to be changed from the simple 
-impllementation that calls the peripheral ISR:
+implementation that calls the peripheral ISR:
 
 ```c
 void __attribute__((interrupt))
