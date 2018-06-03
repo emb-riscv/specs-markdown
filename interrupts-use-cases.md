@@ -35,9 +35,9 @@ interrupt_handle_xyz(void)
 }
 ```
 
-The problem with this approach is that on a RISC-V device 
-with the current ABI, the number of
-registers required to be saved by the caller is large, 
+The problem with this approach is that on a RISC-V device, 
+with the current POSIX ABI, the number of
+registers to be saved by the caller is large, 
 and the generated
 code, with `-march=rv64gc -mabi=lp64d` looks like:
 
@@ -176,6 +176,24 @@ mret
 .size interrupt_handle_xyz, .-interrupt_handle_xyz 
 ```
 
+On the other hand, modern designs use plain C functions as interrupt 
+handlers, and in this case the generated code looks definitely
+better:
+
+```
+.option nopic 
+.text 
+.align 2 
+.globl interrupt_handle_xyz 
+.type interrupt_handle_xyz, @function 
+interrupt_handle_xyz:  
+tail driver_xyz_interrupt_service_routine 
+.size interrupt_handle_xyz, .-interrupt_handle_xyz 
+```
+
+For this style of handlers to work, it is still necessary to save/restore
+the ABI caller registers outside the handler; this can be done either in
+hardware, or, for cheap devices, in software.
 
 ### Context switches
 
