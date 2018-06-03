@@ -394,7 +394,7 @@ priority that occur while in interrupt mode, each of them doing (**N times**)
   - enter naked handler
   - **save 32 general registers and 32 FP registers**
   - save the SP in the current thread control block
-  - select the top priority thread
+  - select the next thread to run
   - load SP from the new thread control block
   - **restore 32 general registers and 32 FP registers**
   - exit naked handler
@@ -413,11 +413,68 @@ priorities, that occur while in interrupt mode
 - call the `context_switch` handler (lowest possible priority)
   - save the rest of the general registers (ABI callee)
   - save the SP in the current thread control block
-  - select the top priority thread
+  - select the next thread to run
   - load the SP from the new thread control block
   - restore the rest of the general registers (ABI callee)
   - return from the handler
 - **restore** the ABI caller registers
 - return from interrupt in the context of the new thread
 
+## Lazy FP stacking
 
+For devices with hardware FP units, the large number of FP
+registers may severely impact the interrupt latency.
+
+Old architectures that use interrupt handlers annotated 
+with the `interrupt` attribute, should always save and 
+restore all the FP registers, as seen in the example.
+
+In moders designs, which use plain C interrupt handlers,
+and the registers are saved before entering the handlers,
+it is possible to use a more efficient mechanism, which
+only reserves the space onto the thread stack, but does
+the actual save only when the first FP instructions is 
+executed.
+
+Since most interrupt handlers do not use FP instructions,
+the saving/restoring of the FP registers is skipped 
+entirely, and the interrupt latency is not affected.
+
+> <sup>More details on this mechanism to be added as a separate page. 
+The design should also consider the ABI callee registers,
+handled during context switches.</sup>
+
+## Conclusions
+
+When designing a new architecture, the focus should be
+to optimise the most common use case, which is a sequence
+of 2 or more back-to-back interrupts that in most cases
+end with the context switch interrupt.
+
+### `interrupt` handlers are not efficient
+
+Although traditional interrupt handlers annotated 
+with the `interrupt` attribute may seem a solution for
+fast interrupts, they are really fast only if everything
+is inlined and no other plain C function is called, otherwise
+the entire ABI caller registers must be saved and restored,
+including the FP registers, and it must be done repeatedly
+for each interrupt, the posibilities for tail chaining and
+lazy FP stacking being not realistic.
+
+### Plain C functions are recommended
+
+Plain C interrupt handlers are much bettter suited for the
+common use cases and have the following benefits:
+
+- easier to use in user code
+- allow tail chaining without user intervention
+- allow lazy FP stacking without user intervention
+- save only the ABI caller registers
+- save the ABI callee registers only if context switches are triggered
+
+The prefered implementation is with hardware stacking/unstacking,
+but cheap devices can also choose to do the stacking/unstacking
+in software, together with vectoring, so from a user
+point of view they are similar, the interrupt handlers remain
+the same plain C functions.
