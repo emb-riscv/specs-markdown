@@ -119,6 +119,10 @@ interrupt_handle_context_switch(void)
 }
 ```
 
+For this to work, the context switch interrupt must be guaranteed to have the
+lowest priority, such that it is executed after all other interrupts are 
+completed and the hart must return to thread state.
+
 ### Triggering a context switch
 
 With such a dedicated interrupt, triggering a context switch is as simple 
@@ -127,10 +131,6 @@ as pending a software interrupt:
 ```c
 hcb.interrupts[CONTEXT_SWITCH_INTERRUPT_NUMBER].status = INTERRUPTS_SET_PENDING;
 ```
-
-For this to work, the context switch interrupt must be guaranteed to have the
-lowest priority, such that it is executed after all other interrupts are 
-completed and the hart must return to thread state.
 
 Pending a context switch interrupt can be performed either in other interrupt
 handlers (and in this case the switch occurs after all interrupts are 
