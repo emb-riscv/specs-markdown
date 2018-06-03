@@ -285,7 +285,7 @@ priority that occur while in interrupt mode, each of them doing (**N times**)
   - select the top priority thread
   - load SP from the new thread control block
   - **restore 32 general registers and 32 FP registers**
-  - exit named handler
+  - exit naked handler
 - return from interrupt in the context of the new thread
 
 As it can be seen, without special precautions, each interrupt
