@@ -1,4 +1,4 @@
-# Appendix C: Contributing
+# Appendix D: Contributing
 
 As for most open source projects, all contributions are welcomed!
 

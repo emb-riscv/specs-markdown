@@ -30,8 +30,9 @@ _"People are more expensive than transistors"._
 * [Embedded ABI (EABI)](eabi.md)
 * [RTOS Support Features](rtos-support-features.md)
 * [Appendix A: Improvements upon RISC-V privileged](improvements-upon-privileged.md) <--- Read Me First!
-* [Appendix B: History](history.md)
-* [Appendix C: Contributing](contributing.md)
+* [Appendix B: Interrupts use cases](interrupts-use-cases.md)
+* [Appendix C: History](history.md)
+* [Appendix D: Contributing](contributing.md)
 
 TODO:
 
