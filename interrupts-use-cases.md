@@ -67,7 +67,6 @@ restore_context(stack_elem_t* sp)
 {
   // Assembly code to pop all registers from the thread stack
   // ...
-  // Return from interrupt.
 }
 
 
