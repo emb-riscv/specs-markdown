@@ -47,8 +47,10 @@ code, with `-march=rv64gc -mabi=lp64d` looks like:
 .align 1 
 .globl interrupt_handle_xyz 
 .type interrupt_handle_xyz, @function 
+
 interrupt_handle_xyz: 
 addi sp,sp,-288 
+
 sd ra,280(sp) 
 sd t0,272(sp) 
 sd t1,264(sp) 
@@ -85,7 +87,9 @@ fsd ft8,24(sp)
 fsd ft9,16(sp) 
 fsd ft10,8(sp) 
 fsd ft11,0(sp) 
+
 call driver_xyz_interrupt_service_routine 
+
 ld ra,280(sp) 
 ld t0,272(sp) 
 ld t1,264(sp) 
@@ -122,8 +126,10 @@ fld ft8,24(sp)
 fld ft9,16(sp) 
 fld ft10,8(sp) 
 fld ft11,0(sp) 
+
 addi sp,sp,288 
 mret 
+
 .size interrupt_handle_xyz, .-interrupt_handle_xyz 
 ```
 
@@ -136,8 +142,10 @@ but still lots of registers (`-march=rv32i -mabi=ilp32`):
 .align 2 
 .globl interrupt_handle_xyz 
 .type interrupt_handle_xyz, @function 
+
 interrupt_handle_xyz: 
 addi sp,sp,-64 
+
 sw ra,60(sp) 
 sw t0,56(sp) 
 sw t1,52(sp) 
@@ -154,7 +162,9 @@ sw t3,12(sp)
 sw t4,8(sp) 
 sw t5,4(sp) 
 sw t6,0(sp) 
+
 call driver_xyz_interrupt_service_routine 
+
 lw ra,60(sp) 
 lw t0,56(sp) 
 lw t1,52(sp) 
@@ -171,8 +181,10 @@ lw t3,12(sp)
 lw t4,8(sp) 
 lw t5,4(sp) 
 lw t6,0(sp) 
+
 addi sp,sp,64 
 mret 
+
 .size interrupt_handle_xyz, .-interrupt_handle_xyz 
 ```
 
@@ -186,8 +198,10 @@ better:
 .align 2 
 .globl interrupt_handle_xyz 
 .type interrupt_handle_xyz, @function 
+
 interrupt_handle_xyz:  
 tail driver_xyz_interrupt_service_routine 
+
 .size interrupt_handle_xyz, .-interrupt_handle_xyz 
 ```
 
