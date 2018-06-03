@@ -274,7 +274,8 @@ interrupt_handle_xxx(void)
   
   driver_xyz_interrupt_service_routine();
   
-  if (must_switch_context) {
+  if (must_switch_context) 
+  {
     sp = scheduler_select_next_thread(sp);
   }
   restore_context(sp); // Pop all registers from the thread stack
