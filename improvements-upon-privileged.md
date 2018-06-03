@@ -247,7 +247,7 @@ when an interrupt with a priority higher than the threshold occurs, is:
 other C/C++ functions and finally returns
 - possibly enter other handlers for interrupts with lower or similar 
 priorities, that occur while in interrupt mode
-- enter `context_switch` handler (lowest possible priority)
+- enter the `context_switch` handler (lowest possible priority)
   - save the rest of the general registers
   - save the SP in the current thread control block
   - select the top priority thread
@@ -266,18 +266,18 @@ priorities, that occur while in interrupt mode
  POSIX ABI, the behaviour is:
  
 - process the top priority interrupt
-  - enter decorated handler 
+  - enter annotated handler 
   - **save 16 general registers and 20 FP registers**
   - call the C/C++ functions and return
   - **restore 16 general registers and 20 FP registers**
-  - exit decorated handler
+  - exit annotated handler
 - possibly process other interrupts with lower or similar 
 priority that occur while in interrupt mode, each of them doing (**N times**)
-  - enter decorated handler 
+  - enter annotated handler 
   - **save 16 general registers and 20 FP registers**
   - call the C/C++ functions and return
   - **restore 16 general registers and 20 FP registers**
-  - exit decorated handler
+  - exit annotated handler
 - process the context_switch interrupt (lowest possible priority)
   - enter naked handler
   - **save 32 general registers and 32 FP registers**
