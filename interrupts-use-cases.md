@@ -1,7 +1,7 @@
 # Appendix B: Interrupts use cases
 
 Regardless how the interrupts are implemented, any architecture design should 
-be checked how well the common use cases are accomodated.
+be checked how well the common use cases are accommodated.
 
 ## Peripherals vs scheduler interrupts
 
@@ -197,7 +197,7 @@ hardware, or, for cheap devices, in software.
 
 ### Context switches
 
-In a multithreaded environment, a context switches is generally 
+In a multi-threaded environment, a context switches is generally 
 a sequence of operations performing the following steps:
 
 - interrupt the current thread
@@ -360,7 +360,7 @@ including the context switch interrupt, if requested.
 
 ## Tail chaining
 
-Given the use cases presented, with virtualy all
+Given the use cases presented, with virtually all
 peripheral interrupts requesting context switches,
 it results that it is highly likely
 to have at least two back-to-back interrupts.
@@ -369,13 +369,13 @@ Old architectures that use interrupt handlers annotated
 with the `interrupt` attribute, simply call the handlers
 in sequence, and each handler saves and restores all registers.
 
-For back-to-back interrupts, the registeres restores by
+For back-to-back interrupts, the registers restores by
 the first interrupt have exactly the same values as those
 saved by the second interrupt, so the long list of
 register operations is practically useless, but the
 compiler does not know this, so the code is not efficient.
 
-For the current RISC-V POSIX ABI, the behavious is:
+For the current RISC-V POSIX ABI, the behaviour is:
 
 - process the top priority interrupt
   - enter annotated handler 
@@ -429,7 +429,7 @@ Old architectures that use interrupt handlers annotated
 with the `interrupt` attribute, should always save and 
 restore all the FP registers, as seen in the example.
 
-In moders designs, which use plain C interrupt handlers,
+In modern designs, which use plain C interrupt handlers,
 and the registers are saved before entering the handlers,
 it is possible to use a more efficient mechanism, which
 only reserves the space onto the thread stack, but does
@@ -459,12 +459,12 @@ fast interrupts, they are really fast only if everything
 is inlined and no other plain C function is called, otherwise
 the entire ABI caller registers must be saved and restored,
 including the FP registers, and it must be done repeatedly
-for each interrupt, the posibilities for tail chaining and
+for each interrupt, the possibilities for tail chaining and
 lazy FP stacking being not realistic.
 
 ### Plain C functions are recommended
 
-Plain C interrupt handlers are much bettter suited for the
+Plain C interrupt handlers are much better suited for the
 common use cases and have the following benefits:
 
 - easier to use in user code
@@ -473,7 +473,7 @@ common use cases and have the following benefits:
 - save only the ABI caller registers
 - save the ABI callee registers only if context switches are triggered
 
-The prefered implementation is with hardware stacking/unstacking,
+The preferred implementation is with hardware stacking/unstacking,
 but cheap devices can also choose to do the stacking/unstacking
 in software, together with vectoring, so from a user
 point of view they are similar, the interrupt handlers remain
