@@ -390,7 +390,7 @@ priority that occur while in interrupt mode, each of them doing (**N times**)
   - call the C/C++ functions and return
   - **restore 16 general registers and 20 FP registers**
   - exit annotated handler
-- process the context_switch interrupt (lowest possible priority)
+- process the `context_switch` interrupt (lowest possible priority)
   - enter naked handler
   - **save 32 general registers and 32 FP registers**
   - save the SP in the current thread control block
