@@ -5,12 +5,177 @@ be checked how well the common use cases are accomodated.
 
 ## Peripherals vs scheduler interrupts
 
-By design, obsolete microcontroller architectures expected interrupts to be 
+By design, old microcontroller architectures expected interrupts to be 
 triggered only occasionally by peripherals.
 
 Since Cortex-M, interrupts were extensively enhanced with features to
 support the implementation of RTOSes, greatly simplifying context switches
 and preemption. 
+
+### Peripheral interrupts
+
+Although there were opinions that peripheral interrupts should be as simple
+as possible to be fully inlined, a well structured application may use
+drivers from a separate library/package, so the typical use case is to
+have the interrupt handlers in files specific to the application
+and call the driver interrupt service routine via a plain C/C++ call.
+
+The traditional approach is to have the interrupt handler annotated 
+with the `interrupt` attribute, which generates a fully functional 
+interrupt handler, including preserving registers and returning
+from interrupt.
+
+```c
+# include "driver-xyz.h"
+
+void __attribute__((interrupt))
+interrupt_handle_xyz(void)
+{
+  driver_xyz_interrupt_service_routine();
+}
+```
+
+The problem with this approach is that on a RISC-V device 
+with the current ABI, the number of
+registers required to be saved by the caller is large, 
+and the generated
+code, with `-march=rv64gc -mabi=lp64d` looks like:
+
+```
+.option nopic 
+.text 
+.align 1 
+.globl interrupt_handle_xyz 
+.type interrupt_handle_xyz, @function 
+interrupt_handle_xyz: 
+addi sp,sp,-288 
+sd ra,280(sp) 
+sd t0,272(sp) 
+sd t1,264(sp) 
+sd t2,256(sp) 
+sd a0,248(sp) 
+sd a1,240(sp) 
+sd a2,232(sp) 
+sd a3,224(sp) 
+sd a4,216(sp) 
+sd a5,208(sp) 
+sd a6,200(sp) 
+sd a7,192(sp) 
+sd t3,184(sp) 
+sd t4,176(sp) 
+sd t5,168(sp) 
+sd t6,160(sp) 
+fsd ft0,152(sp) 
+fsd ft1,144(sp) 
+fsd ft2,136(sp) 
+fsd ft3,128(sp) 
+fsd ft4,120(sp) 
+fsd ft5,112(sp) 
+fsd ft6,104(sp) 
+fsd ft7,96(sp) 
+fsd fa0,88(sp) 
+fsd fa1,80(sp) 
+fsd fa2,72(sp) 
+fsd fa3,64(sp) 
+fsd fa4,56(sp) 
+fsd fa5,48(sp) 
+fsd fa6,40(sp) 
+fsd fa7,32(sp) 
+fsd ft8,24(sp) 
+fsd ft9,16(sp) 
+fsd ft10,8(sp) 
+fsd ft11,0(sp) 
+call driver_xyz_interrupt_service_routine 
+ld ra,280(sp) 
+ld t0,272(sp) 
+ld t1,264(sp) 
+ld t2,256(sp) 
+ld a0,248(sp) 
+ld a1,240(sp) 
+ld a2,232(sp) 
+ld a3,224(sp) 
+ld a4,216(sp) 
+ld a5,208(sp) 
+ld a6,200(sp) 
+ld a7,192(sp) 
+ld t3,184(sp) 
+ld t4,176(sp) 
+ld t5,168(sp) 
+ld t6,160(sp) 
+fld ft0,152(sp) 
+fld ft1,144(sp) 
+fld ft2,136(sp) 
+fld ft3,128(sp) 
+fld ft4,120(sp) 
+fld ft5,112(sp) 
+fld ft6,104(sp) 
+fld ft7,96(sp) 
+fld fa0,88(sp) 
+fld fa1,80(sp) 
+fld fa2,72(sp) 
+fld fa3,64(sp) 
+fld fa4,56(sp) 
+fld fa5,48(sp) 
+fld fa6,40(sp) 
+fld fa7,32(sp) 
+fld ft8,24(sp) 
+fld ft9,16(sp) 
+fld ft10,8(sp) 
+fld ft11,0(sp) 
+addi sp,sp,288 
+mret 
+.size interrupt_handle_xyz, .-interrupt_handle_xyz 
+```
+
+Simpler devices, without hardware FP, have slightly shorter code,
+but still lots of registers (`-march=rv32i -mabi=ilp32`):
+
+```
+.option nopic 
+.text 
+.align 2 
+.globl interrupt_handle_xyz 
+.type interrupt_handle_xyz, @function 
+interrupt_handle_xyz: 
+addi sp,sp,-64 
+sw ra,60(sp) 
+sw t0,56(sp) 
+sw t1,52(sp) 
+sw t2,48(sp) 
+sw a0,44(sp) 
+sw a1,40(sp) 
+sw a2,36(sp) 
+sw a3,32(sp) 
+sw a4,28(sp) 
+sw a5,24(sp) 
+sw a6,20(sp) 
+sw a7,16(sp) 
+sw t3,12(sp) 
+sw t4,8(sp) 
+sw t5,4(sp) 
+sw t6,0(sp) 
+call driver_xyz_interrupt_service_routine 
+lw ra,60(sp) 
+lw t0,56(sp) 
+lw t1,52(sp) 
+lw t2,48(sp) 
+lw a0,44(sp) 
+lw a1,40(sp) 
+lw a2,36(sp) 
+lw a3,32(sp) 
+lw a4,28(sp) 
+lw a5,24(sp) 
+lw a6,20(sp) 
+lw a7,16(sp) 
+lw t3,12(sp) 
+lw t4,8(sp) 
+lw t5,4(sp) 
+lw t6,0(sp) 
+addi sp,sp,64 
+mret 
+.size interrupt_handle_xyz, .-interrupt_handle_xyz 
+```
+
 
 ### Context switches
 
