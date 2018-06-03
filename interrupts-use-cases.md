@@ -217,7 +217,7 @@ they interrupt the current running code (thread or interrupt),
 perform some operations, and return in exactly the same context.
 
 Preemptive environments improve response time by extending some of
-the interrut handlers with code that also performs context switches,
+the interrupt handlers with code that also performs context switches,
 such that the interrupt occurs in the context of one thread but 
 returns in the context of another thread.
 
