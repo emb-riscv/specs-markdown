@@ -411,11 +411,11 @@ so the behaviour is significantly more efficient:
 - possibly call other handlers for interrupts with lower or similar 
 priorities, that occur while in interrupt mode
 - call the `context_switch` handler (lowest possible priority)
-  - save the rest of the general registers
+  - save the rest of the general registers (ABI callee)
   - save the SP in the current thread control block
   - select the top priority thread
   - load the SP from the new thread control block
-  - restore the rest of the general registers
+  - restore the rest of the general registers (ABI callee)
   - return from the handler
 - **restore** the ABI caller registers
 - return from interrupt in the context of the new thread
