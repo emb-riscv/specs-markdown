@@ -475,7 +475,7 @@ is inlined and no other plain C function is called, otherwise
 the entire ABI caller registers must be saved and restored,
 including the FP registers, and it must be done repeatedly
 for each interrupt, the possibilities for tail chaining and
-lazy FP stacking being not realistic.
+lazy FP stacking not being realistic.
 
 ### Plain C functions are recommended
 
