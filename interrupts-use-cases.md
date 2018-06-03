@@ -369,7 +369,7 @@ Old architectures that use interrupt handlers annotated
 with the `interrupt` attribute, simply call the handlers
 in sequence, and each handler saves and restores all registers.
 
-For back-to-back interrupts, the registers restores by
+For back-to-back interrupts, the registers restored by
 the first interrupt have exactly the same values as those
 saved by the second interrupt, so the long list of
 register operations is practically useless, but the
