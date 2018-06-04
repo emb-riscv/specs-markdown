@@ -319,7 +319,7 @@ interrupt_handle_context_switch(void)
 
 For this to work, the context switch interrupt must be guaranteed to have the
 lowest priority, such that it is executed after all other interrupts are 
-completed and the hart must return to thread state.
+completed and the hart/core must return to thread state.
 
 #### Triggering a context switch
 
