@@ -11,7 +11,7 @@ Unless otherwise mentioned, write access to the CSRs is limited to machine/privi
 
 ## Hart ID Register (`hartid`)
 
-The `hartid` CSR is an xlen-bits read-only register containing the integer ID of the
+The `hartid` CSR is an xlen-bit read-only register containing the integer ID of the
 hart running the code. This register must be readable in any implementation.
 In single-hart devices, it always reads 0. In multi-hart devices, the hart IDs might
 not necessarily be numbered contiguously
@@ -28,7 +28,7 @@ This CSR is identical to `mhartid` in the RISC-V privileged profile.
 
 ## Configuration and control (`ctrl`)
 
-The `ctrl` CSR is an xlen-bits read/write register that controls several aspects of the hart
+The `ctrl` CSR is an xlen-bit read/write register that controls several aspects of the hart
 functionality.
 
 | Bits | Name | Type | Reset | Description |
@@ -52,7 +52,7 @@ TODO: allocate a number for it.
 
 ## Mode and status (`status`)
 
-The `status` CSR is an xlen-bits read/write register that identifies the
+The `status` CSR is an xlen-bit read/write register that identifies the
 current hart mode and status.
 
 | Bits | Name | Type | Reset | Description |
@@ -73,7 +73,7 @@ TODO: allocate a number for it.
 
 ## Interrupt Enable (`iena`)
 
-The `iena` CSR is an xlen-bits read/write register that controls whether the interrupt
+The `iena` CSR is an xlen-bit read/write register that controls whether the interrupt
 are enabled or not.
 
 This register has a single bit on purpose. Access to the interrupt enable bit must be quite
@@ -90,7 +90,7 @@ TODO: allocate a number for it.
 
 ## Interrupt Priority Threshold (`iprioth`)
 
-The `iprioth` CSR is an xlen-bits read/write register that holds the interrupts threshold.
+The `iprioth` CSR is an xlen-bit read/write register that holds the interrupts threshold.
 Only interrupts requests that have a priority strictly greater than the threshold will cause
 an interrupt to become active. The threshold register must always be able to hold the value zero,
 in which case, no interrupts are masked. The threshold register must also be able to hold
@@ -126,7 +126,7 @@ TODO: allocate a number for it.
 
 ## Interrupt Priority Threshold Increase (`ipriothinc`)
 
-The `ipriothinc` CSR behaves like an xlen-bits read/write register, but in fact uses the
+The `ipriothinc` CSR behaves like an xlen-bit read/write register, but in fact uses the
 same register as `iprioth`. The difference is that writes to this CSR are effective only
 if the new value is higher than the current value, in other words it guarantees that the
 interrupt threshold is not decreased.
@@ -150,7 +150,7 @@ TODO: allocate a number for it.
 
 ## Main Stack Pointer (`spm`)
 
-The `spm` CSR is an xlen-bits read-write register that holds the main stack pointer.
+The `spm` CSR is an xlen-bit read-write register that holds the main stack pointer.
 It is always the default stack pointer after reset. Interrupts and exceptions always
 use this stack to store the exception frame.
 
@@ -167,7 +167,7 @@ TODO: allocate a number for it.
 
 ## Main Stack Pointer Limit (`spmlimit`)
 
-The `msplimit` CSR is an xlen-bits read-write register that holds the lowest address
+The `msplimit` CSR is an xlen-bit read-write register that holds the lowest address
 the main stack can descend.
 
 | Bits | Name | Type | Reset | Description |
@@ -187,7 +187,7 @@ TODO: allocate a number for it.
 
 ## Thread Stack Pointer (`spt`)
 
-The `spt` CSR is an xlen-bits read-write register that holds the stack pointer used
+The `spt` CSR is an xlen-bit read-write register that holds the stack pointer used
 by the application current thread. It is intended to multi-threaded applications.
 
 This register is a CSR because access to the stack pointer may occur in context switching
@@ -204,7 +204,7 @@ TODO: allocate a number for it.
 
 ## Thread Stack Pointer Limit (`sptlimit`)
 
-The `tsplimit` CSR is an xlen-bits read-write register that holds the lowest address
+The `tsplimit` CSR is an xlen-bit read-write register that holds the lowest address
 the thread stack can descend.
 
 This register is a CSR because access to the stack pointer limit may occur in context switching

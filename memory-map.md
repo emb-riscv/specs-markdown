@@ -20,9 +20,9 @@ The system control area is a slice of 256 MiB at the end of the memory space. Th
 must have the execute permissions removed, and attempts to execute code from it must trigger
 an exceptions (instruction access fault).
 
-For 32-bits devices, the system control area is **0xF0000000-0xFFFFFFFF**.
+For 32-bit devices, the system control area is **0xF0000000-0xFFFFFFFF**.
 
-For 64-bits devices, the system control area is **0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF**.
+For 64-bit devices, the system control area is **0xFFFFFFFF'F0000000-0xFFFFFFFF'FFFFFFFF**.
 
 The system control area is implemented as a set of memory-mapped address spaces, some providing control and status registers common for the entire
 device, and some providing control and status registers for the current hart:

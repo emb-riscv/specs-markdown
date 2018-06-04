@@ -91,12 +91,12 @@ By default, the system clock starts disabled; software must enable it during sta
 
 ## The clock counter register
 
-The system clock time point register is a 64-bits counter, common on all RV32 and RV64 devices.
+The system clock time point register is a 64-bit counter, common on all RV32 and RV64 devices.
 
 To guarantee the steadiness characteristic of the clock, the register is read-only. At reset, the register is cleared to 0.
 
-RV64 devices expose a single 64-bits register, accessible with 64-bits instructions.
-RV32 devices exposes separate high/low 32-bits registers.
+RV64 devices expose a single 64-bit register, accessible with 64-bit instructions.
+RV32 devices exposes separate high/low 32-bit registers.
 
 ## The clock comparator register
 
@@ -115,8 +115,8 @@ Only hart 0 is required to have a comparator. If any other harts also have compa
 the `sysclock_cmp` interrupt is posted only to the local hart. For harts that do not have
 a comparator, this register always reads as 0 and writes are ignored.
 
-RV64 devices expose a single 64-bits register, accessible with 64-bits instructions.
-RV32 devices exposes separate high/low 32-bits registers.
+RV64 devices expose a single 64-bit register, accessible with 64-bit instructions.
+RV32 devices exposes separate high/low 32-bit registers.
 
 ## Usage
 

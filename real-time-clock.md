@@ -81,8 +81,8 @@ The real-time clock time point register is a 64-bit counter, common on all RV32 
 
 To guarantee the steadiness characteristic of the clock, the register is read-only.
 
-RV64 devices expose a single 64-bits register, accessible with 64-bits instructions.
-RV32 devices exposes separate high/low 32-bits registers.
+RV64 devices expose a single 64-bit register, accessible with 64-bit instructions.
+RV32 devices exposes separate high/low 32-bit registers.
 
 ## The clock comparator register
 
@@ -96,8 +96,8 @@ counter register
 contains a value greater than or equal to the value in the comparator register.
 The interrupt remains posted until it is cleared by writing to the comparator register.
 
-RV64 devices expose a single 64-bits register, accessible with 64-bits instructions.
-RV32 devices exposes separate high/low 32-bits registers.
+RV64 devices expose a single 64-bit register, accessible with 64-bit instructions.
+RV32 devices exposes separate high/low 32-bit registers.
 
 ## Usage
 

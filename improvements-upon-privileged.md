@@ -470,7 +470,7 @@ C application programmers to fully take control of their applications.
 > "RISC-V microcontrollers should compare to PIC or AVR devices"
 
 This was probably true 10-15 years ago, but today it is no longer the case.
-Not only the industry migrated to 32-bits cores, but the ecosystems around
+Not only the industry migrated to 32-bit cores, but the ecosystems around
 Cortex-M and the ease of use made most of the other cores irrelevant.
 
 There is also another fact to be noted: according to several studies, the
@@ -494,7 +494,7 @@ but with nested, pre-emptive high priority interrupts, even a single hart device
 can handle multiple tasks very well, and if the real-time tasks are driven by ISRs,
 then the network stack can run at a lower priority.
 
-### 64-bits microcontrollers will never be needed
+### 64-bit microcontrollers will never be needed
 
 > "Why 64-bit? Any system big enough to need more
 than 32-bit addressing is probably already running an operating system
@@ -504,20 +504,20 @@ That's a good question. By the time 8051 was king, many questioned
 why would someone think of 16-bit microcontrollers. While some were
 debating this, vendors gradually offered devices with 12 address
 bits, then 16 bits, even 24 bits. Cortex-M came boldly and provided
-32-bits registers and a large (32-bits) linear address space.
+32-bit registers and a large (32-bit) linear address space.
 
 Although a 4 GiB memory space may be enough for most current devices,
-it should be noted that 64-bits devices bring not only a wider memory
-space, but also 64-bits registers, and native atomic 64-bits accesses.
+it should be noted that 64-bit devices bring not only a wider memory
+space, but also 64-bit registers, and native atomic 64-bit accesses.
 
-Applications with lots of integer arithmetic may benefit from 64-bits
+Applications with lots of integer arithmetic may benefit from 64-bit
 cores, and, indirectly, applications manupulating double floating point
 numbers may also benefit.
 
-Also applications with large and fast timers benefit from atomic 64-bits
-accesses, which otherwise require a lot of juggling on a 32-bits platform
+Also applications with large and fast timers benefit from atomic 64-bit
+accesses, which otherwise require a lot of juggling on a 32-bit platform
 (see the recommended RISC-V mechanism to access the timer registers on
-a 32-bits device).
+a 32-bit device).
 
 ## Proposed steps to change the current RISC-V specs
 

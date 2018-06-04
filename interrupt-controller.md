@@ -59,7 +59,7 @@ pending
 * `active`: interrupts can either be in an active (being served) or inactive state
 * `prio`: interrupt priority
 
-To store and control these attributes, each interrupt has two 32-bits registers:
+To store and control these attributes, each interrupt has two 32-bit registers:
 
 | Offset | Name | Width | Type | Reset | Description |
 |:-------|:-----|:------|:-----|:------|-------------|
