@@ -19,7 +19,7 @@ TODO: This is a very preliminary proposal and must be discussed thoroughly with 
 
 TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is mentioned as alternate link register.
 
-### RV32I/RV64I EABI
+### RV32I/RV64I EABI calling convention
 
 | Register | ABI Name | Description | Caller | Callee |
 |:---------|:---------|:------------|--------|-------|
@@ -58,7 +58,7 @@ TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is m
   Much better in a CSR. Harder to corrupt by accident.
   [ilg] Agree.</sup>
 
-### RV32E EABI
+### RV32E EABI calling convention
 
 | Register | ABI Name | Description | Caller | Callee |
 |:---------|:---------|:------------|--------|-------|
@@ -77,6 +77,12 @@ TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is m
 | `x13` | `a3` | Function arguments | * |  |
 | `x14` | `t0` | Temporary | * | |
 | `x15` | `t1` | Temporary | * | |
+
+### Sizes of variables
+
+- `long double` - 64 bits.
+
+TODO: add all other
 
 ## References
 
