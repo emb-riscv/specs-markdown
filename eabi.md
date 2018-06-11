@@ -15,11 +15,11 @@ The main goal of the RISC-V Embedded ABI is to balance a high performance for ba
 
 As a secondary goal, if possible, it should remain consistent when applied to the reduced register set used by the RV32E devices.
 
-TODO: This is a very preliminary proposal and must be discussed thoroughly with the compiler maintainers.
-
-TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is mentioned as alternate link register.
-
 ### RV32E EABI calling convention
+
+For interupt latency reasons, there should be no more than 7-8 caller 
+saved registers. The table assumes the minimum of 7. If 8 are 
+accepted, `x14` should be renamed as `a4`.
 
 | Register | ABI Name | Description | Caller | Callee |
 |:---------|:---------|:------------|--------|-------|
@@ -39,6 +39,8 @@ TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is m
 | `x13` | `a3` | Function arguments | * |  |
 | `x14` | `s2` | Saved register |  | * |
 | `x15` | `t0` | Temporary | * | |
+
+TODO: check how this allocation matches the needs of C++ virtual function dispatch.
 
 > <sup>[AW] For RVC compressibility, the most popular registers should 
   be `x8-x15`. So I suggest renumbering `x8/x9` to be `s0/s1` (as is the 
