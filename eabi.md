@@ -19,6 +19,65 @@ TODO: This is a very preliminary proposal and must be discussed thoroughly with 
 
 TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is mentioned as alternate link register.
 
+### RV32E EABI calling convention
+
+| Register | ABI Name | Description | Caller | Callee |
+|:---------|:---------|:------------|--------|-------|
+| `x0` | `zero` | Hard-wired zero |  |  |
+| `x1` | `ra` | Return address | * |  |
+| `x2` | `sp` | Stack pointer |  | * |
+| `x3` | `gp` | Global pointer |  |  |
+| `x4` | `tp` | Thread pointer |  |  |
+| `x5` | `t1/al` | Temporary/alternate link register | * | |
+| `x6` | `s3` | Saved register |  | * |
+| `x7` | `s4/sl` | Saved register/stack limit |  | * |
+|||||
+| `x8` | `s0/fp` | Saved register/frame pointer |  | * |
+| `x9` | `s1` | Saved register |  | * |
+| `x10,x11` | `a0,a1` | Function arguments/return values | * |  |
+| `x12` | `a2` | Function arguments | * |  |
+| `x13` | `a3` | Function arguments | * |  |
+| `x14` | `t0` | Temporary | * | |
+| `x15` | `s2` | Saved register |  | * |
+
+> <sup>[AW] For RVC compressibility, the most popular registers should 
+  be `x8-x15`. So I suggest renumbering `x8/x9` to be `s0/s1` (as is the 
+  case in the POSIX ABI).</sup>
+  
+> <sup>[AW] Per the ISA spec, `x5` serves as an alternate link register, 
+  to drive hardware management of return-address stacks. It’s used by 
+  things like the `-msave-restore` option, which reduces code size by 
+  using millicode routines to implement prologues/epilogues. For this 
+  to work, `x5` needs to be one of the t-registers, as is the case in 
+  the POSIX ABI. I suggest either adding one more t-register at `x5`, 
+  or moving an existing t-register to `x5`. (The former option is better 
+  for code size and performance; the latter option is better for 
+  interrupt latency.)</sup>
+  
+> <sup>[AW] For all the use cases I’ve encountered, two t-registers 
+  is sufficient for linkage purposes.</sup>
+  
+> <sup>[BH] `jal[r]` and `jr` with `x5` are being baked into hardware as 
+  function call/return, just as with `x1`, complete with a special 
+  return address stack to accelerate the indirect jump for function 
+  return. That's *especially* important with millicode register 
+  save/restore which will primarily be used on microcontrollers. 
+  So `x5` must be a t register. No choice. But maybe don't call it 
+  `t0`, if at least one t register is in `x8-x15`.</sup>
+  
+> <sup>[BH] the lowest numbered registers of each class (s, a t) should 
+  fall somewhere inside the C-favoured registers `x8-x15` (if any  
+  registers of that class fall in this range).</sup>
+  
+> <sup>Having the stack limit exposed as a general register
+  would save an extra push/pop during RTOS context switches.</sup>
+
+> <sup>[BH] I don't like the stack limit being in a register.
+  Much better in a CSR. Harder to corrupt by accident.</sup>
+ 
+More details on the register allocation in the 
+[SW Dev email group](https://groups.google.com/a/groups.riscv.org/d/msg/sw-dev/Lp6ucrijap0/ZwVO5Ts-CQAJ).
+
 ### RV32I/RV64I EABI calling convention
 
 | Register | ABI Name | Description | Caller | Callee |
@@ -28,16 +87,17 @@ TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is m
 | `x2` | `sp` | Stack pointer |  | * |
 | `x3` | `gp` | Global pointer |  |  |
 | `x4` | `tp` | Thread pointer |  |  |
-| `x5` | `s0/fp` | Saved register/frame pointer |  | * |
-| `x6` | `s1/sl` | Saved register/stack limit |  | * |
-| `x7` | `s2` | Saved register |  | * |
-| `x8` | `s3` | Saved register |  | * |
-| `x9` | `s4` | Saved register |  | * |
+| `x5` | `t1/al` | Temporary/alternate link register | * | |
+| `x6` | `s3` | Saved register |  | * |
+| `x7` | `s4/sl` | Saved register/stack limit |  | * |
+|||||
+| `x8` | `s0/fp` | Saved register/frame pointer |  | * |
+| `x9` | `s1` | Saved register |  | * |
 | `x10,x11` | `a0,a1` | Function arguments/return values | * |  |
 | `x12` | `a2` | Function arguments | * |  |
 | `x13` | `a3` | Function arguments | * |  |
 | `x14` | `t0` | Temporary | * | |
-| `x15` | `t1` | Temporary | * | |
+| `x15` | `s2` | Saved register |  | * |
 |||||
 | `x16–x31` | `s5-s20` | Saved registers |  | * |
 |||||
@@ -50,33 +110,6 @@ TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is m
   the floating point registers were reordered, to group
   all the caller register in one half of the set and the callee
   saved registers in the other half.</sup>
-
-> <sup>Having the stack limit exposed as a general register
-  would save an extra push/pop during RTOS context switches.</sup>
-
-> <sup>[BH] I don't like the stack limit being in a register.
-  Much better in a CSR. Harder to corrupt by accident.
-  [ilg] Agree.</sup>
-
-### RV32E EABI calling convention
-
-| Register | ABI Name | Description | Caller | Callee |
-|:---------|:---------|:------------|--------|-------|
-| `x0` | `zero` | Hard-wired zero |  |  |
-| `x1` | `ra` | Return address | * |  |
-| `x2` | `sp` | Stack pointer |  | * |
-| `x3` | `gp` | Global pointer |  |  |
-| `x4` | `tp` | Thread pointer |  |  |
-| `x5` | `s0/fp` | Saved register/frame pointer |  | * |
-| `x6` | `s1/sl` | Saved register/stack limit |  | * |
-| `x7` | `s2` | Saved register |  | * |
-| `x8` | `s3` | Saved register |  | * |
-| `x9` | `s4` | Saved register |  | * |
-| `x10,x11` | `a0,a1` | Function arguments/return values | * |  |
-| `x12` | `a2` | Function arguments | * |  |
-| `x13` | `a3` | Function arguments | * |  |
-| `x14` | `t0` | Temporary | * | |
-| `x15` | `t1` | Temporary | * | |
 
 ### Sizes of variables
 
