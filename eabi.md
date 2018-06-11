@@ -78,7 +78,7 @@ TODO: check how this allocation matches the needs of C++ virtual function dispat
   Much better in a CSR. Harder to corrupt by accident.</sup>
  
 More details on the register allocation in the 
-[SW Dev email group](https://groups.google.com/a/groups.riscv.org/d/msg/sw-dev/Lp6ucrijap0/ZwVO5Ts-CQAJ).
+[SW Dev list](https://groups.google.com/a/groups.riscv.org/d/msg/sw-dev/Lp6ucrijap0/ZwVO5Ts-CQAJ).
 
 ### RV32I/RV64I EABI calling convention
 
