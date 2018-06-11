@@ -37,8 +37,8 @@ TODO: Check if it is ok to use x6 for the stack limit. In Volume I, 2.5, it is m
 | `x10,x11` | `a0,a1` | Function arguments/return values | * |  |
 | `x12` | `a2` | Function arguments | * |  |
 | `x13` | `a3` | Function arguments | * |  |
-| `x14` | `t0` | Temporary | * | |
-| `x15` | `s2` | Saved register |  | * |
+| `x14` | `s2` | Saved register |  | * |
+| `x15` | `t0` | Temporary | * | |
 
 > <sup>[AW] For RVC compressibility, the most popular registers should 
   be `x8-x15`. So I suggest renumbering `x8/x9` to be `s0/s1` (as is the 
@@ -96,8 +96,8 @@ More details on the register allocation in the
 | `x10,x11` | `a0,a1` | Function arguments/return values | * |  |
 | `x12` | `a2` | Function arguments | * |  |
 | `x13` | `a3` | Function arguments | * |  |
-| `x14` | `t0` | Temporary | * | |
-| `x15` | `s2` | Saved register |  | * |
+| `x14` | `s2` | Saved register |  | * |
+| `x15` | `t0` | Temporary | * | |
 |||||
 | `x16–x31` | `s5-s20` | Saved registers |  | * |
 |||||
