@@ -37,7 +37,7 @@ accepted, `x14` should be renamed as `a4`.
 | `x10,x11` | `a0,a1` | Function arguments/return values | ** |  |
 | `x12` | `a2` | Function arguments | * |  |
 | `x13` | `a3` | Function arguments | * |  |
-| `x14` | `s2` | Saved register |  | * |
+| `x14` | `s2` (`a4`?) | Saved register | (\*?) | * |
 | `x15` | `t0` | Temporary | * | |
 
 TODO: check how this allocation matches the needs of C++ virtual function dispatch.
