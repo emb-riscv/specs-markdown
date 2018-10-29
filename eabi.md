@@ -30,7 +30,7 @@ accepted, `x14` should be renamed as `a4`.
 | `x4` | `tp` | Thread pointer |  |  |
 | `x5` | `t1/al` | Temporary/alternate link register | * | |
 | `x6` | `s3` | Saved register |  | * |
-| `x7` | `s4/sl` | Saved register/stack limit |  | * |
+| `x7` | `s4` | Saved register |  | * |
 |||||
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
@@ -91,7 +91,7 @@ More details on the register allocation in the
 | `x4` | `tp` | Thread pointer |  |  |
 | `x5` | `t1/al` | Temporary/alternate link register | * | |
 | `x6` | `s3` | Saved register |  | * |
-| `x7` | `s4/sl` | Saved register/stack limit |  | * |
+| `x7` | `s4` | Saved register |  | * |
 |||||
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
