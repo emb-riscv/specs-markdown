@@ -30,7 +30,7 @@ accepted, `x14` should be renamed as `a4`.
 | `x4` | `tp` | Thread pointer |  |  |
 | `x5` | `t1/al` | Temporary/alternate link register | * | |
 | `x6` | `s3` | Saved register |  | * |
-| `x7` | `s4/sl` | Saved register/stack limit |  | * |
+| `x7` | `s4(/sl)` | Saved register(/stack limit?) |  | * |
 |||||
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
@@ -77,6 +77,21 @@ TODO: check how this allocation matches the needs of C++ virtual function dispat
 > <sup>[BH] I don't like the stack limit being in a register.
   Much better in a CSR. Harder to corrupt by accident.</sup>
  
+> <sup>[jnk0le] Stack limit is not about to be frequently accessed by thread 
+  code nor it is available from raw C/C++. Reserving another general purpose 
+  register increases register pressure especially in RV32E which currently 
+  have less available registers than armv7[M]. Stack limit can be corrupted 
+  by code. Mapping another shadow register into GPRs and protecting it from 
+  corruption by thread code, will increase hardware complexity. Saving 2 
+  cycles on push/pop in context switch is a sign of premature optimization 
+  of whole ABI for specific use case. Assuming 50MHz clockrate and 1000Hz 
+  scheduler tickrate, those 2 cycles saved per context switch accounts for 
+  4E-5% of total cycles saved. Of course, only if rest of the code is 
+  actually not starving from missing register.</sup>
+ 
+[ilg] I agree that the stack limit register may be better available only 
+as a CSR.
+
 More details on the register allocation in the 
 [SW Dev list](https://groups.google.com/a/groups.riscv.org/d/msg/sw-dev/Lp6ucrijap0/ZwVO5Ts-CQAJ).
 
@@ -91,7 +106,7 @@ More details on the register allocation in the
 | `x4` | `tp` | Thread pointer |  |  |
 | `x5` | `t1/al` | Temporary/alternate link register | * | |
 | `x6` | `s3` | Saved register |  | * |
-| `x7` | `s4/sl` | Saved register/stack limit |  | * |
+| `x7` | `s4(/sl)` | Saved register(/stack limit?) |  | * |
 |||||
 | `x8` | `s0/fp` | Saved register/frame pointer |  | * |
 | `x9` | `s1` | Saved register |  | * |
