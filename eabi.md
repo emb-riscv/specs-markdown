@@ -86,7 +86,7 @@ TODO: check how this allocation matches the needs of C++ virtual function dispat
   cycles on push/pop in context switch is a sign of premature optimization 
   of whole ABI for specific use case. Assuming 50MHz clockrate and 1000Hz 
   scheduler tickrate, those 2 cycles saved per context switch accounts for 
-  4E-5% of total cycles saved. Of course, only if rest of the code is 
+  0,004% of total cycles saved. Of course, only if rest of the code is 
   actually not starving from missing register.</sup>
  
 [ilg] I agree that the stack limit register may be better available only 
