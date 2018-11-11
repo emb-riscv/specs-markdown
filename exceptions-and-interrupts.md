@@ -352,6 +352,9 @@ The HANDLER_RETURN pattern bits:
   `handler` bit (which might have been added to HANDLER_RETURN), but for the
   `cause` field, which otherwise may be overridden by nested interrupts.</sup>
 
+> <sup>There is also a [proposal](https://github.com/emb-riscv/specs-markdown/issues/3) 
+  to use the lowest bits of the address and to slightly adjust JALR.</sup>
+
 ## The FP lazy stacking mechanism
 
 The large number of floating point registers take a long time to copy
