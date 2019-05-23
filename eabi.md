@@ -17,7 +17,7 @@ As a secondary goal, if possible, it should remain consistent when applied to th
 
 ### RV32E EABI calling convention
 
-For interupt latency reasons, there should be no more than 7-8 caller 
+For interrupt latency reasons, there should be no more than 7-8 caller 
 saved registers. The table assumes the minimum of 7. If 8 are 
 accepted, `x14` should be renamed as `a4`.
 
